@@ -103,8 +103,8 @@ const CreateForm = Form.create()((props) => {
   );
 });
 
-@connect(({ ad, loading }) => ({
-  rule: ad,
+@connect(({ trade_manage, loading }) => ({
+  rule: trade_manage,
   loading: loading.models.rule,
 }))
 @Form.create()
@@ -119,7 +119,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'ad/fetch',
+      type: 'trade_manage/fetch',
     });
   }
 
@@ -144,7 +144,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'ad/fetch',
+      type: 'trade_manage/fetch',
       payload: params,
     });
   }
@@ -156,7 +156,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'ad/fetch',
+      type: 'trade_manage/fetch',
       payload: {},
     });
   }
@@ -176,7 +176,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'ad/remove',
+          type: 'trade_manage/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -216,7 +216,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'ad/fetch',
+        type: 'trade_manage/fetch',
         payload: values,
       });
     });
@@ -230,7 +230,7 @@ export default class TableList extends PureComponent {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'ad/add',
+      type: 'trade_manage/add',
       payload: {
         description: fields.desc,
       },

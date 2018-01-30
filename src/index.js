@@ -11,7 +11,7 @@ import FastClick from 'fastclick';
 import CONFIG from './utils/config';
 import './rollbar';
 
-global.CONFIG = CONFIG
+global.CONFIG = CONFIG;
 
 import './index.less';
 // 1. Initialize

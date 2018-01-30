@@ -202,7 +202,7 @@ class BasicLayout extends React.PureComponent {
             </Switch>
           </Content>
           <GlobalFooter
-            
+
             copyright={
               <div>
                 Copyright <Icon type="copyright" /> Bitcoin Admin System

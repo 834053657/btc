@@ -1,3 +1,3 @@
 export default {
-  web_name: 'Bitcoin Admin System'
-}
+  web_name: 'Bitcoin Admin System',
+};
