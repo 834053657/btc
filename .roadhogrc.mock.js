@@ -2,6 +2,8 @@ import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
 import { getUser } from './mock/user';
 import { getAd } from './mock/ad';
+import { getTrade } from './mock/trade';
+import { getTransfer } from './mock/transfer';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { imgMap } from './mock/utils';
@@ -36,6 +38,8 @@ const proxy = {
   },
   'GET /api/user': getUser,
   'GET /api/ad': getAd,
+  'GET /api/trade': getTrade,
+  'GET /api/transfer': getTransfer,
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',

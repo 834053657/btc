@@ -14,7 +14,7 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['pending', 'processing', 'completed'];
+const statusMap = [1, 2, 3];
 const status = ['正常', '冻结', '被举报'];
 const columns = [
   {

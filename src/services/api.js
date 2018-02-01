@@ -129,3 +129,51 @@ export async function addAd(params) {
     },
   });
 }
+
+export async function queryTrade(params) {
+  return request(`/api/trade?${stringify(params)}`);
+}
+
+export async function removeTrade(params) {
+  return request('/api/trade', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addTrade(params) {
+  return request('/api/trade', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function queryTransfer(params) {
+  return request(`/api/transfer?${stringify(params)}`);
+}
+
+export async function removeTransfer(params) {
+  return request('/api/transfer', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addTransfer(params) {
+  return request('/api/transfer', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}

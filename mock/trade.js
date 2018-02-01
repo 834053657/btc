@@ -1,28 +1,24 @@
 import { getUrlParams } from './utils';
 
-// mock userListDataSource
-let userListDataSource = [];
+// mock tradeListDataSource
+let tradeListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
-  userListDataSource.push({
+  tradeListDataSource.push({
     key: i,
-    disabled: ((i % 6) === 0),
-    href: 'https://ant.design',
-    avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-    no: `uid ${i}`,
-    title: `一个任务名称 ${i}`,
-    email: 'test@gmail.com',
-    country: '中国',
-    owner: '曲丽丽',
-    description: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
-    status: Math.floor(Math.random() * 10) % 3,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    tradeNo: `T201800 ${i}`,
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
+    tradeType: `买入`,
+    trader:`Tom`,
+    currency:`美元`,
+    amount: `10,000.00`,
+    totalBTC: `10BTC`,
+    rate: `6.50`,
+    tradeFee: `1008.00`,
+    status: Math.floor(Math.random() * 10) % 3,
   });
 }
 
-export function getUser(req, res, u) {
+export function getTrade(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -30,7 +26,7 @@ export function getUser(req, res, u) {
 
   const params = getUrlParams(url);
 
-  let dataSource = [...userListDataSource];
+  let dataSource = [...tradeListDataSource];
 
   if (params.sorter) {
     const s = params.sorter.split('_');
@@ -53,9 +49,6 @@ export function getUser(req, res, u) {
     dataSource = filterDataSource;
   }
 
-  if (params.no) {
-    dataSource = dataSource.filter(data => data.no.indexOf(params.no) > -1);
-  }
 
   let pageSize = 10;
   if (params.pageSize) {
@@ -78,7 +71,7 @@ export function getUser(req, res, u) {
   }
 }
 
-export function postUser(req, res, u, b) {
+export function postTrade(req, res, u, b) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -90,11 +83,11 @@ export function postUser(req, res, u, b) {
   switch (method) {
     /* eslint no-case-declarations:0 */
     case 'delete':
-      userListDataSource = userListDataSource.filter(item => no.indexOf(item.no) === -1);
+      tradeListDataSource = tradeListDataSource.filter(item => no.indexOf(item.no) === -1);
       break;
     case 'post':
       const i = Math.ceil(Math.random() * 10000);
-      tableListDataSource.unshift({
+      tradeListDataSource.unshift({
         key: i,
         href: 'https://ant.design',
         avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
@@ -114,9 +107,9 @@ export function postUser(req, res, u, b) {
   }
 
   const result = {
-    list: userListDataSource,
+    list: tradeListDataSource,
     pagination: {
-      total: userListDataSource.length,
+      total: tradeListDataSource.length,
     },
   };
 
@@ -128,6 +121,6 @@ export function postUser(req, res, u, b) {
 }
 
 export default {
-  getUser,
-  postUser,
+  getTrade,
+  postTrade,
 };

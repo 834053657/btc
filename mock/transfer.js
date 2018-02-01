@@ -1,28 +1,18 @@
 import { getUrlParams } from './utils';
 
-// mock userListDataSource
-let userListDataSource = [];
+// mock transferListDataSource
+let transferListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
-  userListDataSource.push({
+  transferListDataSource.push({
     key: i,
-    disabled: ((i % 6) === 0),
-    href: 'https://ant.design',
-    avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-    no: `uid ${i}`,
-    title: `一个任务名称 ${i}`,
-    email: 'test@gmail.com',
-    country: '中国',
-    owner: '曲丽丽',
-    description: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
+    userName: `Alex`,
+    btc: `10BTC`,
+    goal: `HELODWQDOWDWQDW`,
     status: Math.floor(Math.random() * 10) % 3,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
   });
 }
 
-export function getUser(req, res, u) {
+export function getTransfer(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -30,7 +20,7 @@ export function getUser(req, res, u) {
 
   const params = getUrlParams(url);
 
-  let dataSource = [...userListDataSource];
+  let dataSource = [...transferListDataSource];
 
   if (params.sorter) {
     const s = params.sorter.split('_');
@@ -53,9 +43,6 @@ export function getUser(req, res, u) {
     dataSource = filterDataSource;
   }
 
-  if (params.no) {
-    dataSource = dataSource.filter(data => data.no.indexOf(params.no) > -1);
-  }
 
   let pageSize = 10;
   if (params.pageSize) {
@@ -78,7 +65,7 @@ export function getUser(req, res, u) {
   }
 }
 
-export function postUser(req, res, u, b) {
+export function postTransfer(req, res, u, b) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -90,11 +77,11 @@ export function postUser(req, res, u, b) {
   switch (method) {
     /* eslint no-case-declarations:0 */
     case 'delete':
-      userListDataSource = userListDataSource.filter(item => no.indexOf(item.no) === -1);
+      transferListDataSource = transferListDataSource.filter(item => no.indexOf(item.no) === -1);
       break;
     case 'post':
       const i = Math.ceil(Math.random() * 10000);
-      tableListDataSource.unshift({
+      transferListDataSource.unshift({
         key: i,
         href: 'https://ant.design',
         avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
@@ -114,9 +101,9 @@ export function postUser(req, res, u, b) {
   }
 
   const result = {
-    list: userListDataSource,
+    list: transferListDataSource,
     pagination: {
-      total: userListDataSource.length,
+      total: transferListDataSource.length,
     },
   };
 
@@ -128,6 +115,6 @@ export function postUser(req, res, u, b) {
 }
 
 export default {
-  getUser,
-  postUser,
+  getTransfer,
+  postTransfer,
 };

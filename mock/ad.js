@@ -1,6 +1,6 @@
 import { getUrlParams } from './utils';
 
-// mock userListDataSource
+// mock adListDataSource
 let adListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   adListDataSource.push({

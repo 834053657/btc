@@ -1,4 +1,4 @@
-import { queryRule, removeRule, addRule } from '../services/api';
+import { queryTransfer, removeTransfer, addTransfer } from '../services/api';
 
 export default {
   namespace: 'transfer_manage',
@@ -12,14 +12,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRule, payload);
+      const response = yield call(queryTransfer, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRule, payload);
+      const response = yield call(addTransfer, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -27,7 +27,7 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRule, payload);
+      const response = yield call(removeTransfer, payload);
       yield put({
         type: 'save',
         payload: response,
