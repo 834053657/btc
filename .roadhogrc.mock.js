@@ -1,5 +1,7 @@
 import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
+import { getUser } from './mock/user';
+import { getAd } from './mock/ad';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { imgMap } from './mock/utils';
@@ -32,6 +34,8 @@ const proxy = {
   'GET /api/login/getCaptcha': (req, res) => {
     res.send({ image: 'http://47.52.250.12:9090/get_captcha?r=' + req.query.r});
   },
+  'GET /api/user': getUser,
+  'GET /api/ad': getAd,
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',

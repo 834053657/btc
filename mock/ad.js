@@ -1,26 +1,20 @@
 import { getUrlParams } from './utils';
 
-// mock tableListDataSource
-let tableListDataSource = [];
+// mock userListDataSource
+let adListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
-  tableListDataSource.push({
+  adListDataSource.push({
     key: i,
-    disabled: ((i % 6) === 0),
-    href: 'https://ant.design',
-    avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-    no: `TradeCode ${i}`,
-    title: `一个任务名称 ${i}`,
-    owner: '曲丽丽',
-    description: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
+    adNo: `ad0000${i}`,
+    tradeType: `买入`,
+    price: Math.ceil(Math.random() * 100),
     status: Math.floor(Math.random() * 10) % 3,
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
   });
 }
 
-export function getRule(req, res, u) {
+export function getAd(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -28,7 +22,7 @@ export function getRule(req, res, u) {
 
   const params = getUrlParams(url);
 
-  let dataSource = [...tableListDataSource];
+  let dataSource = [...adListDataSource];
 
   if (params.sorter) {
     const s = params.sorter.split('_');
@@ -51,9 +45,6 @@ export function getRule(req, res, u) {
     dataSource = filterDataSource;
   }
 
-  if (params.no) {
-    dataSource = dataSource.filter(data => data.no.indexOf(params.no) > -1);
-  }
 
   let pageSize = 10;
   if (params.pageSize) {
@@ -76,7 +67,7 @@ export function getRule(req, res, u) {
   }
 }
 
-export function postRule(req, res, u, b) {
+export function postAd(req, res, u, b) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -88,7 +79,7 @@ export function postRule(req, res, u, b) {
   switch (method) {
     /* eslint no-case-declarations:0 */
     case 'delete':
-      tableListDataSource = tableListDataSource.filter(item => no.indexOf(item.no) === -1);
+      adListDataSource = adListDataSource.filter(item => no.indexOf(item.no) === -1);
       break;
     case 'post':
       const i = Math.ceil(Math.random() * 10000);
@@ -112,9 +103,9 @@ export function postRule(req, res, u, b) {
   }
 
   const result = {
-    list: tableListDataSource,
+    list: adListDataSource,
     pagination: {
-      total: tableListDataSource.length,
+      total: adListDataSource.length,
     },
   };
 
@@ -126,6 +117,6 @@ export function postRule(req, res, u, b) {
 }
 
 export default {
-  getRule,
-  postRule,
+  getAd,
+  postAd,
 };

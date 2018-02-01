@@ -67,10 +67,6 @@ export async function fakeAccountLogin(params) {
   });
 }
 
-export async function getCaptcha(params) {
-  return request(`/api/login/getCaptcha?${stringify(params)}`);
-}
-
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',
@@ -80,4 +76,56 @@ export async function fakeRegister(params) {
 
 export async function queryNotices() {
   return request('/api/notices');
+}
+
+export async function getCaptcha(params) {
+  return request(`/api/login/getCaptcha?${stringify(params)}`);
+}
+
+export async function queryUser(params) {
+  return request(`/api/user?${stringify(params)}`);
+}
+
+export async function removeUser(params) {
+  return request('/api/user', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addUser(params) {
+  return request('/api/user', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function queryAd(params) {
+  return request(`/api/ad?${stringify(params)}`);
+}
+
+export async function removeAd(params) {
+  return request('/api/ad', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
+
+export async function addAd(params) {
+  return request('/api/ad', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
 }

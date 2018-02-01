@@ -7,7 +7,7 @@ import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const status = ['待认证', '认证中', '已认证'];
+const status = ['正常', '冻结', '被举报'];
 const RangePicker = DatePicker.RangePicker;
 
 @Form.create()
@@ -55,21 +55,18 @@ export default class SearchForm extends Component {
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={7} sm={24}>
-            <FormItem label="用户名">
+            <FormItem label="广告编号">
               {getFieldDecorator('name')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
           <Col md={7} sm={24}>
-            <FormItem label="国家">
+            <FormItem label="交易类型">
               {getFieldDecorator('country')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">中国</Option>
-                  <Option value="1">美国</Option>
-                  <Option value="1">英国</Option>
-                  <Option value="1">日本</Option>
-                  <Option value="1">新西兰</Option>
+                  <Option value="0">买入</Option>
+                  <Option value="1">卖出</Option>
                 </Select>
               )}
             </FormItem>
@@ -84,13 +81,13 @@ export default class SearchForm extends Component {
             </FormItem>
           </Col>
         </Row>
-        <StandardFormRow title="用户状态" block>
+        <StandardFormRow title="状态" block>
           <FormItem>
             {getFieldDecorator('status')(
               <TagSelect onChange={this.handleFormSubmit}>
-                <TagSelect.Option value="cat1">待认证</TagSelect.Option>
-                <TagSelect.Option value="cat2">认证中</TagSelect.Option>
-                <TagSelect.Option value="cat3">已认证</TagSelect.Option>
+                <TagSelect.Option value="cat1">正常</TagSelect.Option>
+                <TagSelect.Option value="cat2">冻结</TagSelect.Option>
+                <TagSelect.Option value="cat3">被举报</TagSelect.Option>
               </TagSelect>
             )}
           </FormItem>
