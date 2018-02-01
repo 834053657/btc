@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'antd';
 import omit from 'omit.js';
 import styles from './index.less';
 import map from './map';
+import Captcha from './Captcha';
 
 const FormItem = Form.Item;
 
@@ -28,6 +29,7 @@ function generator({ defaultProps, defaultRules, type }) {
       componentWillUnmount() {
         clearInterval(this.interval);
       }
+
       onGetCaptcha = () => {
         let count = 59;
         this.setState({ count });
@@ -67,14 +69,7 @@ function generator({ defaultProps, defaultRules, type }) {
                   )}
                 </Col>
                 <Col span={8}>
-                  <Button
-                    disabled={count}
-                    className={styles.getCaptcha}
-                    size="large"
-                    onClick={this.onGetCaptcha}
-                  >
-                    {count ? `${count} s` : '获取验证码'}
-                  </Button>
+                  <Captcha image={this.props.image} onClick={this.props.onGetCaptcha} />
                 </Col>
               </Row>
             </FormItem>

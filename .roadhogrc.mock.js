@@ -29,6 +29,9 @@ const proxy = {
       notifyCount: 12,
     },
   },
+  'GET /api/login/getCaptcha': (req, res) => {
+    res.send({ image: 'http://47.52.250.12:9090/get_captcha?r=' + req.query.r});
+  },
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',

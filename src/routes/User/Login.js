@@ -9,7 +9,7 @@ const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
-  submitting: loading.effects['login/login'],
+  submitting: loading.effects['login/login']
 }))
 export default class LoginPage extends Component {
   state = {
@@ -46,6 +46,21 @@ export default class LoginPage extends Component {
     );
   }
 
+  componentDidMount() {
+    this.loadCaptcha()
+  }
+
+  onGetCaptcha = () => {
+    this.loadCaptcha()
+  }
+
+  loadCaptcha = () => {
+    this.props.dispatch({
+      type: 'login/getCaptcha',
+      payload: {r: Math.random()},
+    });
+  }
+
   render() {
     const { login, submitting } = this.props;
     const { type } = this.state;
@@ -65,6 +80,7 @@ export default class LoginPage extends Component {
             }
           <UserName name="userName" placeholder="admin/user" />
           <Password name="password" placeholder="888888/123456" />
+          <Captcha name="captcha" image={login.image} onGetCaptcha={this.onGetCaptcha}/>
           {/* </Tab> */}
           {/* <Tab key="mobile" tab="手机号登录">
             {
@@ -74,7 +90,7 @@ export default class LoginPage extends Component {
               this.renderMessage('验证码错误')
             }
             <Mobile name="mobile" />
-            <Captcha name="captcha" />
+            <Captcha name="captcha"/>
           </Tab> */}
           <div>
             <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>自动登录</Checkbox>

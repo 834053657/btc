@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin } from '../services/api';
+import { getCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -11,6 +12,13 @@ export default {
   },
 
   effects: {
+    *getCaptcha({ payload }, { call, put }) {
+      const response = yield call(getCaptcha, payload);
+      yield put({
+        type: 'changeCaptcha',
+        payload: response,
+      });
+    },
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
@@ -52,6 +60,12 @@ export default {
         ...state,
         status: payload.status,
         type: payload.type,
+      };
+    },
+    changeCaptcha(state, { payload }) {
+      return {
+        ...state,
+        image: payload.image
       };
     },
   },
