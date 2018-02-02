@@ -100,8 +100,8 @@ export const getRouterData = (app) => {
   },
     '/sys-config':
   {
-    component: dynamicWrapper(app, ['user_manage'], () =>
-    import('../routes/UserManage/List')
+    component: dynamicWrapper(app, ['sys_config'], () =>
+    import('../routes/SysConfig/SysForm')
     ),
   },
     '/dashboard/analysis':
@@ -261,6 +261,12 @@ export const getRouterData = (app) => {
   {
     component: dynamicWrapper(app, ['login'], () =>
     import('../routes/User/Login')
+    ),
+  },
+   '/user/forget':
+  {
+    component: dynamicWrapper(app, ['forget'], () =>
+    import('../routes/User/Forget')
     ),
   },
     '/user/register':

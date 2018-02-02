@@ -94,7 +94,7 @@ export default class LoginPage extends Component {
           </Tab> */}
           <div>
             <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>自动登录</Checkbox>
-            <a style={{ float: 'right' }} href="">忘记密码</a>
+            <Link className={styles.forget} to="/user/forget">忘记密码</Link>
           </div>
           <Submit loading={submitting}>登录</Submit>
           {/* <div className={styles.other}>
@@ -103,7 +103,7 @@ export default class LoginPage extends Component {
             <Icon className={styles.icon} type="taobao-circle" />
             <Icon className={styles.icon} type="weibo-circle" />
             <Link className={styles.register} to="/user/register">注册账户</Link>
-          </div> */}
+          </div>*/ }
         </Login>
       </div>
     );

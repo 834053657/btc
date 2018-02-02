@@ -40,6 +40,13 @@ export async function fakeSubmitForm(params) {
   });
 }
 
+export async function fakeSubmitFormMsg(params) {
+  return request('/api/forms', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
@@ -74,12 +81,20 @@ export async function fakeRegister(params) {
   });
 }
 
+export async function fakeForget(params) {
+  return request('/api/forget', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function queryNotices() {
   return request('/api/notices');
 }
 
 export async function getCaptcha(params) {
   return request(`/api/login/getCaptcha?${stringify(params)}`);
+  //return request(`http://47.52.250.12:9090/get_captcha?r=${stringify(params)}`);
 }
 
 export async function queryUser(params) {
