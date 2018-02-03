@@ -89,12 +89,12 @@ const columns = [
   {
     title: '操作',
     width: '14%',
-    render: () => (
-      <Fragment>
-        <a href="">查看</a>
-        <Divider type="vertical" />
-        <a href="">审核</a>
-      </Fragment>
+    render: (r) => (
+        <Fragment>
+          <a href={'/#/user-detail/' + r.key}>查看</a>
+          <Divider type="vertical"/>
+          <a href="">审核</a>
+        </Fragment>
     ),
   },
 ];

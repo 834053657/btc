@@ -86,6 +86,12 @@ export const getRouterData = (app) => {
     import('../routes/UserManage/List')
     ),
   },
+    '/user-detail/:id':
+  {
+    component: dynamicWrapper(app, ['user_detail'], () =>
+      import('../routes/UserManage/Detail')
+    ),
+  },
     '/trade-manage':
   {
     component: dynamicWrapper(app, ['trade_manage'], () =>

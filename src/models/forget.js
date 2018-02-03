@@ -1,4 +1,4 @@
-import { fakeFroget } from '../services/api';
+import { fakeForget } from '../services/api';
 
 export default {
   namespace: 'forget',
@@ -9,7 +9,7 @@ export default {
 
   effects: {
     *submit(_, { call, put }) {
-      const response = yield call(fakeFroget);
+      const response = yield call(fakeForget);
       yield put({
         type: 'forgetHandle',
         payload: response,
