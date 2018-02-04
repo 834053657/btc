@@ -1,11 +1,22 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Button, Card, Icon, Tooltip, Row, Col, Divider
+  Button, Card, Icon, Tooltip, Row, Col, Divider, Modal, Form, Input
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import CustomTable from '../../components/CustomTable';
 import styles from './Detail.less';
 import UserIcon from './UserIcon.js';
+import classNames from 'classnames';
+import moment from 'moment';
+
+const FormItem = Form.Item;
+
+const size="large";
+const clsString = classNames(styles.detail, 'horizontal', {}, {
+    [styles.small]: size === 'small',
+    [styles.large]: size === 'large',
+  });
 
 
 @connect(({ user_detail, loading }) => ({
@@ -16,11 +27,44 @@ import UserIcon from './UserIcon.js';
 /*@connect((user_detail, loading) => {
   return {data: user_detail, loading: loading}
 })*/
-
+@Form.create()
 export default class UserDetail extends PureComponent {
   state = {
     selectedRows: [],
+    showUpdateIDNo: false
   };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+
+        this.setState({
+          showUpdateIDNo: false,
+        });
+      }
+    });
+  }
+
+  showModal = () => {
+    this.setState({
+      showUpdateIDNo: true,
+    });
+  }
+  handleOk = (e) => {
+    console.log(e);
+    this.handleSubmit(e);
+    /*this.setState({
+      showUpdateIDNo: false,
+    });*/
+  }
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      showUpdateIDNo: false,
+    });
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -29,115 +73,273 @@ export default class UserDetail extends PureComponent {
       type: 'user_detail/fetch' ,
       payload: {id: this.props.match.params.id},
     });
+
+    dispatch({
+      type: 'user_detail/fetchLog' ,
+      payload: {id: this.props.match.params.id},
+    });
   }
 
 
   render() {
-    const { user_detail, loading } = this.props;
+    const { user_detail, loading, form} = this.props;
     const detail = user_detail.data;
+    console.log(user_detail)
+    const { selectedRows } = this.state;
+    const { getFieldDecorator } = form;
+
+    const columns = [
+      {
+        title: '修改日期',
+        sorter: true,
+        dataIndex: 'updatedDate',
+        width: '25%',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      },
+      {
+        title: '修改人',
+        sorter: true,
+        dataIndex: 'updatedBy',
+        width: '25%',
+      },
+      {
+        title: '备注',
+        sorter: true,
+        dataIndex: 'remark',
+        width: '25%',
+      },
+      {
+        title: '不通过原因',
+        sorter: true,
+        dataIndex: 'reason',
+        width: '25%',
+      }
+    ]
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
     
 
     const name = {name: detail.owner, portrait_url: null}
 
     return (
-      <PageHeaderLayout title="用户资料">
-        <div className={styles.user_detail_content}>
-          <Card bordered={false} className={styles.bt_user_detail_page}>
+      <PageHeaderLayout title="用户信息">
+        <div className={clsString}>
+          <Card bordered={false} >
+            <a className={styles.bt_btn} href="/#/user-manage">返回</a>
+          </Card>
+          <Card bordered={false} >
               <Row>
-                <Col span={24}>
-                  <a className={styles.bt_btn} href="/#/user-manage">返回</a>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={18}>
-                  <div className="avatar-div">
-                    <UserIcon userinfo={name}/>
-                    <div className={styles.avatar_detail}>
-                      <p>{detail.owner}</p>
-                    </div>
-                  </div>
-                </Col>
-                <Col span={6}>
-                  <Button type="primary" >重置密码</Button>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={24}>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>国家:</span>
-                    <span className={styles.form_item}>中国</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>交易量:</span>
-                    <span className={styles.form_item}>100</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>已确认的交易次数:</span>
-                    <span className={styles.form_item}>100</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>评价得分:</span>
-                    <span className={styles.form_item}>100</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>账户创建时间:</span>
-                    <span className={styles.form_item}>2018-02-03 10:10</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>最后一次上线:</span>
-                    <span className={styles.form_item}>2018-02-03 10:10</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>语言:</span>
-                    <span className={styles.form_item}>4年，1月之前</span>
-                  </div>
-                  <div className={styles.form_div}>
-                    <span className={styles.form_label}>信任:</span>
-                    <span className={styles.form_item}>被10人屏蔽</span>
-                  </div>
-                </Col>
+                  <div className={styles.title}>基本信息</div>
+                  <Row gutter={32}>
+                    <Col span={18}>
+                      <Col span={8}>
+                        <div className={styles.term}>用户ID</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>用户名</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>国家</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>语言</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>时区</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>手机号码</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>电子邮箱</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>交易量</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>已完成交易次数</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>交易伙伴数</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>好评率</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>被信任数</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>被屏蔽数</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>第一次交易时间</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>创建时间</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>更新时间</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                      <Col span={8}>
+                        <div className={styles.term}>最后一次上线时间</div>
+                        <div className={styles.detail}>U000001</div>
+                      </Col>
+                    </Col>
+                    <Col span={6}>
+                      <div className="avatar-div">
+                        <UserIcon userinfo={name}/>
+                      </div>
+                    </Col>
+                    
+                  </Row>
               </Row>
           </Card>
           
           <Card>
+            <div className={styles.title}>认证信息</div>
             <Row>
-              <Col>
-                <div className={styles.bt_user_detail_page}>
-                  <h5 className={styles.bit_title}>认证情况</h5>
-                  <div className={styles.assets_content}>
-                    <Row>
-                      <Col span={10}>
-                        <span >C1证书资料</span>
-                      </Col>
-                      <Col span={7}><Button type="primary">通过</Button></Col>
-                      <Col span={7}><Button type="default">驳回</Button></Col>
-                    </Row>
-                  </div>
-                  <Divider style={{ marginBottom: 15 }} />
-                  <div className={styles.assets_content}>
-                    <Row>
-                      <Col span={10}>
-                        <span >C2a证书资料</span>
-                      </Col>
-                      <Col span={7}><Button type="primary">通过</Button></Col>
-                      <Col span={7}><Button type="default">驳回</Button></Col>
-                    </Row>
-                  </div>
-                  <Divider style={{ marginBottom: 15 }} />
-                  <div className={styles.assets_content}>
-                    <Row>
-                      <Col span={10}>
-                        <span >C3证书资料</span>
-                      </Col>
-                      <Col span={7}><Button type="primary">通过</Button></Col>
-                      <Col span={7}><Button type="default">驳回</Button></Col>
-                    </Row>
-                  </div>
-                </div>
+              <Col span={24}>
+                <div className={styles.term}>C1认证状态</div>
+                <div className={styles.detail}>已认证</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <div className={styles.term}>邮箱</div>
+                <div className={styles.detail}>aa@aa.com</div>
+              </Col>
+              <Col span={6}>
+                <div className={styles.term}>手机号码</div>
+                <div className={styles.detail}>156565657</div>
+              </Col>
+              <Col span={6}>
+                <div className={styles.term}>真实姓名</div>
+                <div className={styles.detail}>xiao</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <div className={styles.term}>身份证号</div>
+                <div className={styles.detail}>360889889898</div>
+              </Col>
+              <Col span={6}>
+              </Col>
+              <Col span={6}>
+                <Button onClick={this.showModal}>修改身份证号</Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <div className={styles.term}>C2认证状态</div>
+                <div className={styles.detail}>认证中</div>
+              </Col>
+              <Col span={6}>
+                <Button>审核</Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                <div className={styles.term}>证件类型</div>
+                <div className={styles.detail}>身份证</div>
+              </Col>
+              <Col span={8}>
+                <div className={styles.term}>不合格原因</div>
+                <div className={styles.detail}>xxx</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                <img className={styles.identity_img}  src=""/>
+                <div className={styles.identity}>正面照</div>
+              </Col>
+              <Col span={8}>
+                <img className={styles.identity_img} src=""/>
+                <div className={styles.identity}>反面照</div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <div className={styles.term}>C3认证状态</div>
+                <div className={styles.detail}>待认证</div>
               </Col>
             </Row>
           </Card>
+          <Card>
+            <div className={styles.title}>资产信息</div>
+            <Row>
+              <Col span={6}>
+                <div className={styles.term}>账户余额</div>
+                <div className={styles.detail}>88888</div>
+              </Col>
+              <Col span={6}>
+                <div className={styles.term}>冻结资金</div>
+                <div className={styles.detail}>66666</div>
+              </Col>
+              <Col span={6}>
+                <div className={styles.term}>累计转出金额</div>
+                <div className={styles.detail}>16666</div>
+              </Col>
+              <Col span={24}>
+                <div className={styles.term}>累计转入金额</div>
+                <div className={styles.detail}>100000</div>
+              </Col>
+            </Row>
+          </Card>
+          <Card>
+            <div className={styles.title}>认证编辑日志</div>
+            <CustomTable
+              data={user_detail.logData}
+              columns={columns}
+              selectedRows={selectedRows}
+            />
+          </Card>
         </div>
+        <Modal
+          title="修改身份证号"
+          visible={this.state.showUpdateIDNo}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okText="保存"
+        >
+          <Form onSubmit={this.handleSubmit}>
+            <FormItem label="身份证号: " {...formItemLayout}>
+              {getFieldDecorator('mail', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入身份证号！',
+                  }
+                ],
+              })(<Input size="large" placeholder="身份证号码" />)}
+            </FormItem>
+          </Form>
+        </Modal>
       </PageHeaderLayout>
     );
   }

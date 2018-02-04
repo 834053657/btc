@@ -196,3 +196,7 @@ export async function addTransfer(params) {
 export async function queryUserDtl(params) {
   return request(`/api/userDtl?${stringify(params)}`);
 }
+
+export async function queryUserLog(params) {
+  return request(`/api/userLog?${stringify(params)}`);
+}

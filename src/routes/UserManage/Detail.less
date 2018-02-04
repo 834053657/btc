@@ -1,97 +1,187 @@
 @import "~antd/lib/style/themes/default.less";
 @import "../../utils/utils.less";
 
-.bt_user_detail_page {
-  font-size: 20px;
-  padding-bottom: 30px;
-}
+.detail {
+  // offset the padding-bottom of last row
+  :global {
+    .ant-row {
+      //margin-bottom: -16px;
+      overflow: hidden;
+    }
+  }
 
-.user_detail_content .bt_user_detail_page .avatar_div {
-  padding: 0 10px;
-}
+  .row_ext {
+    margin-bottom: 15px;
+  }
 
-.user_detail_content .bt_user_detail_page .avatar_detail {
-  display: inline-block;
-  padding: 30px 30px;
-  height: 90px;
-  width: 200px;
-  vertical-align: middle;
-}
+  .identity {
+    text-align: center;
+    margin-top: 10px;
+  }
 
-.user_detail_content .bt_user_detail_page .form_div {
-  padding: 10px 0;
-}
+  .identity_img {
+    width: 300px;
+    height: 200px;
+  }
 
-.user_detail_content .bt_user_detail_page .form_div .form_label {
-  display: inline-block;
-  padding-right: 15px;
-  font-weight: 500;
-  vertical-align: middle;
-}
+  .title {
+    font-size: 14px;
+    color: @heading-color;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
 
-.user_detail_content .bt_user_detail_page .form_div .form_item {
-  display: inline-block;
-  vertical-align: middle;
-  color: #000;
-}
+  .term {
+    line-height: 22px;
+    padding-bottom: 16px;
+    margin-right: 8px;
+    color: @heading-color;
+    white-space: nowrap;
+    display: table-cell;
 
-.bit_title {
-  padding: 8px 0;
-}
+    &:after {
+      content: ":";
+      margin: 0 8px 0 2px;
+      position: relative;
+      top: -.5px;
+    }
+  }
 
-.bt_btn {
-  display: inline-block;
-  font-size: 13px;
-  line-height: 16px;
-  padding: 7px 12px;
-  border: 1px solid #ccc;
-  color: #333;
-  background-color: #fff;
-  text-decoration: none;
-  outline: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  text-align: center;
-  border-radius: 4px;
-}
+  .detail {
+    line-height: 22px;
+    width: 100%;
+    padding-bottom: 16px;
+    color: @text-color;
+    display: table-cell;
+  }
 
-.bt_btn1 {
-  line-height: 1.5;
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 0 15px;
-  font-size: 14px;
-  border-radius: 4px;
-  height: 32px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  position: relative;
-  color: rgba(0, 0, 0, 0.65);
-  background-color: #fff;
-  border-color: #d9d9d9;
-}
+  &.small {
+    // offset the padding-bottom of last row
+    :global {
+      .ant-row {
+        margin-bottom: -8px;
+      }
+    }
+    .title {
+      margin-bottom: 12px;
+      color: @text-color;
+    }
+    .term, .detail {
+      padding-bottom: 8px;
+    }
+  }
 
-.bt_user_detail_page .assets_content {
-  padding: 20px 0;
-  text-align: center;
-  border: 1px solid #000;
-}
+  &.large {
+    .title {
+      font-size: 16px;
+    }
+  }
 
-.bt_user_detail_page .assets_content .assets-div {
-  padding: 5px 0;
-}
+  &.vertical {
+    .term {
+      padding-bottom: 8px;
+      display: block;
+    }
 
-.bt_user_detail_page .assets_content .assets_div .label {
-  padding-right: 30px;
+    .detail {
+      display: block;
+    }
+  }
+
+  .bt_user_detail_page {
+    font-size: 20px;
+    padding-bottom: 30px;
+  }
+
+  .user_detail_content .bt_user_detail_page .avatar_div {
+    padding: 0 10px;
+  }
+
+  .user_detail_content .bt_user_detail_page .avatar_detail {
+    display: inline-block;
+    padding: 30px 30px;
+    height: 90px;
+    width: 200px;
+    vertical-align: middle;
+  }
+
+  .user_detail_content .bt_user_detail_page .form_div {
+    padding: 10px 0;
+  }
+
+  .user_detail_content .bt_user_detail_page .form_div .form_label {
+    display: inline-block;
+    padding-right: 15px;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+
+  .user_detail_content .bt_user_detail_page .form_div .form_item {
+    display: inline-block;
+    vertical-align: middle;
+    color: #000;
+  }
+
+  .bit_title {
+    padding: 8px 0;
+  }
+
+  .bt_btn {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 7px 12px;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+    text-decoration: none;
+    outline: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .bt_btn1 {
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    height: 32px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    border-color: #d9d9d9;
+  }
+
+  .bt_user_detail_page .assets_content {
+    padding: 20px 0;
+    text-align: center;
+    border: 1px solid #000;
+  }
+
+  .bt_user_detail_page .assets_content .assets-div {
+    padding: 5px 0;
+  }
+
+  .bt_user_detail_page .assets_content .assets_div .label {
+    padding-right: 30px;
+  }
+
+
 }

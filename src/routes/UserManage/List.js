@@ -14,11 +14,11 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['pending', 'processing', 'completed'];
-const status = ['待认证', '认证中', '已认证'];
+const statusMap = [1, 2, 3, 4];
+const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const columns = [
   {
-    title: '用户编号',
+    title: '用户ID',
     sorter: true,
     dataIndex: 'no',
     width: '10%',
@@ -27,26 +27,25 @@ const columns = [
     title: '用户名',
     sorter: true,
     dataIndex: 'owner',
-    width: '8%',
+    width: '9%',
   },
   {
     title: '手机号码',
     sorter: true,
     dataIndex: 'callNo',
-    align: 'right',
     width: '12%',
   },
   {
     title: '邮箱',
     sorter: true,
     dataIndex: 'email',
-    align: 'right',
-    width: '12%',
+    width: '10%',
   },
   {
     title: '用户状态',
     dataIndex: 'status',
-    filters: [
+    sorter: true,
+    /*filters: [
       {
         text: status[0],
         value: 0,
@@ -59,11 +58,15 @@ const columns = [
         text: status[2],
         value: 2,
       },
-    ],
-    width: '12%',
-    render(val) {
+      {
+        text: status[3],
+        value: 3,
+      },
+    ],*/
+    width: '10%',
+    /*render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
-    },
+    },*/
   },
   {
     title: '创建时间',
@@ -82,18 +85,23 @@ const columns = [
     dataIndex: 'country',
     sorter: true,
     width: '10%',
-    align: 'right',
+    //render: val => `${val} 万`,
+    // mark to display a total number
+  },
+  {
+    title: '备注',
+    dataIndex: 'country',
+    sorter: true,
+    width: '8%',
     //render: val => `${val} 万`,
     // mark to display a total number
   },
   {
     title: '操作',
-    width: '14%',
+    width: '9%',
     render: (r) => (
         <Fragment>
           <a href={'/#/user-detail/' + r.id}>查看</a>
-          <Divider type="vertical"/>
-          <a href="">审核</a>
         </Fragment>
     ),
   },
@@ -169,7 +177,7 @@ export default class TableList extends PureComponent {
         <div className={styles.tableList}>
           <Card bordered={false}>
             <div className={styles.tableListOperator}>
-              <Button>审核操作</Button>
+              <Button>待审核用户 (11)</Button>
             </div>
             <CustomTable
               selectedRows={selectedRows}

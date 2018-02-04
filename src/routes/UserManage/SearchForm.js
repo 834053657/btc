@@ -7,7 +7,7 @@ import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const status = ['待认证', '认证中', '已认证'];
+const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const RangePicker = DatePicker.RangePicker;
 
 @Form.create()
@@ -85,16 +85,17 @@ export default class SearchForm extends Component {
           </Col>
         </Row>
         <StandardFormRow title="用户状态" block>
-          <FormItem>
-            {getFieldDecorator('status')(
-              <TagSelect onChange={this.handleFormSubmit}>
-                <TagSelect.Option value="cat1">待认证</TagSelect.Option>
-                <TagSelect.Option value="cat2">认证中</TagSelect.Option>
-                <TagSelect.Option value="cat3">已认证</TagSelect.Option>
-              </TagSelect>
-            )}
-          </FormItem>
-        </StandardFormRow>
+              <FormItem>
+                {getFieldDecorator('status')(
+                  <TagSelect onChange={this.handleFormSubmit}>
+                    <TagSelect.Option value="cat1">待认证</TagSelect.Option>
+                    <TagSelect.Option value="cat2">认证中</TagSelect.Option>
+                    <TagSelect.Option value="cat3">已认证</TagSelect.Option>
+                    <TagSelect.Option value="cat4">认证驳回</TagSelect.Option>
+                  </TagSelect>
+                )}
+              </FormItem>
+            </StandardFormRow>
         <div style={{ overflow: 'hidden' }}>
           <span style={{ float: 'right' }}>
             <Button type="primary" htmlType="submit">查询</Button>
