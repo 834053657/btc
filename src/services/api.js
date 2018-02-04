@@ -192,3 +192,7 @@ export async function addTransfer(params) {
     },
   });
 }
+
+export async function queryUserDtl(params) {
+  return request(`/api/userDtl?${stringify(params)}`);
+}

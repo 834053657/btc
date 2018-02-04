@@ -26,7 +26,7 @@ const columns = [
   {
     title: '用户名',
     sorter: true,
-    dataIndex: 'description',
+    dataIndex: 'owner',
     width: '8%',
   },
   {
@@ -91,7 +91,7 @@ const columns = [
     width: '14%',
     render: (r) => (
         <Fragment>
-          <a href={'/#/user-detail/' + r.key}>查看</a>
+          <a href={'/#/user-detail/' + r.id}>查看</a>
           <Divider type="vertical"/>
           <a href="">审核</a>
         </Fragment>

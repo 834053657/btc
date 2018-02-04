@@ -1,35 +1,34 @@
-import {fakeSubmitForm, fakeSubmitFormMsg} from '../services/api';
+import { queryUserDtl } from '../services/api';
 import { message } from 'antd';
 
 export default {
   namespace: 'user_detail',
 
-  state: {},
+  state: {data: {}},
 
   effects: {
-    *submitForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('保存成功');
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(queryUserDtl, payload);
       yield put({
-        type: 'fakeSubmitForm',
-        payload,
+        type: 'setDetail',
+        payload: response,
       });
     },
     *submitFormMsg({ payload }, { call, put }) {
       yield call(fakeSubmitFormMsg, payload);
-      message.success('发送成功');
       yield put({
-        type: 'fakeSubmitForm',
+        type: 'setDetail',
         payload,
       });
     },
   },
 
   reducers: {
-    fakeSubmitForm(state, action) {
+    setDetail(state, { payload }) {
+      console.log(payload)
       return {
         ...state,
-        data: action.payload,
+        data: payload,
       };
     },
   },

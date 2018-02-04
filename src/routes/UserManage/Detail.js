@@ -1,92 +1,43 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Form, Input, DatePicker, Select, Button, Card, Icon, Tooltip, Row, Col, Divider
+  Button, Card, Icon, Tooltip, Row, Col, Divider
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Detail.less';
 import UserIcon from './UserIcon.js';
 
-const FormItem = Form.Item;
-const { Option } = Select;
-const { TextArea } = Input;
 
-@connect(({ loading }) => ({
-  submitting: loading.effects['sys_config/submitForm'],
-  submittingMsg: loading.effects['sys_config/submitFormMsg'],
+@connect(({ user_detail, loading }) => ({
+  user_detail: user_detail,
+  loading: loading.models.user_detail
 }))
-@Form.create()
-export default class BasicForms extends PureComponent {
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        this.props.dispatch({
-          type: 'sys_config/submitForm',
-          payload: values,
-        });
-      }
-    });
-  }
 
-  handleSubmitMsg = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        this.props.dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
-        });
-      }
+/*@connect((user_detail, loading) => {
+  return {data: user_detail, loading: loading}
+})*/
+
+export default class UserDetail extends PureComponent {
+  state = {
+    selectedRows: [],
+  };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'user_detail/fetch' ,
+      payload: {id: this.props.match.params.id},
     });
   }
 
 
   render() {
-    const { submitting, submittingMsg } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { user_detail, loading } = this.props;
+    const detail = user_detail.data;
+    
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 12 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 12 },
-      },
-    };
-
-    const formItemLayoutMsg = {
-      labelCol: {
-        xs: { span: 0 },
-        sm: { span: 0 },
-        md: { span: 0 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 24 },
-        md: { span: 24 },
-      },
-    };
-
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 6, offset: 18 },
-      },
-    };
-
-    const submitFormLayoutMsg = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 24, offset: 0 },
-      },
-    };
-
-    const name = {name: 'Alex', portrait_url: null}
+    const name = {name: detail.owner, portrait_url: null}
 
     return (
       <PageHeaderLayout title="用户资料">
@@ -102,7 +53,7 @@ export default class BasicForms extends PureComponent {
                   <div className="avatar-div">
                     <UserIcon userinfo={name}/>
                     <div className={styles.avatar_detail}>
-                      <p>Alex Xiao</p>
+                      <p>{detail.owner}</p>
                     </div>
                   </div>
                 </Col>

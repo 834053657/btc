@@ -4,11 +4,25 @@ import { getUrlParams } from './utils';
 let userListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   userListDataSource.push({
-    key: i,
+    id: i,
     disabled: ((i % 6) === 0),
     href: 'https://ant.design',
     avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
     no: `uid ${i}`,
+    title: `一个任务名称 ${i}`,
+    email: 'test@gmail.com',
+    country: '中国',
+    owner: '曲丽丽',
+    description: 'Alex',
+    callNo: Math.floor(Math.random() * 1000),
+    status: Math.floor(Math.random() * 10) % 3,
+    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    progress: Math.ceil(Math.random() * 100),
+  });
+  /*userListDataSource.push({
+    id: i,
+    userNo: `uid ${i}`,
     title: `一个任务名称 ${i}`,
     email: 'test@gmail.com',
     country: '中国',
@@ -19,7 +33,7 @@ for (let i = 0; i < 46; i += 1) {
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     progress: Math.ceil(Math.random() * 100),
-  });
+  });*/
 }
 
 export function getUser(req, res, u) {
@@ -78,6 +92,31 @@ export function getUser(req, res, u) {
   }
 }
 
+export function getUserDtl(req, res, u) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url; // eslint-disable-line
+  }
+
+  const params = getUrlParams(url);
+
+  let dataSource = [...userListDataSource];
+
+  if (params.id) {
+    dataSource = dataSource.filter(data => (data.id == params.id));
+  }
+
+  let result = [];
+  if(dataSource.length > 0)
+    result = dataSource[0];
+
+  if (res && res.json) {
+    res.json(result);
+  } else {
+    return result;
+  }
+}
+
 export function postUser(req, res, u, b) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -95,7 +134,7 @@ export function postUser(req, res, u, b) {
     case 'post':
       const i = Math.ceil(Math.random() * 10000);
       tableListDataSource.unshift({
-        key: i,
+        id: i,
         href: 'https://ant.design',
         avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
         no: `TradeCode ${i}`,
@@ -129,5 +168,6 @@ export function postUser(req, res, u, b) {
 
 export default {
   getUser,
+  getUserDtl,
   postUser,
 };

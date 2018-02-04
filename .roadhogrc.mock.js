@@ -1,6 +1,6 @@
 import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
-import { getUser } from './mock/user';
+import { getUser, getUserDtl } from './mock/user';
 import { getAd } from './mock/ad';
 import { getTrade } from './mock/trade';
 import { getTransfer } from './mock/transfer';
@@ -40,6 +40,7 @@ const proxy = {
   'GET /api/ad': getAd,
   'GET /api/trade': getTrade,
   'GET /api/transfer': getTransfer,
+  'GET /api/userDtl': getUserDtl,
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',
