@@ -6,7 +6,8 @@ import moment from 'moment';
 import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
+//const { Option } = Select;
+const Option = Select.Option;
 const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const RangePicker = DatePicker.RangePicker;
 
@@ -51,6 +52,11 @@ export default class SearchForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
+    const countryList = [];
+    countryList.push(<Option key="1" value="1">中国</Option>);
+    countryList.push(<Option key="2" value="2">英国</Option>);
+    countryList.push(<Option key="3" value="3">美国</Option>);
+
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -65,18 +71,14 @@ export default class SearchForm extends Component {
             <FormItem label="国家">
               {getFieldDecorator('country')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">中国</Option>
-                  <Option value="1">美国</Option>
-                  <Option value="1">英国</Option>
-                  <Option value="1">日本</Option>
-                  <Option value="1">新西兰</Option>
+                  {countryList}
                 </Select>
               )}
             </FormItem>
           </Col>
           <Col md={10} sm={24}>
             <FormItem label="创建时间">
-              {getFieldDecorator('date')(
+              {getFieldDecorator('createdDt')(
                 <RangePicker
                   format="YYYY/MM/DD"
                 />

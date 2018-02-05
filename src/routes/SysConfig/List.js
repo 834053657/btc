@@ -14,38 +14,39 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = [1, 2, 3, 4];
-const status = ['待认证', '认证中', '已认证', '认证驳回'];
+const statusMap = ['pending', 'processing', 'completed'];
+const status = ['待认证', '认证中', '已认证'];
 const columns = [
   {
-    title: '用户ID',
+    title: '用户编号',
     sorter: true,
-    dataIndex: 'userId',
-    width: '100',
+    dataIndex: 'no',
+    width: '10%',
   },
   {
     title: '用户名',
     sorter: true,
-    dataIndex: 'userName',
-    width: '100',
+    dataIndex: 'description',
+    width: '8%',
   },
   {
     title: '手机号码',
     sorter: true,
-    dataIndex: 'mobile',
-    width: '100',
+    dataIndex: 'callNo',
+    align: 'right',
+    width: '12%',
   },
   {
     title: '邮箱',
     sorter: true,
     dataIndex: 'email',
-    width: '120',
+    align: 'right',
+    width: '12%',
   },
   {
     title: '用户状态',
     dataIndex: 'status',
-    sorter: true,
-    /*filters: [
+    filters: [
       {
         text: status[0],
         value: 0,
@@ -58,51 +59,42 @@ const columns = [
         text: status[2],
         value: 2,
       },
-      {
-        text: status[3],
-        value: 3,
-      },
-    ],*/
-    width: '120',
-    /*render(val) {
+    ],
+    width: '12%',
+    render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
-    },*/
+    },
   },
   {
     title: '创建时间',
-    dataIndex: 'createdDate',
+    dataIndex: 'createdAt',
     sorter: true,
-    width: '120',
+    width: '12%',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '更新时间',
-    dataIndex: 'updatedDate',
+    dataIndex: 'updatedAt',
     sorter: true,
-    width: '120',
+    width: '12%',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '国家',
     dataIndex: 'country',
     sorter: true,
-    width: '100',
-    //render: val => `${val} 万`,
-    // mark to display a total number
-  },
-  {
-    title: '备注',
-    dataIndex: 'remark',
-    sorter: true,
-    width: '150',
+    width: '10%',
+    align: 'right',
     //render: val => `${val} 万`,
     // mark to display a total number
   },
   {
     title: '操作',
-    width: '100',
-    render: (r) => (
-        <Fragment>
-          <a href={'/#/user-detail/' + r.id}>查看</a>
-        </Fragment>
+    width: '14%',
+    render: () => (
+      <Fragment>
+        <a href="">查看</a>
+        <Divider type="vertical" />
+        <a href="">审核</a>
+      </Fragment>
     ),
   },
 ];
@@ -111,7 +103,7 @@ const columns = [
   user: user_manage,
   loading: loading.models.user_manage,
 }))
-export default class TableList extends PureComponent {
+export default class SysForm extends PureComponent {
   state = {
     selectedRows: [],
   };
@@ -120,16 +112,6 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'user_manage/fetch',
-      payload: {isSearchPending: false},
-    });
-  }
-
-  handlePendingReview = (e) => {
-    const { dispatch } = this.props;
-    this.isSearchPending =  true;
-    dispatch({
-      type: 'user_manage/fetch',
-      payload: {status: 1, isSearchPending: true},
     });
   }
 
@@ -153,10 +135,9 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    let q_params = params;
     dispatch({
       type: 'user_manage/fetch',
-      payload: this.isSearchPending ? {currentPage: pagination.current, pageSize: pagination.pageSize, status: 1, isSearchPending: true} : {...params, isSearchPending: false},
+      payload: params,
     });
   }
 
@@ -170,27 +151,15 @@ export default class TableList extends PureComponent {
   handleSearch = (values) => {
     const { dispatch } = this.props;
     console.log(values);
-    this.isSearchPending =  false;
-    this.setState({
-        formValues: values,
-      });
     dispatch({
       type: 'user_manage/fetch',
-      payload: {...values, isSearchPending: false},
+      payload: values,
     });
   }
 
   render() {
     const { user: { data }, loading } = this.props;
     const { selectedRows } = this.state;
-
-    let pendingBtnTxt = "";
-    if(data && data.isSearchPending) {
-      console.log(data.list.length)
-      pendingBtnTxt += "待审核用户 ("+data.list.length + ")";
-    }
-    else
-      pendingBtnTxt = "待审核用户";
 
     return (
       <PageHeaderLayout title="用户管理">
@@ -200,7 +169,7 @@ export default class TableList extends PureComponent {
         <div className={styles.tableList}>
           <Card bordered={false}>
             <div className={styles.tableListOperator}>
-              <Button onClick={this.handlePendingReview}>{pendingBtnTxt}</Button>
+              <Button>审核操作</Button>
             </div>
             <CustomTable
               selectedRows={selectedRows}
@@ -209,7 +178,6 @@ export default class TableList extends PureComponent {
               columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleCustomTableChange}
-              scroll={{ x: 1200}}
             />
           </Card>
 

@@ -4,21 +4,17 @@ import { getUrlParams } from './utils';
 let userListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   userListDataSource.push({
+    key: i,
     id: i,
-    disabled: ((i % 6) === 0),
-    href: 'https://ant.design',
-    avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-    no: `uid ${i}`,
-    title: `一个任务名称 ${i}`,
+    userId: `uid ${i}`,
     email: 'test@gmail.com',
     country: '中国',
-    owner: '曲丽丽',
-    description: 'Alex',
-    callNo: Math.floor(Math.random() * 1000),
+    userName: '曲丽丽',
+    remark: 'C1认证通过',
+    mobile: Math.floor(Math.random() * 1000),
     status: Math.floor(Math.random() * 10) % 3,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
+    createdDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    updatedDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
   });
   /*userListDataSource.push({
     id: i,

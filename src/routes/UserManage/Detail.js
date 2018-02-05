@@ -9,6 +9,7 @@ import styles from './Detail.less';
 import UserIcon from './UserIcon.js';
 import classNames from 'classnames';
 import moment from 'moment';
+import ReviewForm from './ReviewForm.js';
 
 const FormItem = Form.Item;
 
@@ -47,19 +48,19 @@ export default class UserDetail extends PureComponent {
     });
   }
 
-  showModal = () => {
+  showModalIDNo = () => {
     this.setState({
       showUpdateIDNo: true,
     });
   }
-  handleOk = (e) => {
+  handleOkIDNo = (e) => {
     console.log(e);
     this.handleSubmit(e);
     /*this.setState({
       showUpdateIDNo: false,
     });*/
   }
-  handleCancel = (e) => {
+  handleCancelIDNo = (e) => {
     console.log(e);
     this.setState({
       showUpdateIDNo: false,
@@ -129,7 +130,7 @@ export default class UserDetail extends PureComponent {
 
     
 
-    const name = {name: detail.owner, portrait_url: null}
+    const name = {name: detail.userName, portrait_url: null}
 
     return (
       <PageHeaderLayout title="用户信息">
@@ -251,7 +252,7 @@ export default class UserDetail extends PureComponent {
               <Col span={6}>
               </Col>
               <Col span={6}>
-                <Button onClick={this.showModal}>修改身份证号</Button>
+                <Button onClick={this.showModalIDNo} loading={loading}>修改身份证号</Button>
               </Col>
             </Row>
             <Row>
@@ -260,33 +261,40 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>认证中</div>
               </Col>
               <Col span={6}>
-                <Button>审核</Button>
+                <ReviewForm submitting={loading} title="C2认证信息审核" dispatch={this.props.dispatch}/>
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={10}>
                 <div className={styles.term}>证件类型</div>
                 <div className={styles.detail}>身份证</div>
               </Col>
-              <Col span={8}>
+              <Col span={10}>
                 <div className={styles.term}>不合格原因</div>
                 <div className={styles.detail}>xxx</div>
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
-                <img className={styles.identity_img}  src=""/>
-                <div className={styles.identity}>正面照</div>
+              <Col span={10}>
+                <div className={styles.identity}>
+                  <img className={styles.identity_img}  src=""/>
+                  <div className={styles.identity_text}>正面照</div>
+                </div>
               </Col>
-              <Col span={8}>
-                <img className={styles.identity_img} src=""/>
-                <div className={styles.identity}>反面照</div>
+              <Col span={10}>
+                <div className={styles.identity}>
+                  <img className={styles.identity_img} src=""/>
+                  <div className={styles.identity_text}>反面照</div>
+                </div>
               </Col>
             </Row>
             <Row>
-              <Col span={24}>
+              <Col span={6}>
                 <div className={styles.term}>C3认证状态</div>
                 <div className={styles.detail}>待认证</div>
+              </Col>
+               <Col span={6}>
+                <ReviewForm submitting={loading} title="C3认证信息审核" dispatch={this.props.dispatch}/>
               </Col>
             </Row>
           </Card>
@@ -323,13 +331,13 @@ export default class UserDetail extends PureComponent {
         <Modal
           title="修改身份证号"
           visible={this.state.showUpdateIDNo}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
+          onOk={this.handleOkIDNo}
+          onCancel={this.handleCancelIDNo}
           okText="保存"
         >
           <Form onSubmit={this.handleSubmit}>
             <FormItem label="身份证号: " {...formItemLayout}>
-              {getFieldDecorator('mail', {
+              {getFieldDecorator('idNo', {
                 rules: [
                   {
                     required: true,
@@ -340,6 +348,7 @@ export default class UserDetail extends PureComponent {
             </FormItem>
           </Form>
         </Modal>
+        
       </PageHeaderLayout>
     );
   }

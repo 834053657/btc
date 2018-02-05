@@ -63,7 +63,7 @@ class CustomTable extends PureComponent {
 
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data: { list, pagination }, loading, columns } = this.props;
+    const { data: { list, pagination }, loading, columns, scroll } = this.props;
 
     const paginationProps = {
       showSizeChanger: true,
@@ -78,8 +78,8 @@ class CustomTable extends PureComponent {
         <Table
           loading={loading}
           rowKey={record => record.key}
-
           dataSource={list}
+          scroll={scroll}
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}

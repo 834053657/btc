@@ -1,4 +1,4 @@
-import { queryUser, removeRule, addUser } from '../services/api';
+import { queryUser} from '../services/api';
 
 export default {
   namespace: 'user_manage',
@@ -7,6 +7,7 @@ export default {
     data: {
       list: [],
       pagination: {},
+      isSearchPending: false
     },
   },
 
@@ -15,24 +16,8 @@ export default {
       const response = yield call(queryUser, payload);
       yield put({
         type: 'save',
-        payload: response,
+        payload: {...response, isSearchPending: payload.isSearchPending}
       });
-    },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(addUser, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
     },
   },
 
