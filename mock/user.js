@@ -113,10 +113,32 @@ export function getUserDtl(req, res, u) {
   if (params.id) {
     dataSource = dataSource.filter(data => (data.id == params.id));
   }
-
   let result = [];
   if(dataSource.length > 0)
     result = dataSource[0];
+
+  result = {
+    user_id: 'U000001',
+    user_name: '张三',
+    country: '中国',
+    language: '中文',
+    timezone: '+8',
+    mobile: '13900000008',
+    email: 'zhangsan@xxx.com',
+    trade_volume: '10 BT',
+    trade_completed_count: 18,
+    trade_partner_count: 15,
+    praise_rate: '80%',
+    trusted_number: 10,
+    shielded_number: 3,
+    first_trade_datetime: '2017-07-06 11:30:09',
+    created_datetime: '2017-06-06 11:30:09',
+    updated_datetime: '2017-09-06 08:23:08',
+    last_login_datetime: '2018-02-06 08:02:11',
+    portrait_url: 'http://p.3761.com/pic/17431406596747.jpg',
+    id_image_1: "http://upload.mnw.cn/2017/0122/1485050987244.jpg",
+    id_image_2: "https://t12.baidu.com/it/u=1660230893,551764805&fm=170&s=16A2D2001C52CDC85EA989DB030000B3&w=500&h=297&img.JPEG"
+  };
 
   if (res && res.json) {
     res.json(result);

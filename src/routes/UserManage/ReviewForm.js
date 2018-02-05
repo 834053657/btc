@@ -85,6 +85,7 @@ export default class BasicForms extends PureComponent {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           okText="保存"
+          destroyOnClose={true}
         >
         <Form onSubmit={this.handleSubmit}>
           <Form.Item label="审核结果" {...formItemLayout}>

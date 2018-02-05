@@ -11,9 +11,11 @@ class component extends Component {
 				name = name.substr(0, 1)
 
 				if (portrait_url && (portrait_url !== "NULL")) {
-						return <span className={styles.bit_user_face} style={style}><img className={`avatar-img avatar-img-${size}`} src={portrait_url} alt={name} /></span>
+						//return <img className={styles.avatar_img} src={portrait_url} alt={name} />
+						//return <span className={styles.bit_user_face} style={style}><img className={`avatar-img avatar-img-${size}`} src={portrait_url} alt={name} /></span>
+						return <img className={styles.avatar_img} src={portrait_url} onClick={this.props.onClick} alt={name} />
 				} else {
-						return <span className={styles.bit_user_face} style={style}><div className={`bit_user_face bit_user_face_${size}`}>{name}</div></span>
+						return <span className={styles.bit_user_face} style={style}><div className={styles.bit_user_face}>{name}</div></span>
 				}
 		}
 }

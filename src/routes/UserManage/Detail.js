@@ -48,6 +48,43 @@ export default class UserDetail extends PureComponent {
     });
   }
 
+  showModalAvatar = () => {
+    this.setState({
+      showAvatar: true,
+    });
+  }
+  handleCancelAvatar = (e) => {
+    console.log(e);
+    this.setState({
+      showAvatar: false,
+    });
+  }
+
+  showModalIdImage_1 = () => {
+    this.setState({
+      showIdImage_1: true,
+    });
+  }
+  handleCancelIdImage_1 = (e) => {
+    console.log(e);
+    this.setState({
+      showIdImage_1: false,
+    });
+  }
+
+  showModalIdImage_2 = () => {
+    this.setState({
+      showIdImage_2: true,
+    });
+  }
+  handleCancelIdImage_2 = (e) => {
+    console.log(e);
+    this.setState({
+      showIdImage_2: false,
+    });
+  }
+
+
   showModalIDNo = () => {
     this.setState({
       showUpdateIDNo: true,
@@ -130,7 +167,7 @@ export default class UserDetail extends PureComponent {
 
     
 
-    const name = {name: detail.userName, portrait_url: null}
+    const name = {name: detail.user_name, portrait_url: detail.portrait_url}
 
     return (
       <PageHeaderLayout title="用户信息">
@@ -142,79 +179,79 @@ export default class UserDetail extends PureComponent {
               <Row>
                   <div className={styles.title}>基本信息</div>
                   <Row gutter={32}>
-                    <Col span={18}>
+                    <Col span={21}>
                       <Col span={8}>
                         <div className={styles.term}>用户ID</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.user_id}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>用户名</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.user_name}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>国家</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.country}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>语言</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.language}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>时区</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.timezone}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>手机号码</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.mobile}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>电子邮箱</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.email}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>交易量</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.trade_volume}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>已完成交易次数</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.trade_completed_count}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>交易伙伴数</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.trade_partner_count}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>好评率</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.praise_rate}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>被信任数</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.trusted_number}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>被屏蔽数</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.shielded_number}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>第一次交易时间</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.first_trade_datetime}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>创建时间</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.created_datetime}</div>
                       </Col>
                       <Col span={8}>
                         <div className={styles.term}>更新时间</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.updated_datetime}</div>
                       </Col>
-                      <Col span={8}>
+                      <Col span={16}>
                         <div className={styles.term}>最后一次上线时间</div>
-                        <div className={styles.detail}>U000001</div>
+                        <div className={styles.detail}>{detail.last_login_datetime}</div>
                       </Col>
                     </Col>
-                    <Col span={6}>
+                    <Col span={3}>
                       <div className="avatar-div">
-                        <UserIcon userinfo={name}/>
+                        <UserIcon userinfo={name} onClick={this.showModalAvatar}/>
                       </div>
                     </Col>
                     
@@ -231,37 +268,37 @@ export default class UserDetail extends PureComponent {
               </Col>
             </Row>
             <Row>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>邮箱</div>
                 <div className={styles.detail}>aa@aa.com</div>
               </Col>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>手机号码</div>
                 <div className={styles.detail}>156565657</div>
               </Col>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>真实姓名</div>
                 <div className={styles.detail}>xiao</div>
               </Col>
             </Row>
             <Row>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>身份证号</div>
                 <div className={styles.detail}>360889889898</div>
               </Col>
-              <Col span={6}>
+              <Col span={7}>
               </Col>
-              <Col span={6}>
-                <Button onClick={this.showModalIDNo} loading={loading}>修改身份证号</Button>
+              <Col span={7}>
+                <Button onClick={this.showModalIDNo} >修改身份证号</Button>
               </Col>
             </Row>
             <Row>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>C2认证状态</div>
                 <div className={styles.detail}>认证中</div>
               </Col>
-              <Col span={6}>
-                <ReviewForm submitting={loading} title="C2认证信息审核" dispatch={this.props.dispatch}/>
+              <Col span={7}>
+                <ReviewForm  title="C2认证信息审核" dispatch={this.props.dispatch}/>
               </Col>
             </Row>
             <Row>
@@ -277,39 +314,39 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={10}>
                 <div className={styles.identity}>
-                  <img className={styles.identity_img}  src=""/>
+                  <img className={styles.identity_img} alt="正面照"  src={detail.id_image_1} onClick={this.showModalIdImage_1} />
                   <div className={styles.identity_text}>正面照</div>
                 </div>
               </Col>
               <Col span={10}>
                 <div className={styles.identity}>
-                  <img className={styles.identity_img} src=""/>
+                  <img className={styles.identity_img} alt="反面照" src={detail.id_image_2} onClick={this.showModalIdImage_2}/>
                   <div className={styles.identity_text}>反面照</div>
                 </div>
               </Col>
             </Row>
             <Row>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>C3认证状态</div>
                 <div className={styles.detail}>待认证</div>
               </Col>
-               <Col span={6}>
-                <ReviewForm submitting={loading} title="C3认证信息审核" dispatch={this.props.dispatch}/>
+               <Col span={7}>
+                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch}/>
               </Col>
             </Row>
           </Card>
           <Card>
             <div className={styles.title}>资产信息</div>
             <Row>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>账户余额</div>
                 <div className={styles.detail}>88888</div>
               </Col>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>冻结资金</div>
                 <div className={styles.detail}>66666</div>
               </Col>
-              <Col span={6}>
+              <Col span={7}>
                 <div className={styles.term}>累计转出金额</div>
                 <div className={styles.detail}>16666</div>
               </Col>
@@ -334,6 +371,7 @@ export default class UserDetail extends PureComponent {
           onOk={this.handleOkIDNo}
           onCancel={this.handleCancelIDNo}
           okText="保存"
+          destroyOnClose={true}
         >
           <Form onSubmit={this.handleSubmit}>
             <FormItem label="身份证号: " {...formItemLayout}>
@@ -347,6 +385,29 @@ export default class UserDetail extends PureComponent {
               })(<Input size="large" placeholder="身份证号码" />)}
             </FormItem>
           </Form>
+        </Modal>
+
+        <Modal footer={null}
+          onCancel={this.handleCancelAvatar}
+          visible={this.state.showAvatar}
+          width={350}
+        >
+          <img src={detail.portrait_url}/>
+        </Modal>
+
+        <Modal footer={null}
+          width={650}
+          onCancel={this.handleCancelIdImage_1}
+          visible={this.state.showIdImage_1}
+        >
+          <img src={detail.id_image_1}/>
+        </Modal>
+        <Modal footer={null}
+          width={650}
+          onCancel={this.handleCancelIdImage_2}
+          visible={this.state.showIdImage_2}
+        >
+          <img src={detail.id_image_2}/>
         </Modal>
         
       </PageHeaderLayout>
