@@ -1,68 +1,68 @@
 import React, { PureComponent } from 'react';
-import { Table, Alert } from 'antd';
+import { Table } from 'antd';
 import styles from './index.less';
 
-function initTotalList(columns) {
-  const totalList = [];
-  columns.forEach((column) => {
-    if (column.needTotal) {
-      totalList.push({ ...column, total: 0 });
-    }
-  });
-  return totalList;
-}
+// function initTotalList(columns) {
+//   const totalList = [];
+//   columns.forEach((column) => {
+//     if (column.needTotal) {
+//       totalList.push({ ...column, total: 0 });
+//     }
+//   });
+//   return totalList;
+// }
 
 class CustomTable extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { columns } = props;
-    const needTotalList = initTotalList(columns);
+  // constructor(props) {
+  //   super(props);
+  //   const { columns } = props;
+  //   const needTotalList = initTotalList(columns);
 
-    this.state = {
-      selectedRowKeys: [],
-      needTotalList,
-    };
-  }
+  //   this.state = {
+  //     selectedRowKeys: [],
+  //     needTotalList,
+  //   };
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    // clean state
-    if (nextProps.selectedRows.length === 0) {
-      const needTotalList = initTotalList(nextProps.columns);
-      this.setState({
-        selectedRowKeys: [],
-        needTotalList,
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // clean state
+  //   if (nextProps.selectedRows.length === 0) {
+  //     const needTotalList = initTotalList(nextProps.columns);
+  //     this.setState({
+  //       selectedRowKeys: [],
+  //       needTotalList,
+  //     });
+  //   }
+  // }
 
-  handleRowSelectChange = (selectedRowKeys, selectedRows) => {
-    let needTotalList = [...this.state.needTotalList];
-    needTotalList = needTotalList.map((item) => {
-      return {
-        ...item,
-        total: selectedRows.reduce((sum, val) => {
-          return sum + parseFloat(val[item.dataIndex], 10);
-        }, 0),
-      };
-    });
+  // handleRowSelectChange = (selectedRowKeys, selectedRows) => {
+  //   let needTotalList = [...this.state.needTotalList];
+  //   needTotalList = needTotalList.map((item) => {
+  //     return {
+  //       ...item,
+  //       total: selectedRows.reduce((sum, val) => {
+  //         return sum + parseFloat(val[item.dataIndex], 10);
+  //       }, 0),
+  //     };
+  //   });
 
-    if (this.props.onSelectRow) {
-      this.props.onSelectRow(selectedRows);
-    }
+  //   if (this.props.onSelectRow) {
+  //     this.props.onSelectRow(selectedRows);
+  //   }
 
-    this.setState({ selectedRowKeys, needTotalList });
-  }
+  //   this.setState({ selectedRowKeys, needTotalList });
+  // }
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
   }
 
-  cleanSelectedKeys = () => {
-    this.handleRowSelectChange([], []);
-  }
+  // cleanSelectedKeys = () => {
+  //   this.handleRowSelectChange([], []);
+  // }
 
   render() {
-    const { selectedRowKeys, needTotalList } = this.state;
+    // const { selectedRowKeys, needTotalList } = this.state;
     const { data: { list, pagination }, loading, columns, scroll } = this.props;
 
     const paginationProps = {
@@ -73,8 +73,7 @@ class CustomTable extends PureComponent {
 
     return (
       <div className={styles.customTable}>
-        <div className={styles.tableAlert}>
-        </div>
+        <div className={styles.tableAlert} />
         <Table
           loading={loading}
           rowKey={record => record.key}

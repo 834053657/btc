@@ -10,10 +10,10 @@ import 'moment/locale/zh-cn';
 import FastClick from 'fastclick';
 import CONFIG from './utils/config';
 import './rollbar';
+import './index.less';
 
 global.CONFIG = CONFIG;
 
-import './index.less';
 // 1. Initialize
 const app = dva({
   history: createHistory(),

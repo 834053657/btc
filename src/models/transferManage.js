@@ -1,7 +1,7 @@
 import { queryTransfer, removeTransfer, addTransfer } from '../services/api';
 
 export default {
-  namespace: 'transfer_manage',
+  namespace: 'transferManage',
 
   state: {
     data: {

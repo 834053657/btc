@@ -5,9 +5,9 @@ let transferListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   transferListDataSource.push({
     key: i,
-    userName: `Alex`,
-    btc: `10BTC`,
-    goal: `HELODWQDOWDWQDW`,
+    userName: 'Alex',
+    btc: '10BTC',
+    goal: 'HELODWQDOWDWQDW',
     status: Math.floor(Math.random() * 10) % 3,
   });
 }

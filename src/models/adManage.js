@@ -1,7 +1,7 @@
 import { queryAd, removeAd, addAd } from '../services/api';
 
 export default {
-  namespace: 'ad',
+  namespace: 'adManage',
 
   state: {
     data: {

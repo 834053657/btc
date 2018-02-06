@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import {
-  Form, Input, Button, Card, InputNumber, Modal, Select
-} from 'antd';
+// import { connect } from 'dva';
+import { Form, Input, Button, Modal, Select } from 'antd';
 
-import styles from './Detail.less';
+// import styles from './Detail.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -13,7 +11,7 @@ const { Option } = Select;
 @Form.create()
 export default class BasicForms extends PureComponent {
   state = {
-    showUpdate: false
+    showUpdate: false,
   };
 
   handleSubmit = (e) => {
@@ -37,9 +35,9 @@ export default class BasicForms extends PureComponent {
   handleOk = (e) => {
     console.log(e);
     this.handleSubmit(e);
-    /*this.setState({
+    /* this.setState({
       showUpdateIDNo: false,
-    });*/
+    }); */
   }
   handleCancel = (e) => {
     console.log(e);
@@ -50,7 +48,7 @@ export default class BasicForms extends PureComponent {
 
   render() {
     const { submitting } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
       labelCol: {
@@ -85,11 +83,11 @@ export default class BasicForms extends PureComponent {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           okText="保存"
-          destroyOnClose={true}
+          destroyOnClose
         >
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Item label="审核结果" {...formItemLayout}>
-            {getFieldDecorator('owner', {
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Item label="审核结果" {...formItemLayout}>
+              {getFieldDecorator('owner', {
               rules: [{ required: true, message: '请选择审核结果' }],
             })(
               <Select placeholder="请选择">
@@ -97,8 +95,8 @@ export default class BasicForms extends PureComponent {
                 <Option value="2">不通过</Option>
               </Select>
             )}
-          </Form.Item>
-          <FormItem
+            </Form.Item>
+            <FormItem
               {...formItemLayoutTe}
             >
               {getFieldDecorator('reason', {
@@ -109,9 +107,9 @@ export default class BasicForms extends PureComponent {
                 <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
               )}
             </FormItem>
-        </Form>
-      </Modal>
-    </div>
+          </Form>
+        </Modal>
+      </div>
     );
   }
 }

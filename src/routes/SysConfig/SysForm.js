@@ -1,16 +1,14 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Tooltip,
-} from 'antd';
+import { Form, Input, Button, Card } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './SysForm.less';
+// import styles from './SysForm.less';
 import MsgForm from './MsgForm.js';
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+// const { Option } = Select;
+// const { RangePicker } = DatePicker;
+// const { TextArea } = Input;
 
 @connect(({ loading }) => ({
   submitting: loading.effects['sys_config/submitForm'],
@@ -43,7 +41,7 @@ export default class BasicForms extends PureComponent {
   }
   render() {
     const { submitting, submittingMsg } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
       labelCol: {
@@ -58,18 +56,18 @@ export default class BasicForms extends PureComponent {
       },
     };
 
-    const formItemLayoutMsg = {
-      labelCol: {
-        xs: { span: 0 },
-        sm: { span: 0 },
-        md: { span: 0 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 24 },
-        md: { span: 24 },
-      },
-    };
+    // const formItemLayoutMsg = {
+    //   labelCol: {
+    //     xs: { span: 0 },
+    //     sm: { span: 0 },
+    //     md: { span: 0 },
+    //   },
+    //   wrapperCol: {
+    //     xs: { span: 24 },
+    //     sm: { span: 24 },
+    //     md: { span: 24 },
+    //   },
+    // };
 
     const submitFormLayout = {
       wrapperCol: {
@@ -78,12 +76,12 @@ export default class BasicForms extends PureComponent {
       },
     };
 
-    const submitFormLayoutMsg = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 24, offset: 0 },
-      },
-    };
+    // const submitFormLayoutMsg = {
+    //   wrapperCol: {
+    //     xs: { span: 24, offset: 0 },
+    //     sm: { span: 24, offset: 0 },
+    //   },
+    // };
 
     return (
       <PageHeaderLayout title="系统配置">
@@ -92,8 +90,8 @@ export default class BasicForms extends PureComponent {
             onSubmit={this.handleSubmit}
             hideRequiredMark={false}
             style={{ marginTop: 8 }}
-            layout='inline'
-            ref={(form) => this.form1 = form}
+            layout="inline"
+            ref={(form) => { this.form1 = form; }}
           >
             <FormItem
               {...formItemLayout}
@@ -106,9 +104,9 @@ export default class BasicForms extends PureComponent {
               })(
                 <Input
                   placeholder="手续费"
-                  prefix='$'
-                  //formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  //parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                  prefix="$"
+                  // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  // parser={value => value.replace(/\$\s?|(,*)/g, '')}
                 />
               )}
             </FormItem>
@@ -121,7 +119,7 @@ export default class BasicForms extends PureComponent {
           </Form>
         </Card>
         <Card bordered={false}>
-          <MsgForm submitting={submittingMsg}  dispatch={this.props.dispatch}/>
+          <MsgForm submitting={submittingMsg} dispatch={this.props.dispatch} />
         </Card>
       </PageHeaderLayout>
     );

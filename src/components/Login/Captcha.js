@@ -1,28 +1,27 @@
 import React from 'react';
-import classNames from 'classnames';
-import styles from './index.less';
 import { Form } from 'antd';
-import { connect } from 'dva';
+// import { connect } from 'dva';
+// import classNames from 'classnames';
+import styles from './index.less';
 
 const FormItem = Form.Item;
 
-
 export default class Captcha extends React.Component {
-	constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   handleGetCaptcha = () => {
     this.props.onClick();
   }
 
-
   render() {
-  	const { image,  onGetCaptcha} = this.props;
+    // const { image, onGetCaptcha } = this.props;
+    const { image } = this.props;
 
     return (
-    	<FormItem>
-    		<img src={image} onClick={this.handleGetCaptcha} className={styles.captcha}/>
-    	</FormItem>);
+      <FormItem>
+        <img alt="captcha" src={image} onClick={this.handleGetCaptcha} className={styles.captcha} />
+      </FormItem>);
   }
 }

@@ -1,23 +1,19 @@
-import React, { Component, PropTypes } from 'react';
-import { Row, Col, Form, Input, Select, DatePicker, Button } from 'antd';
+import React, { Component } from 'react';
+import { Row, Col, Form, Input, Select, Button, DatePicker } from 'antd';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
-import moment from 'moment';
 import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const status = ['正常', '冻结', '被举报'];
-const RangePicker = DatePicker.RangePicker;
+// const status = ['正常', '冻结', '被举报'];
+const { RangePicker } = DatePicker;
 
 @Form.create()
 export default class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {},
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   submit = (e) => {
     e.preventDefault();
@@ -31,21 +27,19 @@ export default class SearchForm extends Component {
         ...fieldsValue,
       };
 
-      this.setState({
-        formValues: values,
-      });
-
-      this.props.onSearch && this.props.onSearch(values);
+      if (this.props.onSearch) {
+        this.props.onSearch(values);
+      }
     });
   }
 
   handleFormReset = () => {
     const { form } = this.props;
     form.resetFields();
-    this.setState({
-      formValues: {},
-    });
-    this.props.onSearch && this.props.onSearch({});
+
+    if (this.props.onSearch) {
+      this.props.onSearch({});
+    }
   }
 
   render() {

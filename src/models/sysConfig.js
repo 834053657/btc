@@ -1,8 +1,8 @@
-import {fakeSubmitForm, fakeSubmitFormMsg} from '../services/api';
 import { message } from 'antd';
+import { fakeSubmitForm, fakeSubmitFormMsg } from '../services/api';
 
 export default {
-  namespace: 'sys_config',
+  namespace: 'sysConfig',
 
   state: {},
 

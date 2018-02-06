@@ -16,7 +16,7 @@ for (let i = 0; i < 46; i += 1) {
     createdDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     updatedDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
   });
-  /*userListDataSource.push({
+  /* userListDataSource.push({
     id: i,
     userNo: `uid ${i}`,
     title: `一个任务名称 ${i}`,
@@ -29,11 +29,11 @@ for (let i = 0; i < 46; i += 1) {
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     progress: Math.ceil(Math.random() * 100),
-  });*/
+  }); */
 }
 
 // mock userLogListDataSource
-let userLogListDataSource = [];
+const userLogListDataSource = [];
 for (let i = 0; i < 6; i += 1) {
   userLogListDataSource.push({
     id: i,
@@ -111,11 +111,10 @@ export function getUserDtl(req, res, u) {
   let dataSource = [...userListDataSource];
 
   if (params.id) {
-    dataSource = dataSource.filter(data => (data.id == params.id));
+    dataSource = dataSource.filter(data => (data.id === params.id));
   }
-  let result = [];
-  if(dataSource.length > 0)
-    result = dataSource[0];
+  let result = dataSource.length > 0 ? dataSource[0] : [];
+  // if (dataSource.length > 0) { result = dataSource[0]; }
 
   result = {
     user_id: 'U000001',
@@ -136,9 +135,9 @@ export function getUserDtl(req, res, u) {
     updated_datetime: '2017-09-06 08:23:08',
     last_login_datetime: '2018-02-06 08:02:11',
     portrait_url: 'http://p.3761.com/pic/17431406596747.jpg',
-    id_image_1: "http://upload.mnw.cn/2017/0122/1485050987244.jpg",
-    id_image_2: "https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=db7e343dcd8065386fe7ac41f6b4ca21/8694a4c27d1ed21b46999f96aa6eddc451da3f74.jpg"
-    //id_image_2: "https://t12.baidu.com/it/u=1660230893,551764805&fm=170&s=16A2D2001C52CDC85EA989DB030000B3&w=500&h=297&img.JPEG"
+    id_image_1: 'http://upload.mnw.cn/2017/0122/1485050987244.jpg',
+    id_image_2: 'https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=db7e343dcd8065386fe7ac41f6b4ca21/8694a4c27d1ed21b46999f96aa6eddc451da3f74.jpg',
+    // id_image_2: "https://t12.baidu.com/it/u=1660230893,551764805&fm=170&s=16A2D2001C52CDC85EA989DB030000B3&w=500&h=297&img.JPEG"
   };
 
   if (res && res.json) {
@@ -207,7 +206,7 @@ export function postUser(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, no, description } = body;
+  const { method, no } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -216,20 +215,20 @@ export function postUser(req, res, u, b) {
       break;
     case 'post':
       const i = Math.ceil(Math.random() * 10000);
-      tableListDataSource.unshift({
-        id: i,
-        href: 'https://ant.design',
-        avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-        no: `TradeCode ${i}`,
-        title: `一个任务名称 ${i}`,
-        owner: '曲丽丽',
-        description,
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 2,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        progress: Math.ceil(Math.random() * 100),
-      });
+      // tableListDataSource.unshift({
+      //   id: i,
+      //   href: 'https://ant.design',
+      //   avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
+      //   no: `TradeCode ${i}`,
+      //   title: `一个任务名称 ${i}`,
+      //   owner: '曲丽丽',
+      //   description,
+      //   callNo: Math.floor(Math.random() * 1000),
+      //   status: Math.floor(Math.random() * 10) % 2,
+      //   updatedAt: new Date(),
+      //   createdAt: new Date(),
+      //   progress: Math.ceil(Math.random() * 100),
+      // });
       break;
     default:
       break;

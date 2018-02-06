@@ -1,27 +1,27 @@
 import React from 'react';
 import { Link, Redirect, Switch, Route } from 'dva/router';
 import DocumentTitle from 'react-document-title';
-import { Icon } from 'antd';
-import GlobalFooter from '../components/GlobalFooter';
+// import { Icon } from 'antd';
+// import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 import { getRoutes } from '../utils/utils';
 
-const links = [{
-  key: 'help',
-  title: '帮助',
-  href: '',
-}, {
-  key: 'privacy',
-  title: '隐私',
-  href: '',
-}, {
-  key: 'terms',
-  title: '条款',
-  href: '',
-}];
+// const links = [{
+//   key: 'help',
+//   title: '帮助',
+//   href: '',
+// }, {
+//   key: 'privacy',
+//   title: '隐私',
+//   href: '',
+// }, {
+//   key: 'terms',
+//   title: '条款',
+//   href: '',
+// }];
 
-const copyright = <div>Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品</div>;
+// const copyright = <div>Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品</div>;
 
 class UserLayout extends React.PureComponent {
   getPageTitle() {

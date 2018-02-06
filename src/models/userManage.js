@@ -1,13 +1,13 @@
-import { queryUser} from '../services/api';
+import { queryUser } from '../services/api';
 
 export default {
-  namespace: 'user_manage',
+  namespace: 'userManage',
 
   state: {
     data: {
       list: [],
       pagination: {},
-      isSearchPending: false
+      isSearchPending: false,
     },
   },
 
@@ -16,7 +16,7 @@ export default {
       const response = yield call(queryUser, payload);
       yield put({
         type: 'save',
-        payload: {...response, isSearchPending: payload.isSearchPending}
+        payload: { ...response, isSearchPending: payload.isSearchPending },
       });
     },
   },

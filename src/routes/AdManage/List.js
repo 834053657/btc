@@ -1,12 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {
-  Card,
-  Button,
-  Badge,
-  Divider,
-} from 'antd';
+import { Card, Badge, Divider } from 'antd';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
@@ -78,8 +73,8 @@ const columns = [
   },
 ];
 
-@connect(({ ad, loading }) => ({
-  rule: ad,
+@connect(({ adManage, loading }) => ({
+  rule: adManage,
   loading: loading.models.ad,
 }))
 export default class TableList extends PureComponent {
@@ -90,7 +85,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'ad/fetch',
+      type: 'adManage/fetch',
     });
   }
 
@@ -115,7 +110,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'ad/fetch',
+      type: 'adManage/fetch',
       payload: params,
     });
   }
@@ -129,9 +124,9 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    console.log(values);
+    // console.log(values);
     dispatch({
-      type: 'ad/fetch',
+      type: 'adManage/fetch',
       payload: values,
     });
   }

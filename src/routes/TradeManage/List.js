@@ -3,9 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import {
   Card,
-  Button,
   Badge,
-  Divider,
 } from 'antd';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -108,9 +106,9 @@ const columns = [
   },
 ];
 
-@connect(({ trade_manage, loading }) => ({
-  trade: trade_manage,
-  loading: loading.models.trade_manage,
+@connect(({ tradeManage, loading }) => ({
+  trade: tradeManage,
+  loading: loading.models.tradeManage,
 }))
 export default class TableList extends PureComponent {
   state = {
@@ -120,7 +118,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'trade_manage/fetch',
+      type: 'tradeManage/fetch',
     });
   }
 
@@ -145,7 +143,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'trade_manage/fetch',
+      type: 'tradeManage/fetch',
       payload: params,
     });
   }
@@ -159,9 +157,9 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    console.log(values);
+    // console.log(values);
     dispatch({
-      type: 'trade_manage/fetch',
+      type: 'tradeManage/fetch',
       payload: values,
     });
   }

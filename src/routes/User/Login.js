@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Checkbox, Alert, Icon } from 'antd';
+import { Checkbox, Alert } from 'antd';
 import Login from '../../components/Login';
 import styles from './Login.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+const { UserName, Password, Captcha, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
-  submitting: loading.effects['login/login']
+  submitting: loading.effects['login/login'],
 }))
 export default class LoginPage extends Component {
   state = {
     type: 'account',
-    autoLogin: true,
+    autoLogin: true
+  }
+
+  componentDidMount() {
+    this.loadCaptcha();
   }
 
   onTabChange = (type) => {
     this.setState({ type });
+  }
+
+  onGetCaptcha = () => {
+    this.loadCaptcha();
+  }
+
+  loadCaptcha = () => {
+    this.props.dispatch({
+      type: 'login/getCaptcha',
+      payload: { r: Math.random() },
+    });
   }
 
   handleSubmit = (err, values) => {
@@ -46,21 +61,6 @@ export default class LoginPage extends Component {
     );
   }
 
-  componentDidMount() {
-    this.loadCaptcha()
-  }
-
-  onGetCaptcha = () => {
-    this.loadCaptcha()
-  }
-
-  loadCaptcha = () => {
-    this.props.dispatch({
-      type: 'login/getCaptcha',
-      payload: {r: Math.random()},
-    });
-  }
-
   render() {
     const { login, submitting } = this.props;
     const { type } = this.state;
@@ -80,7 +80,7 @@ export default class LoginPage extends Component {
             }
           <UserName name="userName" placeholder="admin/user" />
           <Password name="password" placeholder="888888/123456" />
-          <Captcha name="captcha" image={login.image} onGetCaptcha={this.onGetCaptcha}/>
+          <Captcha name="captcha" image={login.image} onGetCaptcha={this.onGetCaptcha} />
           {/* </Tab> */}
           {/* <Tab key="mobile" tab="手机号登录">
             {
@@ -103,7 +103,7 @@ export default class LoginPage extends Component {
             <Icon className={styles.icon} type="taobao-circle" />
             <Icon className={styles.icon} type="weibo-circle" />
             <Link className={styles.register} to="/user/register">注册账户</Link>
-          </div>*/ }
+          </div> */ }
         </Login>
       </div>
     );

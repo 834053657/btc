@@ -1,8 +1,8 @@
+// import { message } from 'antd';
 import { queryUserDtl, queryUserLog } from '../services/api';
-import { message } from 'antd';
 
 export default {
-  namespace: 'user_detail',
+  namespace: 'userDetail',
 
   state: {
     data: {},
@@ -17,7 +17,7 @@ export default {
       const response = yield call(queryUserDtl, payload);
       yield put({
         type: 'setDetail',
-        payload: {data: response},
+        payload: { data: response },
       });
     },
     *fetchLog({ payload }, { call, put }) {
@@ -31,15 +31,15 @@ export default {
 
   reducers: {
     setDetail(state, { payload }) {
-      console.log(payload)
+      // console.log(payload);
       return {
         ...state,
         data: payload.data,
-        //logData: payload.logData,
+        // logData: payload.logData,
       };
     },
     setLog(state, { payload }) {
-      console.log(payload)
+      // console.log(payload);
       return {
         ...state,
         logData: payload,

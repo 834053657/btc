@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { MiniArea } from '../Charts';
 import NumberInfo from '../NumberInfo';

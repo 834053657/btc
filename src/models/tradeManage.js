@@ -1,7 +1,7 @@
 import { queryTrade, removeTrade, addTrade } from '../services/api';
 
 export default {
-  namespace: 'trade_manage',
+  namespace: 'tradeManage',
 
   state: {
     data: {

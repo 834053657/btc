@@ -1,24 +1,23 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Row, Col, Form, Input, Select, DatePicker, Button } from 'antd';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
-import moment from 'moment';
+// import moment from 'moment';
 import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
-//const { Option } = Select;
-const Option = Select.Option;
-const status = ['待认证', '认证中', '已认证', '认证驳回'];
-const RangePicker = DatePicker.RangePicker;
+const { Option } = Select;
+// const status = ['待认证', '认证中', '已认证', '认证驳回'];
+const { RangePicker } = DatePicker;
 
 @Form.create()
 export default class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {},
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     formValues: {},
+  //   };
+  // }
 
   submit = (e) => {
     e.preventDefault();
@@ -32,21 +31,25 @@ export default class SearchForm extends Component {
         ...fieldsValue,
       };
 
-      this.setState({
-        formValues: values,
-      });
+      // this.setState({
+      //   formValues: values,
+      // });
 
-      this.props.onSearch && this.props.onSearch(values);
+      if (this.props.onSearch) {
+        this.props.onSearch(values);
+      }
     });
   }
 
   handleFormReset = () => {
     const { form } = this.props;
     form.resetFields();
-    this.setState({
-      formValues: {},
-    });
-    this.props.onSearch && this.props.onSearch({});
+    // this.setState({
+    //   formValues: {},
+    // });
+    if (this.props.onSearch) {
+      this.props.onSearch({});
+    }
   }
 
   render() {
@@ -87,17 +90,17 @@ export default class SearchForm extends Component {
           </Col>
         </Row>
         <StandardFormRow title="用户状态" block>
-              <FormItem>
-                {getFieldDecorator('status')(
-                  <TagSelect onChange={this.handleFormSubmit}>
-                    <TagSelect.Option value="cat1">待认证</TagSelect.Option>
-                    <TagSelect.Option value="cat2">认证中</TagSelect.Option>
-                    <TagSelect.Option value="cat3">已认证</TagSelect.Option>
-                    <TagSelect.Option value="cat4">认证驳回</TagSelect.Option>
-                  </TagSelect>
+          <FormItem>
+            {getFieldDecorator('status')(
+              <TagSelect onChange={this.handleFormSubmit}>
+                <TagSelect.Option value="cat1">待认证</TagSelect.Option>
+                <TagSelect.Option value="cat2">认证中</TagSelect.Option>
+                <TagSelect.Option value="cat3">已认证</TagSelect.Option>
+                <TagSelect.Option value="cat4">认证驳回</TagSelect.Option>
+              </TagSelect>
                 )}
-              </FormItem>
-            </StandardFormRow>
+          </FormItem>
+        </StandardFormRow>
         <div style={{ overflow: 'hidden' }}>
           <span style={{ float: 'right' }}>
             <Button type="primary" htmlType="submit">查询</Button>

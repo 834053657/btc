@@ -6,7 +6,7 @@ for (let i = 0; i < 46; i += 1) {
   adListDataSource.push({
     key: i,
     adNo: `ad0000${i}`,
-    tradeType: `买入`,
+    tradeType: '买入',
     price: Math.ceil(Math.random() * 100),
     status: Math.floor(Math.random() * 10) % 3,
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
@@ -74,7 +74,7 @@ export function postAd(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, no, description } = body;
+  const { method, no } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -82,21 +82,21 @@ export function postAd(req, res, u, b) {
       adListDataSource = adListDataSource.filter(item => no.indexOf(item.no) === -1);
       break;
     case 'post':
-      const i = Math.ceil(Math.random() * 10000);
-      tableListDataSource.unshift({
-        key: i,
-        href: 'https://ant.design',
-        avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
-        no: `TradeCode ${i}`,
-        title: `一个任务名称 ${i}`,
-        owner: '曲丽丽',
-        description,
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 2,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        progress: Math.ceil(Math.random() * 100),
-      });
+      // const i = Math.ceil(Math.random() * 10000);
+      // tableListDataSource.unshift({
+      //   key: i,
+      //   href: 'https://ant.design',
+      //   avatar: ['https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png', 'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'][i % 2],
+      //   no: `TradeCode ${i}`,
+      //   title: `一个任务名称 ${i}`,
+      //   owner: '曲丽丽',
+      //   description,
+      //   callNo: Math.floor(Math.random() * 1000),
+      //   status: Math.floor(Math.random() * 10) % 2,
+      //   updatedAt: new Date(),
+      //   createdAt: new Date(),
+      //   progress: Math.ceil(Math.random() * 100),
+      // });
       break;
     default:
       break;

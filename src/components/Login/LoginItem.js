@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Row, Col } from 'antd';
+// import { Form, Button, Row, Col } from 'antd';
+import { Form, Row, Col } from 'antd';
 import omit from 'omit.js';
-import styles from './index.less';
+// import styles from './index.less';
 import map from './map';
 import Captcha from './Captcha';
 
@@ -49,7 +50,7 @@ function generator({ defaultProps, defaultRules, type }) {
         const options = {};
         let otherProps = {};
         const { onChange, defaultValue, rules, name, ...restProps } = this.props;
-        const { count } = this.state;
+        // const { count } = this.state;
         options.rules = rules || defaultRules;
         if (onChange) {
           options.onChange = onChange;

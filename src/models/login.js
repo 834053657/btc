@@ -1,6 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { fakeAccountLogin } from '../services/api';
-import { getCaptcha } from '../services/api';
+import { fakeAccountLogin, getCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -65,7 +64,7 @@ export default {
     changeCaptcha(state, { payload }) {
       return {
         ...state,
-        image: payload.image
+        image: payload.image,
       };
     },
   },

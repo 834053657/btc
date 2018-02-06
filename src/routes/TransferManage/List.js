@@ -1,9 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
+// import moment from 'moment';
 import {
   Card,
-  Button,
   Badge,
   Divider,
 } from 'antd';
@@ -71,9 +70,9 @@ const columns = [
   },
 ];
 
-@connect(({ transfer_manage, loading }) => ({
-  transfer: transfer_manage,
-  loading: loading.models.transfer_manage,
+@connect(({ transferManage, loading }) => ({
+  transfer: transferManage,
+  loading: loading.models.transferManage,
 }))
 export default class TableList extends PureComponent {
   state = {
@@ -83,7 +82,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'transfer_manage/fetch',
+      type: 'transferManage/fetch',
     });
   }
 
@@ -108,7 +107,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'transfer_manage/fetch',
+      type: 'transferManage/fetch',
       payload: params,
     });
   }
@@ -122,9 +121,9 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    console.log(values);
+    // console.log(values);
     dispatch({
-      type: 'transfer_manage/fetch',
+      type: 'transferManage/fetch',
       payload: values,
     });
   }

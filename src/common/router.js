@@ -71,226 +71,154 @@ export const getRouterData = (app) => {
   const routerConfig = {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () =>
-      import('../layouts/BasicLayout'
-      )),
+      import('../layouts/BasicLayout'))
     },
     '/ad-manage':
   {
-    component: dynamicWrapper(app, ['ad'], () =>
-    import('../routes/Ad/List')
-    ),
+    component: dynamicWrapper(app, ['adManage'], () => import('../routes/AdManage/List')),
   },
     '/user-manage':
   {
-    component: dynamicWrapper(app, ['user_manage'], () =>
-    import('../routes/UserManage/List')
-    ),
+    component: dynamicWrapper(app, ['userManage'], () => import('../routes/UserManage/List')),
   },
     '/user-detail/:id':
   {
-    component: dynamicWrapper(app, ['user_detail'], () =>
-      import('../routes/UserManage/Detail')
-    ),
+    component: dynamicWrapper(app, ['userDetail'], () => import('../routes/UserManage/Detail')),
   },
     '/trade-manage':
   {
-    component: dynamicWrapper(app, ['trade_manage'], () =>
-    import('../routes/TradeManage/List')
-    ),
+    component: dynamicWrapper(app, ['tradeManage'], () => import('../routes/TradeManage/List')),
   },
     '/transfer-manage':
   {
-    component: dynamicWrapper(app, ['transfer_manage'], () =>
-    import('../routes/TransferManage/List')
-    ),
+    component: dynamicWrapper(app, ['transferManage'], () => import('../routes/TransferManage/List')),
   },
     '/sys-config':
   {
-    component: dynamicWrapper(app, ['sys_config'], () =>
-    import('../routes/SysConfig/SysForm')
-    ),
+    component: dynamicWrapper(app, ['sysConfig'], () => import('../routes/SysConfig/SysForm')),
   },
     '/dashboard/analysis':
   {
-    component: dynamicWrapper(app, ['chart'], () =>
-    import('../routes/Dashboard/Analysis')
-    ),
+    component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
   },
     '/dashboard/monitor':
   {
-    component: dynamicWrapper(app, ['monitor'], () =>
-    import('../routes/Dashboard/Monitor')
-    ),
+    component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
   },
     '/dashboard/workplace':
   {
-    component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
-    import('../routes/Dashboard/Workplace')
-    ),
+    component: dynamicWrapper(app, ['project', 'activities', 'chart'], () => import('../routes/Dashboard/Workplace')),
     // hideInBreadcrumb: true,
     // name: '工作台',
     // authority: 'admin',
   },
     '/form/basic-form':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/BasicForm')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
   },
     '/form/step-form':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/StepForm')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
   },
     '/form/step-form/info':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/StepForm/Step1')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
   },
     '/form/step-form/confirm':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/StepForm/Step2')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
   },
     '/form/step-form/result':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/StepForm/Step3')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
   },
     '/form/advanced-form':
   {
-    component: dynamicWrapper(app, ['form'], () =>
-    import('../routes/Forms/AdvancedForm')
-    ),
+    component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
   },
     '/list/table-list':
   {
-    component: dynamicWrapper(app, ['rule'], () =>
-    import('../routes/List/TableList')
-    ),
+    component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
   },
     '/list/basic-list':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/BasicList')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/BasicList')),
   },
     '/list/card-list':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/CardList')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/CardList')),
   },
     '/list/search':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/List')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/List')),
   },
     '/list/search/projects':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/Projects')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/Projects')),
   },
     '/list/search/applications':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/Applications')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/Applications')),
   },
     '/list/search/articles':
   {
-    component: dynamicWrapper(app, ['list'], () =>
-    import('../routes/List/Articles')
-    ),
+    component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
   },
     '/profile/basic':
   {
-    component: dynamicWrapper(app, ['profile'], () =>
-    import('../routes/Profile/BasicProfile')
-    ),
+    component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
   },
     '/profile/advanced':
   {
-    component: dynamicWrapper(app, ['profile'], () =>
-    import('../routes/Profile/AdvancedProfile')
-    ),
+    component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/AdvancedProfile')),
   },
     '/result/success':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/Result/Success')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
   },
     '/result/fail':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/Result/Error')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/Result/Error')),
   },
     '/exception/403':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/Exception/403')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
   },
     '/exception/404':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/Exception/404')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/Exception/404')),
   },
     '/exception/500':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/Exception/500')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
   },
     '/exception/trigger':
   {
-    component: dynamicWrapper(app, ['error'], () =>
-    import('../routes/Exception/triggerException')
-    ),
+    component: dynamicWrapper(app, ['error'], () => import('../routes/Exception/triggerException')),
   },
     '/user':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../layouts/UserLayout')
-    ),
+    component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
   },
     '/user/login':
   {
-    component: dynamicWrapper(app, ['login'], () =>
-    import('../routes/User/Login')
-    ),
+    component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
   },
-   '/user/forget':
+    '/user/forget':
   {
-    component: dynamicWrapper(app, ['forget'], () =>
-    import('../routes/User/Forget')
-    ),
+    component: dynamicWrapper(app, ['forget'], () => import('../routes/User/Forget')),
   },
     '/user/register':
   {
-    component: dynamicWrapper(app, ['register'], () =>
-    import('../routes/User/Register')
-    ),
+    component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
   },
     '/user/register-result':
   {
-    component: dynamicWrapper(app, [], () =>
-    import('../routes/User/RegisterResult')
-    ),
+    component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
   }
     ,
   // '/user/:id': {
-  //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-  // },
+  //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent'))// },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

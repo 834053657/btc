@@ -24,7 +24,7 @@ const menuData = [
     path: 'sys-config',
   }];
 
-if (true) {
+if (__DEV__) {
   menuData.push({
     name: 'dashboard',
     icon: 'dashboard',

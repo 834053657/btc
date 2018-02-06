@@ -2,13 +2,28 @@
   "entry": "src/index.js",
   "extraBabelPlugins": [
     "transform-decorators-legacy",
-    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true
+      }
+    ]
   ],
+  "define": {
+    "__DEV__": false,
+    "__PROD__": true
+  },
   "env": {
     "development": {
       "extraBabelPlugins": [
         "dva-hmr"
-      ]
+      ],
+      "define": {
+        "__DEV__": true,
+        "__PROD__": false
+      }
     }
   },
   "ignoreMomentLocale": true,
@@ -17,6 +32,6 @@
     "template": "./src/index.ejs"
   },
   "publicPath": "/",
-  "disableDynamicImport": true,
+//  "disableDynamicImport": true,
   "hash": true
 }

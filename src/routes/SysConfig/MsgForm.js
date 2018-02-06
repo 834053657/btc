@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import {
-  Form, Input, Button, Card, InputNumber,
-} from 'antd';
+// import { connect } from 'dva';
+import { Form, Input, Button } from 'antd';
 
-import styles from './SysForm.less';
+// import styles from './SysForm.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -25,7 +23,7 @@ export default class BasicForms extends PureComponent {
 
   render() {
     const { submitting } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
       labelCol: {
@@ -48,30 +46,30 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{ marginTop: 8 }}
-            layout='horizontal'
-          >
-            <FormItem
-              {...formItemLayout}
-            >
-              {getFieldDecorator('message', {
+      <Form
+        onSubmit={this.handleSubmit}
+        hideRequiredMark
+        style={{ marginTop: 8 }}
+        layout="horizontal"
+      >
+        <FormItem
+          {...formItemLayout}
+        >
+          {getFieldDecorator('message', {
                 rules: [{
                   required: true, message: '请输入内容',
                 }],
               })(
                 <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
               )}
-            </FormItem>
+        </FormItem>
 
-            <FormItem {...submitFormLayout}>
-              <Button type="primary" htmlType="submit" loading={submitting}>
+        <FormItem {...submitFormLayout}>
+          <Button type="primary" htmlType="submit" loading={submitting}>
                 发送
-              </Button>
-            </FormItem>
-          </Form>
+          </Button>
+        </FormItem>
+      </Form>
     );
   }
 }

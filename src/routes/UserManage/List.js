@@ -5,7 +5,6 @@ import {
   Card,
   Button,
   Badge,
-  Divider,
 } from 'antd';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -45,7 +44,7 @@ const columns = [
     title: '用户状态',
     dataIndex: 'status',
     sorter: true,
-    /*filters: [
+    /* filters: [
       {
         text: status[0],
         value: 0,
@@ -62,14 +61,14 @@ const columns = [
         text: status[3],
         value: 3,
       },
-    ],*/
+    ], */
     width: '120',
     render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
-      /*if(val === 1)
+      /* if(val === 1)
         return <Badge status='processing' text={status[val]} />;
-      else  
-        return <span >{status[val]}</span>;*/
+      else
+        return <span >{status[val]}</span>; */
     },
   },
   {
@@ -89,7 +88,7 @@ const columns = [
     dataIndex: 'country',
     sorter: true,
     width: '100',
-    //render: val => `${val} 万`,
+    // render: val => `${val} 万`,
     // mark to display a total number
   },
   {
@@ -97,23 +96,23 @@ const columns = [
     dataIndex: 'remark',
     sorter: true,
     width: '150',
-    //render: val => `${val} 万`,
+    // render: val => `${val} 万`,
     // mark to display a total number
   },
   {
     title: '操作',
     width: '100',
-    render: (r) => (
-        <Fragment>
-          <a href={'/#/user-detail/' + r.id}>查看</a>
-        </Fragment>
+    render: r => (
+      <Fragment>
+        <a href={`/#/user-detail/${r.id}`}>查看</a>
+      </Fragment>
     ),
   },
 ];
 
-@connect(({ user_manage, loading }) => ({
-  user: user_manage,
-  loading: loading.models.user_manage,
+@connect(({ userManage, loading }) => ({
+  user: userManage,
+  loading: loading.models.userManage,
 }))
 export default class TableList extends PureComponent {
   state = {
@@ -123,17 +122,17 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'user_manage/fetch',
-      payload: {isSearchPending: false},
+      type: 'userManage/fetch',
+      payload: { isSearchPending: false },
     });
   }
 
-  handlePendingReview = (e) => {
+  handlePendingReview = () => {
     const { dispatch } = this.props;
-    this.isSearchPending =  true;
+    this.isSearchPending = true;
     dispatch({
-      type: 'user_manage/fetch',
-      payload: {status: 0, isSearchPending: true},
+      type: 'userManage/fetch',
+      payload: { status: 0, isSearchPending: true },
     });
   }
 
@@ -157,10 +156,10 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    let q_params = params;
+    // const qParams = params;
     dispatch({
-      type: 'user_manage/fetch',
-      payload: this.isSearchPending ? {currentPage: pagination.current, pageSize: pagination.pageSize, status: 0, isSearchPending: true} : {...params, isSearchPending: false},
+      type: 'userManage/fetch',
+      payload: this.isSearchPending ? { currentPage: pagination.current, pageSize: pagination.pageSize, status: 0, isSearchPending: true } : { ...params, isSearchPending: false },
     });
   }
 
@@ -173,14 +172,14 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    console.log(values);
-    this.isSearchPending =  false;
+    // console.log(values);
+    this.isSearchPending = false;
     this.setState({
-        formValues: values,
-      });
+      formValues: values,
+    });
     dispatch({
-      type: 'user_manage/fetch',
-      payload: {...values, isSearchPending: false},
+      type: 'userManage/fetch',
+      payload: { ...values, isSearchPending: false },
     });
   }
 
@@ -188,13 +187,11 @@ export default class TableList extends PureComponent {
     const { user: { data }, loading } = this.props;
     const { selectedRows } = this.state;
 
-    let pendingBtnTxt = "";
-    if(data && data.isSearchPending) {
-      console.log(data.list.length)
-      pendingBtnTxt += "待审核用户 ("+data.list.length + ")";
-    }
-    else
-      pendingBtnTxt = "待审核用户";
+    let pendingBtnTxt = '';
+    if (data && data.isSearchPending) {
+      // console.log(data.list.length);
+      pendingBtnTxt += `待审核用户 (${data.list.length})`;
+    } else { pendingBtnTxt = '待审核用户'; }
 
     return (
       <PageHeaderLayout title="用户管理">
@@ -213,7 +210,7 @@ export default class TableList extends PureComponent {
               columns={columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleCustomTableChange}
-              scroll={{ x: 1200}}
+              scroll={{ x: 1200 }}
             />
           </Card>
 

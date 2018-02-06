@@ -83,7 +83,7 @@ const columns = [
     sorter: true,
     width: '10%',
     align: 'right',
-    //render: val => `${val} 万`,
+    // render: val => `${val} 万`,
     // mark to display a total number
   },
   {
@@ -99,9 +99,9 @@ const columns = [
   },
 ];
 
-@connect(({ user_manage, loading }) => ({
-  user: user_manage,
-  loading: loading.models.user_manage,
+@connect(({ userManage, loading }) => ({
+  user: userManage,
+  loading: loading.models.userManage,
 }))
 export default class SysForm extends PureComponent {
   state = {
@@ -111,7 +111,7 @@ export default class SysForm extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'user_manage/fetch',
+      type: 'userManage/fetch',
     });
   }
 
@@ -136,7 +136,7 @@ export default class SysForm extends PureComponent {
     }
 
     dispatch({
-      type: 'user_manage/fetch',
+      type: 'userManage/fetch',
       payload: params,
     });
   }
@@ -152,7 +152,7 @@ export default class SysForm extends PureComponent {
     const { dispatch } = this.props;
     console.log(values);
     dispatch({
-      type: 'user_manage/fetch',
+      type: 'userManage/fetch',
       payload: values,
     });
   }

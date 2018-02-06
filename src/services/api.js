@@ -94,7 +94,7 @@ export async function queryNotices() {
 
 export async function getCaptcha(params) {
   return request(`/api/login/getCaptcha?${stringify(params)}`);
-  //return request(`http://47.52.250.12:9090/get_captcha?r=${stringify(params)}`);
+  // return request(`http://47.52.250.12:9090/get_captcha?r=${stringify(params)}`);
 }
 
 export async function queryUser(params) {
