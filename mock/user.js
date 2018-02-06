@@ -11,8 +11,8 @@ for (let i = 0; i < 46; i += 1) {
     country: '中国',
     userName: '曲丽丽',
     remark: 'C1认证通过',
-    mobile: Math.floor(Math.random() * 1000),
-    status: Math.floor(Math.random() * 10) % 3,
+    mobile: '13900000087',
+    status: Math.floor(Math.random() * 10) % 4,
     createdDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     updatedDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
   });
@@ -137,7 +137,8 @@ export function getUserDtl(req, res, u) {
     last_login_datetime: '2018-02-06 08:02:11',
     portrait_url: 'http://p.3761.com/pic/17431406596747.jpg',
     id_image_1: "http://upload.mnw.cn/2017/0122/1485050987244.jpg",
-    id_image_2: "https://t12.baidu.com/it/u=1660230893,551764805&fm=170&s=16A2D2001C52CDC85EA989DB030000B3&w=500&h=297&img.JPEG"
+    id_image_2: "https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=db7e343dcd8065386fe7ac41f6b4ca21/8694a4c27d1ed21b46999f96aa6eddc451da3f74.jpg"
+    //id_image_2: "https://t12.baidu.com/it/u=1660230893,551764805&fm=170&s=16A2D2001C52CDC85EA989DB030000B3&w=500&h=297&img.JPEG"
   };
 
   if (res && res.json) {

@@ -14,7 +14,7 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = [1, 2, 3, 4];
+const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const columns = [
   {
@@ -64,9 +64,13 @@ const columns = [
       },
     ],*/
     width: '120',
-    /*render(val) {
+    render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
-    },*/
+      /*if(val === 1)
+        return <Badge status='processing' text={status[val]} />;
+      else  
+        return <span >{status[val]}</span>;*/
+    },
   },
   {
     title: '创建时间',
@@ -129,7 +133,7 @@ export default class TableList extends PureComponent {
     this.isSearchPending =  true;
     dispatch({
       type: 'user_manage/fetch',
-      payload: {status: 1, isSearchPending: true},
+      payload: {status: 0, isSearchPending: true},
     });
   }
 
@@ -156,7 +160,7 @@ export default class TableList extends PureComponent {
     let q_params = params;
     dispatch({
       type: 'user_manage/fetch',
-      payload: this.isSearchPending ? {currentPage: pagination.current, pageSize: pagination.pageSize, status: 1, isSearchPending: true} : {...params, isSearchPending: false},
+      payload: this.isSearchPending ? {currentPage: pagination.current, pageSize: pagination.pageSize, status: 0, isSearchPending: true} : {...params, isSearchPending: false},
     });
   }
 
