@@ -1,4 +1,4 @@
-import { queryTransfer, removeTransfer, addTransfer } from '../services/api';
+import { queryTransfer, queryPendingTransferCount, transferExportToCSV } from '../services/api';
 
 export default {
   namespace: 'transferManage',
@@ -18,22 +18,21 @@ export default {
         payload: response,
       });
     },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(addTransfer, payload);
+    *fetchPendingCount({ payload, callback }, { call, put }) {
+      const response = yield call(queryPendingTransferCount, payload);
       yield put({
-        type: 'save',
+        type: 'setPendingCount',
         payload: response,
       });
       if (callback) callback();
     },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeTransfer, payload);
+    *exportToCSV({ payload }, { call, put }) {
+      const response = yield call(transferExportToCSV, payload);
       yield put({
-        type: 'save',
+        type: 'setCSVData',
         payload: response,
       });
-      if (callback) callback();
-    },
+    }
   },
 
   reducers: {
@@ -43,5 +42,19 @@ export default {
         data: action.payload,
       };
     },
+    setPendingCount(state, { payload }) {
+      // console.log(payload);
+      return {
+        ...state,
+        count: payload && payload.count,
+      };
+    },
+    setCSVData(state, { payload }) {
+      // console.log(payload);
+      return {
+        ...state,
+        csvData: payload.list,
+      };
+    }
   },
 };

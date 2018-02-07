@@ -47,8 +47,8 @@ export default class UserDetail extends PureComponent {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
+    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err) => {
       if (!err) {
         // console.log('Received values of form: ', values);
@@ -111,9 +111,13 @@ export default class UserDetail extends PureComponent {
     });
   }
 
+  reviewC3 = () => {
+
+  }
+
   render() {
     const { userDetail, form } = this.props;
-    const { detail = {} } = userDetail || {};
+    const detail = userDetail.data || {};
     // console.log(userDetail);
     const { selectedRows } = this.state;
     const { getFieldDecorator } = form;
@@ -158,10 +162,11 @@ export default class UserDetail extends PureComponent {
     };
 
 
-    const name = { name: detail.user_name, portrait_url: detail.portrait_url };
+    const userInfo = { name: detail.user_name, portraitUrl: detail.portrait_url };
+    const breadcrumbList = [{ title: '首页', href: '/' }, { title: '用户管理', href: '/user-manage' }, { title: '用户详情' }];
 
     return (
-      <PageHeaderLayout title="用户信息">
+      <PageHeaderLayout title="用户信息" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
           <Card bordered={false} >
             <a className={styles.bt_btn} href="/#/user-manage">返回</a>
@@ -242,7 +247,7 @@ export default class UserDetail extends PureComponent {
                 </Col>
                 <Col span={3}>
                   <div className="avatar-div">
-                    <UserIcon userinfo={name} onClick={this.showModalAvatar} />
+                    <UserIcon userinfo={userInfo} onClick={this.showModalAvatar} />
                   </div>
                 </Col>
 
@@ -321,7 +326,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>待认证</div>
               </Col>
               <Col span={7}>
-                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} />
+                <Button onClick={this.reviewC3} >审核</Button>
               </Col>
             </Row>
           </Card>

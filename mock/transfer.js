@@ -5,10 +5,24 @@ let transferListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   transferListDataSource.push({
     key: i,
-    userName: 'Alex',
-    btc: '10BTC',
-    goal: 'HELODWQDOWDWQDW',
+    id: i,
+    serialNo: `TRANS ${i}`,
+    userName: '曲丽丽',
+    actionDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    country: '中国',
+    transferType: '钱包充值',
+    budgetType: '转入',
+    amount: '0.00000001BTC',
+    adFee: '0.00000001BTC',
+    fee: '0.00000001BTC',
+    balance: '0.00000001BTC',
+    desAddr: 'abc99999999',
+    orderNo: '6787as87',
     status: Math.floor(Math.random() * 10) % 3,
+    reviewStatus: Math.floor(Math.random() * 10) % 3,
+    updatedDate: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    remark: 'remak...',
+    actionBy: 'Alex',
   });
 }
 

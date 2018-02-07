@@ -11,6 +11,7 @@ import { getProfileBasicData } from './mock/profile';
 import { getProfileAdvancedData } from './mock/profile';
 import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
+import json2csv from 'json2csv';
 
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
@@ -40,6 +41,10 @@ const proxy = {
   'GET /api/ad': getAd,
   'GET /api/trade': getTrade,
   'GET /api/transfer': getTransfer,
+  'GET /api/getPendingTransferCount': (req, res) => {
+    res.json({ count: 16});
+  },
+  'GET /api/transferExportToCSV': getTransfer,
   'GET /api/userDtl': getUserDtl,
   'GET /api/userLog': getUserLog,
   // GET POST 可省略
