@@ -45,6 +45,31 @@ const proxy = {
     res.json({ count: 16});
   },
   'GET /api/transferExportToCSV': getTransfer,
+  /*'GET /api/transferExportToCSV': (req, res) => {
+    const fields = ['carModel', 'price', 'colors'];
+    const myCars = [
+      {
+        "carModel": "Audi",
+        "price": 0,
+        "colors": ["blue","green","yellow"]
+      }, {
+        "carModel": "BMW",
+        "price": 15000,
+        "colors": ["red","blue"]
+      }, {
+        "carModel": "Mercedes",
+        "price": 20000,
+        "colors": "yellow"
+      }, {
+        "carModel": "Porsche",
+        "price": 30000,
+        "colors": ["green","teal","aqua"]
+      }
+    ];
+    const csv = json2csv(myCars, { fields, unwind: 'colors' });
+    res.attachment('filename.csv');
+    res.status(200).send(csv);
+  },*/
   'GET /api/userDtl': getUserDtl,
   'GET /api/userLog': getUserLog,
   // GET POST 可省略

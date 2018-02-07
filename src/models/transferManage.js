@@ -53,7 +53,7 @@ export default {
       // console.log(payload);
       return {
         ...state,
-        csvData: payload.list,
+        csvData: payload.list
       };
     }
   },

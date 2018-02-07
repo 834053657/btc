@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import { Card, Button, Badge, Modal, Form, Input, Select } from 'antd';
-import {CSVLink} from 'react-csv';
+import { CSVLink } from 'react-csv';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
@@ -114,7 +114,7 @@ export default class TableList extends PureComponent {
       dataIndex: 'orderNo',
       sorter: true,
       width: '100',
-      render: (v) => (
+      render: v => (
         <a href={`/#/order-detail/${v}`}>{v}</a>
       ),
     },
@@ -312,35 +312,35 @@ export default class TableList extends PureComponent {
     } else { pendingBtnTxt = '待审核'; }
 
     const headers = [
-      {label: 'First Name', key: 'firstname'},
-      {label: 'Last Name', key: 'lastname'},
-      {label: 'Email', key: 'email'},
+      { label: 'First Name', key: 'firstname' },
+      { label: 'Last Name', key: 'lastname' },
+      { label: 'Email', key: 'email' },
     ];
 
-    const csvData2 = csvData || []
-    if(csvData2 && this.isExport === true) {
+    const csvData2 = csvData || [];
+    if (csvReady  && this.isExport === true) {
       this.isExport = false;
-      this.exportElement && this.exportElement.click()
+      if (this.exportElement) this.exportElement.click();
     }
 
     const csvHeaders = [
-      {label: '流水号', key: 'serialNo'},
-      {label: '时间', key: 'actionDate'},
-      {label: '国家', key: 'country'},
-      {label: '用户名', key: 'userName'},
-      {label: '转账类型', key: 'transferType'},
-      {label: '收支类型', key: 'budgetType'},
-      {label: '金额', key: 'amount'},
-      {label: '广告费', key: 'adFee'},
-      {label: '手续费', key: 'fee'},
-      {label: '账户余额', key: 'balance'},
-      {label: '目标地址', key: 'desAddr'},
-      {label: '订单号', key: 'orderNo'},
-      {label: '状态', key: 'status'},
-      {label: '审核状态', key: 'reviewStatus'},
-      {label: '更新时间', key: 'updatedDate'},
-      {label: '备注', key: 'remark'},
-      {label: '操作人', key: 'actionBy'},
+      { label: '流水号', key: 'serialNo' },
+      { label: '时间', key: 'actionDate' },
+      { label: '国家', key: 'country' },
+      { label: '用户名', key: 'userName' },
+      { label: '转账类型', key: 'transferType' },
+      { label: '收支类型', key: 'budgetType' },
+      { label: '金额', key: 'amount' },
+      { label: '广告费', key: 'adFee' },
+      { label: '手续费', key: 'fee' },
+      { label: '账户余额', key: 'balance' },
+      { label: '目标地址', key: 'desAddr' },
+      { label: '订单号', key: 'orderNo' },
+      { label: '状态', key: 'status' },
+      { label: '审核状态', key: 'reviewStatus' },
+      { label: '更新时间', key: 'updatedDate' },
+      { label: '备注', key: 'remark' },
+      { label: '操作人', key: 'actionBy' },
     ];
 
     return (
@@ -353,8 +353,8 @@ export default class TableList extends PureComponent {
             <div className={styles.tableListOperator}>
               <Button onClick={this.handlePendingReview}>{pendingBtnTxt}</Button>
               <div style={{ display: 'none' }}>
-                <CSVLink data={csvData2} headers={csvHeaders} filename={"transfer_list.csv"} target="_blank">
-                  <span ref={input => this.exportElement = input} >export</span>
+                <CSVLink data={csvData2} headers={csvHeaders} filename="transfer_list.csv" target="_blank">
+                  <span ref={input => (this.exportElement = input)} >export</span>
                 </CSVLink>
               </div>
             </div>
