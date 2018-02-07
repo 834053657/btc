@@ -318,7 +318,7 @@ export default class TableList extends PureComponent {
     ];
 
     const csvData2 = csvData || [];
-    if (csvReady  && this.isExport === true) {
+    if (this.isExport === true) {
       this.isExport = false;
       if (this.exportElement) this.exportElement.click();
     }
