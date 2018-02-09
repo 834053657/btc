@@ -48,15 +48,8 @@ export default class SearchForm extends Component {
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={7} sm={24}>
-            <FormItem label="广告编号">
-              {getFieldDecorator('name')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={7} sm={24}>
-            <FormItem label="交易类型">
+          <Col md={8} sm={24}>
+            <FormItem label="广告类型">
               {getFieldDecorator('country')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">买入</Option>
@@ -65,6 +58,25 @@ export default class SearchForm extends Component {
               )}
             </FormItem>
           </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="广告状态">
+              {getFieldDecorator('country')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">买入</Option>
+                  <Option value="1">卖出</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="国家">
+              {getFieldDecorator('name')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={10} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('date')(
@@ -75,7 +87,7 @@ export default class SearchForm extends Component {
             </FormItem>
           </Col>
         </Row>
-        <StandardFormRow title="状态" block>
+        <StandardFormRow title="支付方式" block>
           <FormItem>
             {getFieldDecorator('status')(
               <TagSelect onChange={this.handleFormSubmit}>
@@ -86,11 +98,9 @@ export default class SearchForm extends Component {
             )}
           </FormItem>
         </StandardFormRow>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right' }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          </span>
+        <div className="btn-box">
+          <Button type="primary" htmlType="submit">查询</Button>
+          <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
         </div>
       </Form>
     );

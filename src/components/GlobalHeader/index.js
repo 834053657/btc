@@ -14,33 +14,33 @@ export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
-  getNoticeData() {
-    const { notices = [] } = this.props;
-    if (notices.length === 0) {
-      return {};
-    }
-    const newNotices = notices.map((notice) => {
-      const newNotice = { ...notice };
-      if (newNotice.datetime) {
-        newNotice.datetime = moment(notice.datetime).fromNow();
-      }
-      // transform id to item key
-      if (newNotice.id) {
-        newNotice.key = newNotice.id;
-      }
-      if (newNotice.extra && newNotice.status) {
-        const color = ({
-          todo: '',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
-        })[newNotice.status];
-        newNotice.extra = <Tag color={color} style={{ marginRight: 0 }}>{newNotice.extra}</Tag>;
-      }
-      return newNotice;
-    });
-    return groupBy(newNotices, 'type');
-  }
+  // getNoticeData() {
+  //   const { notices = [] } = this.props;
+  //   if (notices.length === 0) {
+  //     return {};
+  //   }
+  //   const newNotices = notices.map((notice) => {
+  //     const newNotice = { ...notice };
+  //     if (newNotice.datetime) {
+  //       newNotice.datetime = moment(notice.datetime).fromNow();
+  //     }
+  //     // transform id to item key
+  //     if (newNotice.id) {
+  //       newNotice.key = newNotice.id;
+  //     }
+  //     if (newNotice.extra && newNotice.status) {
+  //       const color = ({
+  //         todo: '',
+  //         processing: 'blue',
+  //         urgent: 'red',
+  //         doing: 'gold',
+  //       })[newNotice.status];
+  //       newNotice.extra = <Tag color={color} style={{ marginRight: 0 }}>{newNotice.extra}</Tag>;
+  //     }
+  //     return newNotice;
+  //   });
+  //   return groupBy(newNotices, 'type');
+  // }
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
     onCollapse(!collapsed);
@@ -59,14 +59,14 @@ export default class GlobalHeader extends PureComponent {
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        {<Menu.Item disabled><Icon type="user" />个人中心</Menu.Item>}
+        {/* <Menu.Item disabled><Icon type="user" />个人中心</Menu.Item> */}
         {/* <Menu.Item disabled><Icon type="setting" />设置</Menu.Item> */}
         {/* <Menu.Item key="triggerError"><Icon type="close-circle" />触发报错</Menu.Item> */}
         {/* <Menu.Divider /> */}
         <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
       </Menu>
     );
-    const noticeData = this.getNoticeData();
+    // const noticeData = this.getNoticeData();
     return (
       <Header className={styles.header}>
         {isMobile && (
@@ -96,7 +96,7 @@ export default class GlobalHeader extends PureComponent {
               console.log('enter', value); // eslint-disable-line
             }}
           /> */}
-          <NoticeIcon
+          {/* <NoticeIcon
             className={styles.action}
             count={currentUser.notifyCount}
             onItemClick={(item, tabProps) => {
@@ -125,7 +125,7 @@ export default class GlobalHeader extends PureComponent {
               emptyText="你已完成所有待办"
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
             />
-          </NoticeIcon>
+          </NoticeIcon> */}
           {currentUser.name ? (
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>

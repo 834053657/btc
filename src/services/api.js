@@ -68,7 +68,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request('/btcm/admin/login', {
     method: 'POST',
     body: params,
   });

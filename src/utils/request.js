@@ -45,6 +45,10 @@ function checkStatus(response) {
 export default function request(url, options) {
   const defaultOptions = {
     credentials: 'include',
+    headers: {
+      'BTCM-UID': '123',
+      'BTCM-TOKEN': '111'
+    }
   };
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
@@ -55,6 +59,8 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
+  // newOptions.headers['BTCM-UID'] = 'WECHAT';
+  // newOptions.headers['BTCM-TOKEN'] = '1';
 
   return fetch(url, newOptions)
     .then(checkStatus)

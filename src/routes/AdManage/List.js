@@ -1,8 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Badge, Divider } from 'antd';
-import CustomTable from '../../components/CustomTable';
+import { Card, Table, Divider } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
 
@@ -13,74 +12,78 @@ const statusMap = [1, 2, 3];
 const status = ['正常', '冻结', '被举报'];
 const columns = [
   {
-    title: '广告编号',
-    sorter: true,
+    title: '编号',
     dataIndex: 'adNo',
-    width: '15%',
+    width: 100,
   },
   {
-    title: '交易类型',
-    sorter: true,
+    title: '类型',
     dataIndex: 'tradeType',
-    width: '15%',
+    width: 100,
   },
   {
-    title: '价格/BTC',
-    sorter: true,
-    dataIndex: 'price',
-    align: 'right',
-    width: '15%',
+    title: '国家',
+    dataIndex: 'tradeType',
+    width: 80,
+  },
+  {
+    title: '创建人',
+    dataIndex: 'tradeType',
+    width: 100,
   },
   {
     title: '状态',
-    dataIndex: 'status',
-    filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-      {
-        text: status[2],
-        value: 2,
-      },
-    ],
-    width: '15%',
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
+    dataIndex: 'tradeType',
+    width: 100,
+  },
+  {
+    title: '付款方式',
+    dataIndex: 'tradeType',
+    width: 100,
+  },
+  {
+    title: '交易价格',
+    dataIndex: 'price',
+    align: 'right',
+    width: 100,
   },
   {
     title: '创建时间',
     dataIndex: 'createdAt',
-    sorter: true,
-    width: '20%',
+    width: 100,
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   },
   {
-    title: '操作',
-    width: '20%',
+    title: '更新时间',
+    dataIndex: 'createdAt',
+    width: 100,
+    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+  },
+  {
+    title: '操作人',
+    dataIndex: 'createdAt',
+    width: 100,
+    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+  },
+  {
+    title: '操作栏',
+    width: 200,
     render: () => (
       <Fragment>
-        <a href="">冻结</a>
-        <Divider type="vertical" />
-        <a href="">取消</a>
+        <a href="">查看</a>
       </Fragment>
     ),
   },
 ];
 
 @connect(({ adManage, loading }) => ({
-  rule: adManage,
-  loading: loading.models.ad,
+  data: adManage.data,
+  loading: loading.models.adManage,
 }))
 export default class TableList extends PureComponent {
-  state = {
-    selectedRows: [],
-  };
+  // state = {
+  //   selectedRows: [],
+  // };
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -89,7 +92,7 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleCustomTableChange = (pagination, filtersArg, sorter) => {
+  handleTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -115,13 +118,6 @@ export default class TableList extends PureComponent {
     });
   }
 
-
-  handleSelectRows = (rows) => {
-    this.setState({
-      selectedRows: rows,
-    });
-  }
-
   handleSearch = (values) => {
     const { dispatch } = this.props;
     // console.log(values);
@@ -132,8 +128,7 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
-    const { selectedRows } = this.state;
+    const { data: { list, pagination }, loading } = this.props;
 
     return (
       <PageHeaderLayout title="广告管理">
@@ -142,13 +137,14 @@ export default class TableList extends PureComponent {
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
-            <CustomTable
-              selectedRows={selectedRows}
+            <Table
               loading={loading}
-              data={data}
+              rowKey={record => record.key}
+              dataSource={list}
+              scroll={{ x: 1300 }}
               columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleCustomTableChange}
+              pagination={pagination}
+              onChange={this.handleTableChange}
             />
           </Card>
 
