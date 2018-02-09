@@ -131,7 +131,7 @@ export default class SearchForm extends Component {
           <Col md={10} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('createdDt')(
-                <RangePicker 
+                <RangePicker
                   format="YYYY/MM/DD"
                 />
               )}

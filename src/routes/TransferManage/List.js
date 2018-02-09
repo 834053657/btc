@@ -346,7 +346,7 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="转账管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} onExport={this.handleExport} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview}/>
+          <SearchForm onSearch={this.handleSearch} onExport={this.handleExport} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>

@@ -166,11 +166,11 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="用户管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview}/>
+          <SearchForm onSearch={this.handleSearch} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
-            
+
             <CustomTable
               selectedRows={selectedRows}
               loading={loading}
