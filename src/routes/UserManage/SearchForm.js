@@ -101,11 +101,10 @@ export default class SearchForm extends Component {
                 )}
           </FormItem>
         </StandardFormRow>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right' }}>
+        <div className="btn-box">
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          </span>
+            <Button style={{ marginLeft: 8 }} onClick={this.props.onSearchPending}>{this.props.pendingText}</Button>
         </div>
       </Form>
     );

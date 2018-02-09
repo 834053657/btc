@@ -18,75 +18,46 @@ const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const columns = [
   {
     title: '用户ID',
-    sorter: true,
     dataIndex: 'userId',
     width: '100',
   },
   {
     title: '用户名',
-    sorter: true,
     dataIndex: 'userName',
     width: '100',
   },
   {
     title: '手机号码',
-    sorter: true,
     dataIndex: 'mobile',
     width: '100',
   },
   {
     title: '邮箱',
-    sorter: true,
     dataIndex: 'email',
-    width: '120',
+    width: '100',
   },
   {
     title: '用户状态',
     dataIndex: 'status',
-    sorter: true,
-    /* filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-      {
-        text: status[2],
-        value: 2,
-      },
-      {
-        text: status[3],
-        value: 3,
-      },
-    ], */
-    width: '120',
+    width: '100',
     render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
-      /* if(val === 1)
-        return <Badge status='processing' text={status[val]} />;
-      else
-        return <span >{status[val]}</span>; */
     },
   },
   {
     title: '创建时间',
     dataIndex: 'createdDate',
-    sorter: true,
-    width: '120',
+    width: '80',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '更新时间',
     dataIndex: 'updatedDate',
     sorter: true,
-    width: '120',
+    width: '80',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '国家',
     dataIndex: 'country',
-    sorter: true,
     width: '100',
     // render: val => `${val} 万`,
     // mark to display a total number
@@ -94,7 +65,6 @@ const columns = [
   {
     title: '备注',
     dataIndex: 'remark',
-    sorter: true,
     width: '150',
     // render: val => `${val} 万`,
     // mark to display a total number
@@ -196,13 +166,11 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="用户管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} />
+          <SearchForm onSearch={this.handleSearch} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview}/>
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
-            <div className={styles.tableListOperator}>
-              <Button onClick={this.handlePendingReview}>{pendingBtnTxt}</Button>
-            </div>
+            
             <CustomTable
               selectedRows={selectedRows}
               loading={loading}

@@ -140,12 +140,11 @@ export default class SearchForm extends Component {
 
 
         </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right' }}>
-            <Button type="primary" htmlType="submit">查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.exportToCSV}>导出</Button>
-          </span>
+        <div className="btn-box">
+          <Button type="primary" htmlType="submit">查询</Button>
+          <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+          <Button style={{ marginLeft: 8 }} onClick={this.props.onSearchPending}>{this.props.pendingText}</Button>
+          <Button style={{ marginLeft: 8 }} onClick={this.exportToCSV}>导出</Button>
         </div>
       </Form>
     );

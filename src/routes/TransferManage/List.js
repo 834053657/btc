@@ -346,12 +346,11 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="转账管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} onExport={this.handleExport} />
+          <SearchForm onSearch={this.handleSearch} onExport={this.handleExport} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview}/>
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
             <div className={styles.tableListOperator}>
-              <Button onClick={this.handlePendingReview}>{pendingBtnTxt}</Button>
               <div style={{ display: 'none' }}>
                 <CSVLink data={csvData2} headers={csvHeaders} filename="transfer_list.csv" target="_blank">
                   <span ref={input => (this.exportElement = input)} >export</span>
