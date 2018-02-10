@@ -14,15 +14,23 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryUser, payload);
+      let obj = {};
+      if(response.code === 0) {
+        const data = response.data;
+        obj.list = data.results;
+        obj.pagination = {current: data.pagination.page, pageSize: data.pagination.page_num, total: data.pagination.total}
+      }
       yield put({
         type: 'save',
-        payload: { ...response, isSearchPending: payload.isSearchPending },
+        payload: { ...obj, isSearchPending: payload.isSearchPending },
       });
     },
   },
 
   reducers: {
     save(state, action) {
+      console.log(11111111111)
+      console.log(action.payload)
       return {
         ...state,
         data: action.payload,

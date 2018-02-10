@@ -73,9 +73,7 @@ export default class SearchForm extends Component {
           <Col md={7} sm={24}>
             <FormItem label="国家">
               {getFieldDecorator('country')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  {countryList}
-                </Select>
+                <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
@@ -93,10 +91,10 @@ export default class SearchForm extends Component {
           <FormItem>
             {getFieldDecorator('status')(
               <TagSelect onChange={this.handleFormSubmit}>
-                <TagSelect.Option value="cat1">待认证</TagSelect.Option>
-                <TagSelect.Option value="cat2">认证中</TagSelect.Option>
-                <TagSelect.Option value="cat3">已认证</TagSelect.Option>
-                <TagSelect.Option value="cat4">认证驳回</TagSelect.Option>
+                <TagSelect.Option value="0">未认证</TagSelect.Option>
+                <TagSelect.Option value="1">认证中</TagSelect.Option>
+                <TagSelect.Option value="2">已认证</TagSelect.Option>
+                <TagSelect.Option value="cat4">驳回</TagSelect.Option>
               </TagSelect>
                 )}
           </FormItem>

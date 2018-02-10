@@ -41,6 +41,7 @@ const proxy = {
     res.send({image: 'http://47.52.250.12:9090/get_captcha?r=' + req.query.r});
   },
   'GET /api/user': getUser,
+  'GET /btcm/users': getUser,
   'GET /api/ad': getAd,
   'GET /api/trade': getTrade,
   'GET /api/transfer': getTransfer,
@@ -183,6 +184,8 @@ const proxy = {
 console.log(noProxy)
 
 export default noProxy ? {
-  'GET /btcm/(.*)': CONFIG.base_url,
-  'POST /btcm/admin/login': CONFIG.base_url
+  //'GET /btcm/(.*)': CONFIG.base_url,
+  '/btcm/users': CONFIG.base_url,
+  'POST /btcm/admin/login': CONFIG.base_url,
+  //"/*": CONFIG.base_url
 } : delay(proxy, 1000);

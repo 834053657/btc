@@ -50,6 +50,7 @@ export default function request(url, options) {
       'BTCM-TOKEN': '111'
     }
   };
+
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     newOptions.headers = {
@@ -68,6 +69,8 @@ export default function request(url, options) {
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
+      console.log(response);
+      
       return response.json();
     })
     .catch((e) => {
@@ -88,7 +91,7 @@ export default function request(url, options) {
         return;
       }
       if (status >= 404 && status < 422) {
-        dispatch(routerRedux.push('/exception/404'));
+        //dispatch(routerRedux.push('/exception/404'));
       }
     });
 }

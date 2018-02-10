@@ -14,21 +14,21 @@ import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['待认证', '认证中', '已认证', '认证驳回'];
+const status = ['未认证', '认证中', '已认证', '驳回'];
 const columns = [
   {
     title: '用户ID',
-    dataIndex: 'userId',
+    dataIndex: 'id',
     width: '100',
   },
   {
     title: '用户名',
-    dataIndex: 'userName',
+    dataIndex: 'name',
     width: '100',
   },
   {
     title: '手机号码',
-    dataIndex: 'mobile',
+    dataIndex: 'phoneno',
     width: '100',
   },
   {
@@ -38,7 +38,7 @@ const columns = [
   },
   {
     title: '用户状态',
-    dataIndex: 'status',
+    dataIndex: 'auth_status',
     width: '100',
     render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
@@ -46,15 +46,14 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createdDate',
+    dataIndex: 'create_time',
     width: '80',
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    //render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '更新时间',
-    dataIndex: 'updatedDate',
-    sorter: true,
+    dataIndex: 'update_time',
     width: '80',
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    //render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '国家',
     dataIndex: 'country',
@@ -117,8 +116,8 @@ export default class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
       ...filters,
     };
@@ -129,7 +128,7 @@ export default class TableList extends PureComponent {
     // const qParams = params;
     dispatch({
       type: 'userManage/fetch',
-      payload: this.isSearchPending ? { currentPage: pagination.current, pageSize: pagination.pageSize, status: 0, isSearchPending: true } : { ...params, isSearchPending: false },
+      payload: this.isSearchPending ? { page: pagination.current, page_size: pagination.pageSize, isSearchPending: true } : { ...params, isSearchPending: false },
     });
   }
 

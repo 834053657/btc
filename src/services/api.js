@@ -97,8 +97,12 @@ export async function getCaptcha(params) {
   // return request(`http://47.52.250.12:9090/get_captcha?r=${stringify(params)}`);
 }
 
-export async function queryUser(params) {
+export async function queryUser2(params) {
   return request(`/api/user?${stringify(params)}`);
+}
+
+export async function queryUser(params) {
+  return request(`/btcm/users?${stringify(params)}`);
 }
 
 export async function removeUser(params) {
