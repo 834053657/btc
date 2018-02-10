@@ -7,7 +7,7 @@ export default {
   namespace: 'login',
 
   state: {
-    status: undefined,
+    code: undefined,
   },
 
   effects: {
@@ -42,7 +42,7 @@ export default {
         yield put({
           type: 'changeLoginStatus',
           payload: {
-            status: false,
+            code: false,
             currentAuthority: 'guest',
           },
         });
@@ -54,11 +54,11 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      setAuthority(payload.data);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        code: payload.code,
+        // type: payload.type,
       };
     },
     changeCaptcha(state, { payload }) {

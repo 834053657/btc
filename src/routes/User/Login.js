@@ -74,13 +74,12 @@ export default class LoginPage extends Component {
         >
           {/* <Tab key="account" tab="账户密码登录"> */}
           {
-              login.status === 'error' &&
-              login.type === 'account' &&
-              !login.submitting &&
-              this.renderMessage('账户或密码错误（admin/888888）')
-            }
-          <UserName name="name" placeholder="admin/user" />
-          <Password name="password" placeholder="888888/123456" />
+            login.code === 1 &&
+            !login.submitting &&
+            this.renderMessage('账户或密码错误（admin/666666）')
+          }
+          <UserName name="name" placeholder="admin" />
+          <Password name="password" placeholder="666666" />
           <Captcha name="captcha" image={login.image} onGetCaptcha={this.onGetCaptcha} />
           {/* </Tab> */}
           {/* <Tab key="mobile" tab="手机号登录">
