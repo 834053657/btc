@@ -46,7 +46,7 @@ export default function request(url, options) {
   const defaultOptions = {
     credentials: 'include',
     headers: {
-      'BTCM-UID': '123',
+      'BTCM-UID': 1, //hardcode only for test
       'BTCM-TOKEN': '111'
     }
   };

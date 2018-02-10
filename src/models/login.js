@@ -54,7 +54,7 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.data);
+      setAuthority(payload.data.name);
       return {
         ...state,
         code: payload.code,
