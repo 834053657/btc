@@ -185,87 +185,98 @@ export default class BasicForms extends PureComponent {
             <Option value="2">消息设置</Option>
           </Select>
         </Card>
-        { this.state.showFeeSetting &&
-          <Card bordered={false}>
-            <Form
-              onSubmit={this.handleSubmit}
-              hideRequiredMark={false}
-              style={{ marginTop: 8 }}
-            >
-              <FormItem
-                {...formItemLayout}
-                label="交易费率设置"
+        {
+          this.state.showFeeSetting && (
+            <Card bordered={false}>
+              <Form
+                onSubmit={this.handleSubmit}
+                hideRequiredMark={false}
+                style={{ marginTop: 8 }}
               >
-                {getFieldDecorator('feeRate', {
-                  rules: [{
-                    required: true, message: '请输入交易费率',
-                  }],
-                })(
-                  <Input
-                    placeholder="交易费率"
-                    disabled={this.state.action === '_OPEN'}
-                    // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    // parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                  />
-                )}
-              </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="交易费率设置"
+                >
+                  {getFieldDecorator('feeRate', {
+                    rules: [{
+                      required: true, message: '请输入交易费率',
+                    }],
+                  })(
+                    <Input
+                      placeholder="交易费率"
+                      disabled={this.state.action === '_OPEN'}
+                      // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      // parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                    />
+                  )}
+                </FormItem>
 
-              <FormItem
-                {...formItemLayout}
-                label="交易费上限"
-              >
-                {getFieldDecorator('feeType', {
-                  rules: [{
-                    required: true, message: '请输入交易费上限',
-                  }],
-                })(
-                  <Radio.Group disabled={this.state.action === '_OPEN'}>
-                    <Radio value="1">无上限</Radio>
-                    <Radio value="2">有上限</Radio>
-                  </Radio.Group>
-                )}
-              </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="交易费上限"
+                >
+                  {getFieldDecorator('feeType', {
+                    rules: [{
+                      required: true, message: '请输入交易费上限',
+                    }],
+                  })(
+                    <Radio.Group disabled={this.state.action === '_OPEN'}>
+                      <Radio value="1">无上限</Radio>
+                      <Radio value="2">有上限</Radio>
+                    </Radio.Group>
+                  )}
+                </FormItem>
 
-              <FormItem
-                {...formItemLayout}
-                label="交易费上限"
-              >
-                {getFieldDecorator('maxFee', {
-                  rules: [{
-                  }],
-                })(
-                  <Input
-                    placeholder="交易费上限"
-                    disabled={this.state.action === '_OPEN'}
-                    prefix="$"
-                    // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    // parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                  />
-                )}
-              </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="交易费上限"
+                >
+                  {getFieldDecorator('maxFee', {
+                    rules: [{
+                    }],
+                  })(
+                    <Input
+                      placeholder="交易费上限"
+                      disabled={this.state.action === '_OPEN'}
+                      prefix="$"
+                      // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      // parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                    />
+                  )}
+                </FormItem>
 
-              <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
-                {this.state.action === '_OPEN' && <Button onClick={this.editFeeSetting}>修改</Button>}
-                {this.state.action !== '_OPEN' && <Button style={{ marginLeft: 8 }} type="primary" htmlType="submit" loading={submitting}>保存</Button>}
-              </FormItem>
-            </Form>
-          </Card> }
-        {this.state.showMsgSetting &&
-          <Card bordered={false}>
-            <Card>
-              <SearchForm onSearch={this.handleSearch} />
+                <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
+                  {this.state.action === '_OPEN' && <Button onClick={this.editFeeSetting}>修改</Button>}
+                  {this.state.action !== '_OPEN' && <Button style={{ marginLeft: 8 }} type="primary" htmlType="submit" loading={submitting}>保存</Button>}
+                </FormItem>
+              </Form>
             </Card>
-            <div className={styles.tableList}>
-              <CustomTable
-                selectedRows={selectedRows}
-                loading={loadingMsg}
-                data={data}
-                columns={columns}
-                onSelectRow={this.handleSelectRows}
-                onChange={this.handleCustomTableChange}
-              />
-            </div>
-          </Card>}
+          )
+        }
+        {
+          this.state.showMsgSetting && (
+            <Card bordered={false}>
+              <Card>
+                <SearchForm onSearch={this.handleSearch} />
+              </Card>
+              <div className={styles.tableList}>
+                <div className={styles.tableListOperator}>
+                  <Button icon="plus" type="primary">
+                    新建公告
+                  </Button>
+                </div>
+                <CustomTable
+                  selectedRows={selectedRows}
+                  loading={loadingMsg}
+                  data={data}
+                  columns={columns}
+                  onSelectRow={this.handleSelectRows}
+                  onChange={this.handleCustomTableChange}
+                />
+              </div>
+            </Card>
+          )
+        }
       </PageHeaderLayout>
     );
   }
