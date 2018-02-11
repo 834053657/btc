@@ -38,7 +38,7 @@ export default {
       }
       yield put({
         type: 'save',
-        payload: { ...obj, isSearchPending: payload.isSearchPending },
+        payload: obj,
       });
     },
   },

@@ -5,7 +5,7 @@ import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import styles from './SysForm.less';
 import SearchForm from './SearchForm';
-import styles from './MsgList.less';
+import styles from './SysForm.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -43,11 +43,14 @@ const columns = [
   {
     title: '操作',
     width: '15%',
-    render: () => (
+    render: r => (
       <Fragment>
-        <a href="">查看</a>
+        <a href={`/#/msg-detail/${r.id}`}>查看</a>
         <Divider type="vertical" />
-        <a href="">发布</a>
+        {
+          r.auth_status === 0 &&
+          <a href="">发布</a>
+        }
       </Fragment>
     ),
   },
@@ -60,18 +63,26 @@ const columns = [
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
-  state = {
-    showFeeSetting: false,
-    showMsgSetting: false,
-    action: '_OPEN',
-    selectedRows: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showFeeSetting: false,
+      showMsgSetting: false,
+      action: '_OPEN',
+      selectedRows: [],
+    };
+    if (props.location.search) {
+      this.state.showFeeSetting = false;
+      this.state.showMsgSetting = true;
+      this.moduleValue = '2';
+    }
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
+
     dispatch({
       type: 'sysConfig/fetchMsgList',
-      payload: { isSearchPending: false },
     });
   }
 
@@ -83,6 +94,7 @@ export default class BasicForms extends PureComponent {
     } else {
       this.setState({ showFeeSetting: false, showMsgSetting: false });
     }
+    this.moduleValue = value;
   }
 
   handleSubmit = (e) => {
@@ -125,7 +137,7 @@ export default class BasicForms extends PureComponent {
     // const qParams = params;
     dispatch({
       type: 'sysConfig/fetchMsgList',
-      payload: this.isSearchPending ? { page: pagination.current, page_size: pagination.pageSize, isSearchPending: true } : { ...params, isSearchPending: false },
+      payload: params,
     });
   }
 
@@ -139,13 +151,12 @@ export default class BasicForms extends PureComponent {
   handleSearch = (values) => {
     const { dispatch } = this.props;
     // console.log(values);
-    this.isSearchPending = false;
     this.setState({
       formValues: values,
     });
     dispatch({
       type: 'userManage/fetch',
-      payload: { ...values, isSearchPending: false },
+      payload: values,
     });
   }
 
@@ -180,7 +191,7 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="配置中心">
         <Card>
           <span style={{ marginRight: 10 }}>模块</span>
-          <Select placeholder="请选择" style={{ width: 200 }} onChange={this.changeModule}>
+          <Select placeholder="请选择" style={{ width: 200 }} onChange={this.changeModule} value={this.moduleValue}>
             <Option value="1">交易费率设置</Option>
             <Option value="2">消息设置</Option>
           </Select>
@@ -261,9 +272,7 @@ export default class BasicForms extends PureComponent {
               </Card>
               <div className={styles.tableList}>
                 <div className={styles.tableListOperator}>
-                  <Button icon="plus" type="primary">
-                    新建公告
-                  </Button>
+                  <a className={styles.bt_btn_primary} href="/#/msg-detail-new">新建公告</a>
                 </div>
                 <CustomTable
                   selectedRows={selectedRows}
