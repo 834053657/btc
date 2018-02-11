@@ -15,10 +15,10 @@ export default {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryUser, payload);
       let obj = {};
-      if(response.code === 0) {
-        const data = response.data;
-        obj.list = data.results;
-        obj.pagination = {current: data.pagination.page, pageSize: data.pagination.page_num, total: data.pagination.total}
+      if (response.code === 0) {
+        const { data: { results, pagination } } = response;
+        obj.list = results;
+        obj.pagination = { current: pagination.page, pageSize: pagination.page_num, total: pagination.total };
       }
       yield put({
         type: 'save',
@@ -29,8 +29,6 @@ export default {
 
   reducers: {
     save(state, action) {
-      console.log(11111111111)
-      console.log(action.payload)
       return {
         ...state,
         data: action.payload,
