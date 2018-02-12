@@ -66,7 +66,7 @@ export default class BasicForms extends PureComponent {
       },
     };
 
-    const breadcrumbList = [{ title: '首页', href: '/' }, { title: '配置中心', href: '/sys-config?r=msg' }, { title: '公告详情' }];
+    const breadcrumbList = [{ title: '首页', href: '/' }, { title: '配置中心', href: '/sys-config?r=msg' }, { title: this.state.pageTitle }];
     return (
       <PageHeaderLayout title={this.state.pageTitle} breadcrumbList={breadcrumbList}>
         <Form
@@ -78,6 +78,7 @@ export default class BasicForms extends PureComponent {
           <FormItem
             {...formItemLayout}
             label="标题"
+            className={styles.title}
           >
             {getFieldDecorator('title', {
               rules: [{
@@ -86,7 +87,7 @@ export default class BasicForms extends PureComponent {
             })(
               <Input
                 placeholder="标题"
-                maxlength={20}
+                maxLength={20}
                 disabled={this.state.action === '_OPEN'}
               />
             )}
