@@ -1,4 +1,4 @@
-import { queryUser } from '../services/api';
+import { queryUser, queryPendingUserCount } from '../services/api';
 
 export default {
   namespace: 'userManage',
@@ -9,6 +9,7 @@ export default {
       pagination: {},
       isSearchPending: false,
     },
+    pendingData: {},
   },
 
   effects: {
@@ -22,7 +23,14 @@ export default {
       }
       yield put({
         type: 'save',
-        payload: { ...obj, isSearchPending: payload.isSearchPending },
+        payload: obj,
+      });
+    },
+    *fetchPendingCount({ payload }, { call, put }) {
+      const response = yield call(queryPendingUserCount, payload);
+      yield put({
+        type: 'savePendingCount',
+        payload: response,
       });
     },
   },
@@ -32,6 +40,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    savePendingCount(state, action) {
+      return {
+        ...state,
+        pendingData: action.payload,
       };
     },
   },

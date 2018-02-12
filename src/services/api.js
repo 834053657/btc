@@ -105,6 +105,10 @@ export async function queryUser(params) {
   return request(`/btcm/users?${stringify(params)}`);
 }
 
+export async function queryPendingUserCount(params) {
+  return request(`/btcm/users/auth_count?${stringify(params)}`);
+}
+
 export async function removeUser(params) {
   return request('/api/user', {
     method: 'POST',

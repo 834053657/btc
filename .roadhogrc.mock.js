@@ -42,6 +42,14 @@ const proxy = {
   },
   'GET /api/user': getUser,
   'GET /btcm/users': getUser,
+  'GET /btcm/users/auth_count': (req, res) => {
+    res.json(
+    {
+      code: 0,
+      data: {auth_count: 8},
+      msg: '',
+    });
+  },
   'GET /api/ad': getAd,
   'GET /api/trade': getTrade,
   'GET /api/transfer': getTransfer,

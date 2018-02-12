@@ -48,12 +48,10 @@ const columns = [
     title: '创建时间',
     dataIndex: 'create_time',
     width: '80',
-    //render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '更新时间',
     dataIndex: 'update_time',
     width: '80',
-    //render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   }, {
     title: '国家',
     dataIndex: 'country',
@@ -92,7 +90,7 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'userManage/fetch',
-      payload: { isSearchPending: false },
+      payload: {},
     });
   }
 
@@ -100,8 +98,8 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     this.isSearchPending = true;
     dispatch({
-      type: 'userManage/fetch',
-      payload: { status: 0, isSearchPending: true },
+      type: 'userManage/fetchPendingCount',
+      payload: {},
     });
   }
 
@@ -125,13 +123,11 @@ export default class TableList extends PureComponent {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
 
-    // const qParams = params;
     dispatch({
       type: 'userManage/fetch',
-      payload: this.isSearchPending ? { page: pagination.current, page_size: pagination.pageSize, isSearchPending: true } : { ...params, isSearchPending: false },
+      payload: params,
     });
   }
-
 
   handleSelectRows = (rows) => {
     this.setState({
@@ -148,24 +144,23 @@ export default class TableList extends PureComponent {
     });
     dispatch({
       type: 'userManage/fetch',
-      payload: { ...values, isSearchPending: false },
+      payload: {},
     });
   }
 
   render() {
-    const { user: { data }, loading } = this.props;
+    const { user: { data, pendingData }, loading } = this.props;
     const { selectedRows } = this.state;
 
     let pendingBtnTxt = '';
-    if (data && data.isSearchPending) {
-      // console.log(data.list.length);
-      pendingBtnTxt += `待审核用户 (${data.list.length})`;
+    if (pendingData && pendingData.code === 0) {
+      pendingBtnTxt += `待审核用户 (${pendingData.data.auth_count})`;
     } else { pendingBtnTxt = '待审核用户'; }
 
     return (
       <PageHeaderLayout title="用户管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
+          <SearchForm onSearch={this.handleSearch} loading={loading} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>

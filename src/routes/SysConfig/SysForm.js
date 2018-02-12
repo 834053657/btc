@@ -70,6 +70,7 @@ export default class BasicForms extends PureComponent {
       showMsgSetting: false,
       action: '_OPEN',
       selectedRows: [],
+      showMaxFee: false,
     };
     if (props.location.search) {
       this.state.showFeeSetting = false;
@@ -95,6 +96,18 @@ export default class BasicForms extends PureComponent {
       this.setState({ showFeeSetting: false, showMsgSetting: false });
     }
     this.moduleValue = value;
+  }
+
+  changeFeeType = (e) => {
+    console.log(11111111);
+    console.log(e);
+    if (e.target.value === '1') {
+      this.setState({ showMaxFee: false });
+    } else if (e.target.value === '2') {
+      this.setState({ showMaxFee: true });
+    } else {
+      this.setState({ showMaxFee: false });
+    }
   }
 
   handleSubmit = (e) => {
@@ -228,33 +241,38 @@ export default class BasicForms extends PureComponent {
                 >
                   {getFieldDecorator('feeType', {
                     rules: [{
-                      required: true, message: '请输入交易费上限',
+                      required: true, message: '请选择交易费上限',
                     }],
                   })(
-                    <Radio.Group disabled={this.state.action === '_OPEN'}>
+                    <Radio.Group disabled={this.state.action === '_OPEN'} onChange={this.changeFeeType}>
                       <Radio value="1">无上限</Radio>
                       <Radio value="2">有上限</Radio>
                     </Radio.Group>
                   )}
                 </FormItem>
 
-                <FormItem
-                  {...formItemLayout}
-                  label="交易费上限"
-                >
-                  {getFieldDecorator('maxFee', {
-                    rules: [{
-                    }],
-                  })(
-                    <Input
-                      placeholder="交易费上限"
-                      disabled={this.state.action === '_OPEN'}
-                      prefix="$"
-                      // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      // parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    />
-                  )}
-                </FormItem>
+                {
+                  this.state.showMaxFee && (
+                    <FormItem
+                      {...formItemLayout}
+                      label="交易费上限"
+                    >
+                      {getFieldDecorator('maxFee', {
+                        rules: [{
+                          required: true, message: '请输入交易费上限',
+                        }],
+                      })(
+                        <Input
+                          placeholder="交易费上限"
+                          disabled={this.state.action === '_OPEN'}
+                          prefix="$"
+                          // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          // parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                        />
+                      )}
+                    </FormItem>
+                  )
+                }
 
                 <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                   {this.state.action === '_OPEN' && <Button onClick={this.editFeeSetting}>修改</Button>}
