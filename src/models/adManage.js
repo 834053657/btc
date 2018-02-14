@@ -37,10 +37,14 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
+    save(state, { payload }) {
+      let { data: { results, pagination } } = payload || {};
       return {
         ...state,
-        data: action.payload,
+        data: {
+          list: results,
+          pagination
+        },
       };
     },
   },

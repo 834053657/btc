@@ -13,32 +13,32 @@ const status = ['正常', '冻结', '被举报'];
 const columns = [
   {
     title: '编号',
-    dataIndex: 'adNo',
+    dataIndex: 'id',
     width: 100,
   },
   {
     title: '类型',
-    dataIndex: 'tradeType',
+    dataIndex: 'type',
     width: 100,
   },
   {
     title: '国家',
-    dataIndex: 'tradeType',
+    dataIndex: 'country',
     width: 80,
   },
   {
     title: '创建人',
-    dataIndex: 'tradeType',
+    dataIndex: 'name',
     width: 100,
   },
   {
     title: '状态',
-    dataIndex: 'tradeType',
+    dataIndex: 'status',
     width: 100,
   },
   {
     title: '付款方式',
-    dataIndex: 'tradeType',
+    dataIndex: 'payments',
     width: 100,
   },
   {
@@ -49,21 +49,20 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createdAt',
+    dataIndex: 'create_time',
     width: 100,
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   },
   {
     title: '更新时间',
-    dataIndex: 'createdAt',
+    dataIndex: 'last_modify_time',
     width: 100,
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   },
   {
     title: '操作人',
-    dataIndex: 'createdAt',
-    width: 100,
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    dataIndex: 'operator_name',
+    width: 100
   },
   {
     title: '操作栏',
@@ -139,7 +138,7 @@ export default class TableList extends PureComponent {
           <Card bordered={false}>
             <Table
               loading={loading}
-              rowKey={record => record.key}
+              rowKey={record => record.id}
               dataSource={list}
               scroll={{ x: 1300 }}
               columns={columns}

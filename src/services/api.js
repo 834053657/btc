@@ -130,7 +130,7 @@ export async function addUser(params) {
 }
 
 export async function queryAd(params) {
-  return request(`/api/ad?${stringify(params)}`);
+  return request(`/btcm/ads?${stringify(params)}`);
 }
 
 export async function removeAd(params) {
