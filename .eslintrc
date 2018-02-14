@@ -11,6 +11,7 @@
     "jasmine": true
   },
   "rules": {
+    "no-return-assign": [0],
     "comma-dangle": [0],
     "prefer-const": [0],
     "no-unused-vars": [1],
@@ -71,6 +72,6 @@
   "globals": {
     "CONFIG": true,
     "__DEV__": true,
-    "___PROD__": true
+    "__PROD__": true
   }
 }

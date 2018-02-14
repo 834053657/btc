@@ -5,11 +5,11 @@ export async function query() {
 }
 
 export async function queryCurrent() {
-  //return request('/api/currentUser');
+  // return request('/api/currentUser');
   return {
-      name: 'Admin',
-      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-      userid: '1',
-      //notifyCount: 12,
-    }
+    name: 'Admin',
+    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
+    userid: '1',
+    // notifyCount: 12,
+  };
 }

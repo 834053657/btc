@@ -1,3 +1,4 @@
+import { stringify } from 'qs';
 import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, getCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
@@ -12,10 +13,10 @@ export default {
 
   effects: {
     *getCaptcha({ payload }, { call, put }) {
-      const response = yield call(getCaptcha, payload);
+      // const response = yield call(getCaptcha, payload);
       yield put({
         type: 'changeCaptcha',
-        payload: response,
+        payload: `/btcm/admin/captcha?${stringify(payload)}`,
       });
     },
     *login({ payload }, { call, put }) {
@@ -64,7 +65,7 @@ export default {
     changeCaptcha(state, { payload }) {
       return {
         ...state,
-        image: payload.image,
+        image: payload,
       };
     },
   },

@@ -46,7 +46,7 @@ export default function request(url, options) {
   const defaultOptions = {
     credentials: 'include',
     headers: {
-      'BTCM-UID': 1, //hardcode only for test
+      'BTCM-UID': 1, // hardcode only for test
       'BTCM-TOKEN': '111'
     }
   };
@@ -69,8 +69,6 @@ export default function request(url, options) {
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
-      console.log(response);
-      
       return response.json();
     })
     .catch((e) => {
@@ -91,7 +89,7 @@ export default function request(url, options) {
         return;
       }
       if (status >= 404 && status < 422) {
-        //dispatch(routerRedux.push('/exception/404'));
+        // dispatch(routerRedux.push('/exception/404'));
       }
     });
 }

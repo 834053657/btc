@@ -353,7 +353,7 @@ export default class TableList extends PureComponent {
             <div className={styles.tableListOperator}>
               <div style={{ display: 'none' }}>
                 <CSVLink data={csvData2} headers={csvHeaders} filename="transfer_list.csv" target="_blank">
-                  <span ref={input => (this.exportElement = input)} >export</span>
+                  <span ref={input => (this.exportElement = input)}>export</span>
                 </CSVLink>
               </div>
             </div>

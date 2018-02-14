@@ -66,8 +66,8 @@ class CustomTable extends PureComponent {
     const { data: { list, pagination }, loading, columns, scroll } = this.props;
 
     const paginationProps = {
-      //showSizeChanger: true,
-      //showQuickJumper: true,
+      // showSizeChanger: true,
+      // showQuickJumper: true,
       ...pagination,
     };
 
