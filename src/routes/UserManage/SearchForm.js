@@ -63,25 +63,26 @@ export default class SearchForm extends Component {
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={7} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="用户名">
               {getFieldDecorator('name')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
-          <Col md={7} sm={24}>
+          <Col md={6} sm={24}>
             <FormItem label="国家">
               {getFieldDecorator('country')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
-          <Col md={10} sm={24}>
+          <Col md={12} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('createdDt')(
                 <RangePicker
-                  format="YYYY/MM/DD"
+                  showTime
+                  format="YYYY/MM/DD HH:mm:ss"
                 />
               )}
             </FormItem>
@@ -94,7 +95,7 @@ export default class SearchForm extends Component {
                 <TagSelect.Option value="0">未认证</TagSelect.Option>
                 <TagSelect.Option value="1">认证中</TagSelect.Option>
                 <TagSelect.Option value="2">已认证</TagSelect.Option>
-                <TagSelect.Option value="cat4">驳回</TagSelect.Option>
+                <TagSelect.Option value="3">驳回</TagSelect.Option>
               </TagSelect>
                 )}
           </FormItem>
