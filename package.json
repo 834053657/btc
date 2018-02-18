@@ -8,7 +8,7 @@
     "start": "cross-env DISABLE_ESLINT=true roadhog dev",
     "start:no-proxy": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog dev",
     "rsync:prod": "rsync -avz ./dist/  proto.paean.net:/data/bitcoin-admin",
-    "build": "cross-env DISABLE_ESLINT=true NO_PROXY=true roadhog build",
+    "build": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog build",
     "deploy:prod": "npm run build && npm run rsync:prod",
     "site": "roadhog-api-doc static && gh-pages -d dist",
     "analyze": "cross-env ANALYZE=true roadhog build",

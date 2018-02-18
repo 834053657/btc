@@ -80,9 +80,9 @@ const columns = [
   loading: loading.models.adManage,
 }))
 export default class TableList extends PureComponent {
-  // state = {
-  //   selectedRows: [],
-  // };
+  state = {
+    // selectedRows: [],
+  };
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -102,10 +102,10 @@ export default class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
-      ...filters,
+      // ...filters,
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
@@ -119,7 +119,6 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    // console.log(values);
     dispatch({
       type: 'adManage/fetch',
       payload: values,

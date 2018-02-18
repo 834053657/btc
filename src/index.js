@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import 'url-polyfill';
 import dva from 'dva';
-
+import { message } from 'antd';
 import createHistory from 'history/createHashHistory';
 // user BrowserHistory
 // import createHistory from 'history/createBrowserHistory';
@@ -17,6 +17,9 @@ global.CONFIG = CONFIG;
 // 1. Initialize
 const app = dva({
   history: createHistory(),
+  onError(e) {
+    message.error(e.message, /* duration */3);
+  },
 });
 
 // 2. Plugins

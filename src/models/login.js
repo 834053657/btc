@@ -3,6 +3,7 @@ import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, getCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
+import CONFIG from '../utils/config';
 
 export default {
   namespace: 'login',
@@ -14,9 +15,10 @@ export default {
   effects: {
     *getCaptcha({ payload }, { call, put }) {
       // const response = yield call(getCaptcha, payload);
+      let postUrl = `/btcm/admin/captcha?${stringify(payload)}`;
       yield put({
         type: 'changeCaptcha',
-        payload: `/btcm/admin/captcha?${stringify(payload)}`,
+        payload: __PROD__ ? CONFIG.base_url + postUrl : postUrl
       });
     },
     *login({ payload }, { call, put }) {
@@ -29,6 +31,8 @@ export default {
       if (response.code === 0) {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
+      } else {
+        // 调用getCaptcha
       }
     },
     *logout(_, { put, select }) {
@@ -59,6 +63,7 @@ export default {
       return {
         ...state,
         code: payload.code,
+        msg: payload.msg
         // type: payload.type,
       };
     },

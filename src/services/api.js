@@ -154,7 +154,7 @@ export async function addAd(params) {
 }
 
 export async function queryTrade(params) {
-  return request(`/api/trade?${stringify(params)}`);
+  return request(`/btcm/trades?${stringify(params)}`);
 }
 
 export async function removeTrade(params) {

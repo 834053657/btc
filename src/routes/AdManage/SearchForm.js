@@ -23,11 +23,16 @@ export default class SearchForm extends Component {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
-      const values = {
+      let values = {
         ...fieldsValue,
       };
 
       if (this.props.onSearch) {
+        if (values.date) {
+          values.begin_time = values.date[0];
+          values.end_time = values.date[1];
+          delete values.date;
+        }
         this.props.onSearch(values);
       }
     });
@@ -50,7 +55,7 @@ export default class SearchForm extends Component {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="广告类型">
-              {getFieldDecorator('country')(
+              {getFieldDecorator('type')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">买入</Option>
                   <Option value="1">卖出</Option>
@@ -60,7 +65,7 @@ export default class SearchForm extends Component {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="广告状态">
-              {getFieldDecorator('country')(
+              {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">买入</Option>
                   <Option value="1">卖出</Option>
@@ -70,14 +75,14 @@ export default class SearchForm extends Component {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="国家">
-              {getFieldDecorator('name')(
+              {getFieldDecorator('country')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={10} sm={24}>
+          <Col md={15} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('date')(
                 <RangePicker
@@ -89,7 +94,7 @@ export default class SearchForm extends Component {
         </Row>
         <StandardFormRow title="支付方式" block>
           <FormItem>
-            {getFieldDecorator('status')(
+            {getFieldDecorator('pay_methods')(
               <TagSelect onChange={this.handleFormSubmit}>
                 <TagSelect.Option value="cat1">正常</TagSelect.Option>
                 <TagSelect.Option value="cat2">冻结</TagSelect.Option>

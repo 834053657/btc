@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
+import CONFIG from './config';
 import store from '../index';
 
 const codeMessage = {
@@ -42,7 +43,7 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export default function request(postUrl = '/', options) {
   const defaultOptions = {
     credentials: 'include',
     headers: {
@@ -52,6 +53,8 @@ export default function request(url, options) {
   };
 
   const newOptions = { ...defaultOptions, ...options };
+  let url = __PROD__ ? CONFIG.base_url + postUrl : postUrl;
+
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     newOptions.headers = {
       Accept: 'application/json',
