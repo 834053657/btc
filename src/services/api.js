@@ -178,7 +178,7 @@ export async function addTrade(params) {
 }
 
 export async function queryTransfer(params) {
-  return request(`/api/transfer?${stringify(params)}`);
+  return request(`/btcm/transfers?${stringify(params)}`);
 }
 
 export async function queryPendingTransferCount(params) {
@@ -200,7 +200,7 @@ export async function removeTransfer(params) {
 }
 
 export async function addTransfer(params) {
-  return request('/api/transfer', {
+  return request('/api/transfers', {
     method: 'POST',
     body: {
       ...params,
