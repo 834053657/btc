@@ -5,11 +5,8 @@ export default {
   namespace: 'userDetail',
 
   state: {
-    data: {},
-    logData: {
-      list: [],
-      pagination: {},
-    },
+    userInfo: {},
+    authLogs: [],
   },
 
   effects: {
@@ -17,7 +14,7 @@ export default {
       const response = yield call(queryUserDtl, payload);
       yield put({
         type: 'setDetail',
-        payload: { data: response },
+        payload: response,
       });
     },
     *fetchLog({ payload }, { call, put }) {
@@ -34,8 +31,10 @@ export default {
       // console.log(payload);
       return {
         ...state,
-        data: payload.data,
-        // logData: payload.logData,
+        userInfo: payload.data.user_info,
+        authInfo: payload.data.auth_info,
+        btcInfo: payload.data.btc_info,
+        authLogs: payload.data.auth_logs,
       };
     },
     setLog(state, { payload }) {

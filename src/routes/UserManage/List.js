@@ -138,13 +138,26 @@ export default class TableList extends PureComponent {
   handleSearch = (values) => {
     const { dispatch } = this.props;
     // console.log(values);
-    this.isSearchPending = false;
     this.setState({
       formValues: values,
     });
+
+    let params = {};
+    if (values.name) {
+      params = { ...params, name: values.name };
+    }
+    if (values.country) {
+      params = { ...params, country: values.country };
+    }
+    if (values.createdDt && values.createdDt.length > 1) {
+      params = { ...params, begin_time: moment(values.createdDt[0]).format('YYYY-MM-DD HH:mm:ss'), end_time: moment(values.createdDt[1]).format('YYYY-MM-DD HH:mm:ss') };
+    }
+    if (values.status && values.status.length > 0) {
+      params = { ...params, auth_status: values.status.join() };
+    }
     dispatch({
       type: 'userManage/fetch',
-      payload: {},
+      payload: params,
     });
   }
 

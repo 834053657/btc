@@ -210,7 +210,7 @@ export async function addTransfer(params) {
 }
 
 export async function queryUserDtl(params) {
-  return request(`/api/userDtl?${stringify(params)}`);
+  return request(`/btcm/users/${params.id}`);
 }
 
 export async function queryUserLog(params) {
