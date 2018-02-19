@@ -68,7 +68,7 @@ export async function queryFakeList(params) {
 }
 
 export async function queryConfigs(params) {
-  return request(`btcm/admin/defines?${stringify(params)}`);
+  return request(`/btcm/admin/defines?${stringify(params)}`);
 }
 
 export async function fakeAccountLogin(params) {

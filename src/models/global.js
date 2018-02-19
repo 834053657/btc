@@ -22,7 +22,7 @@ export default {
     },
     // 获取服务器字典
     *fetchConfigs(_, { call, put }) {
-      const response = yield call(queryConfigs);
+      const response = yield call(queryConfigs) || {};
       CONFIG = { ...CONFIG, ...response.data };
     },
     *clearNotices({ payload }, { put, select }) {
