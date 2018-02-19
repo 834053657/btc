@@ -8,8 +8,6 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = [1, 2, 3];
-const status = ['正常', '冻结', '被举报'];
 const columns = [
   {
     title: '编号',
@@ -20,6 +18,7 @@ const columns = [
     title: '类型',
     dataIndex: 'type',
     width: 100,
+    render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
   },
   {
     title: '国家',
@@ -35,6 +34,8 @@ const columns = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
+    render: val => <span>{val ? CONFIG.ad_status[val] : '-'}</span>
+
   },
   {
     title: '付款方式',

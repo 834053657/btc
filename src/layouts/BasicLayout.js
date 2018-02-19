@@ -88,6 +88,9 @@ class BasicLayout extends React.PureComponent {
     this.props.dispatch({
       type: 'user/fetchCurrent',
     });
+    this.props.dispatch({
+      type: 'global/fetchConfigs',
+    });
   }
   getPageTitle() {
     const { routerData, location } = this.props;
@@ -146,7 +149,7 @@ class BasicLayout extends React.PureComponent {
   }
   render() {
     const {
-      currentUser, collapsed, fetchingNotices, notices, routerData, match, location,
+      currentUser, collapsed, fetchingNotices, notices, routerData, match, location
     } = this.props;
     const bashRedirect = this.getBashRedirect();
     const layout = (

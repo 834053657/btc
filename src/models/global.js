@@ -1,4 +1,4 @@
-import { queryNotices } from '../services/api';
+import { queryNotices, queryConfigs } from '../services/api';
 
 export default {
   namespace: 'global',
@@ -19,6 +19,11 @@ export default {
         type: 'user/changeNotifyCount',
         payload: data.length,
       });
+    },
+    // 获取服务器字典
+    *fetchConfigs(_, { call, put }) {
+      const response = yield call(queryConfigs);
+      CONFIG = { ...CONFIG, ...response.data };
     },
     *clearNotices({ payload }, { put, select }) {
       yield put({
@@ -51,7 +56,7 @@ export default {
         ...state,
         notices: state.notices.filter(item => item.type !== payload),
       };
-    },
+    }
   },
 
   subscriptions: {
@@ -62,6 +67,6 @@ export default {
           window.ga('send', 'pageview', pathname + search);
         }
       });
-    },
+    }
   },
 };
