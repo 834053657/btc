@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Input, Select, Button, DatePicker } from 'antd';
+import { map } from 'lodash';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
 import styles from './SearchForm.less';
@@ -28,9 +29,9 @@ export default class SearchForm extends Component {
       };
 
       if (this.props.onSearch) {
-        if (values.date) {
-          values.begin_time = values.date[0];
-          values.end_time = values.date[1];
+        if (values.date && values.date.length === 2) {
+          values.begin_time = values.date[0].format('YYYY-MM-DD');
+          values.end_time = values.date[1].format('YYYY-MM-DD');
           delete values.date;
         }
         this.props.onSearch(values);
@@ -56,9 +57,12 @@ export default class SearchForm extends Component {
           <Col md={8} sm={24}>
             <FormItem label="广告类型">
               {getFieldDecorator('type')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">买入</Option>
-                  <Option value="1">卖出</Option>
+                <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
+                  {
+                    map(CONFIG.ad_type, (text, value) => {
+                      return <Option key={value} value={value}>{text}</Option>;
+                    })
+                  }
                 </Select>
               )}
             </FormItem>
@@ -66,9 +70,12 @@ export default class SearchForm extends Component {
           <Col md={8} sm={24}>
             <FormItem label="广告状态">
               {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">买入</Option>
-                  <Option value="1">卖出</Option>
+                <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
+                  {
+                    map(CONFIG.ad_status, (text, value) => {
+                      return <Option key={value} value={value}>{text}</Option>;
+                    })
+                  }
                 </Select>
               )}
             </FormItem>
@@ -76,7 +83,13 @@ export default class SearchForm extends Component {
           <Col md={8} sm={24}>
             <FormItem label="国家">
               {getFieldDecorator('country')(
-                <Input placeholder="请输入" />
+                <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
+                  {
+                    map(CONFIG.ad_status, (text, value) => {
+                      return <Option key={`country${value}`} value={value}>{text}</Option>;
+                    })
+                  }
+                </Select>
               )}
             </FormItem>
           </Col>
@@ -96,9 +109,11 @@ export default class SearchForm extends Component {
           <FormItem>
             {getFieldDecorator('pay_methods')(
               <TagSelect onChange={this.handleFormSubmit}>
-                <TagSelect.Option value="cat1">正常</TagSelect.Option>
-                <TagSelect.Option value="cat2">冻结</TagSelect.Option>
-                <TagSelect.Option value="cat3">被举报</TagSelect.Option>
+                {
+                  map(CONFIG.pay_methods, (text, value) => {
+                    return <TagSelect.Option key={value} value={`${value}`}>{text}</TagSelect.Option>;
+                  })
+                }
               </TagSelect>
             )}
           </FormItem>

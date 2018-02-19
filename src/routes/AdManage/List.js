@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { Link } from 'dva/router';
 import { connect } from 'dva';
 import moment from 'moment';
 import { Card, Table, Divider } from 'antd';
@@ -29,6 +30,7 @@ const columns = [
     title: '创建人',
     dataIndex: 'name',
     width: 100,
+    render: (val, row) => <Link to={`/user-detail/${row.uid}`}>{val}</Link>
   },
   {
     title: '状态',
@@ -58,7 +60,7 @@ const columns = [
     title: '更新时间',
     dataIndex: 'last_modify_time',
     width: 100,
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
   },
   {
     title: '操作人',
