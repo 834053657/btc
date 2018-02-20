@@ -99,8 +99,6 @@ export default class BasicForms extends PureComponent {
   }
 
   changeFeeType = (e) => {
-    console.log(11111111);
-    console.log(e);
     if (e.target.value === '1') {
       this.setState({ showMaxFee: false });
     } else if (e.target.value === '2') {

@@ -12,16 +12,23 @@ const { Option } = Select;
 export default class BasicForms extends PureComponent {
   state = {
     showUpdate: false,
+    showReason: false,
   };
 
   handleSubmit = (e) => {
+    const { dispatch } = this.props;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        dispatch({
+          type: 'userDetail/updateAuthResult',
+          payload: { id: this.props.uid, auth_level: this.props.authLevel, auth_status: values.auth_status, auth_log: values.reason },
+        });
 
         this.setState({
           showUpdate: false,
+          showReason: false,
         });
       }
     });
@@ -32,6 +39,7 @@ export default class BasicForms extends PureComponent {
       showUpdate: true,
     });
   }
+
   handleOk = (e) => {
     console.log(e);
     this.handleSubmit(e);
@@ -39,10 +47,31 @@ export default class BasicForms extends PureComponent {
       showUpdateIDNo: false,
     }); */
   }
+
   handleCancel = (e) => {
     console.log(e);
     this.setState({
       showUpdate: false,
+      showReason: false,
+    });
+  }
+
+  changeAuthResult = (value) => {
+    if (value === '2') {
+      this.setState({ showReason: false });
+    } else if (value === '3') {
+      this.setState({ showReason: true });
+    } else {
+      this.setState({ showReason: false });
+    }
+  }
+
+  closeModal = () => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'userDetail/fetch',
+      payload: { id: this.props.uid },
     });
   }
 
@@ -84,29 +113,35 @@ export default class BasicForms extends PureComponent {
           onCancel={this.handleCancel}
           okText="保存"
           destroyOnClose
+          maskClosable={false}
+          afterClose={this.closeModal}
         >
           <Form onSubmit={this.handleSubmit}>
             <Form.Item label="审核结果" {...formItemLayout}>
-              {getFieldDecorator('owner', {
+              {getFieldDecorator('auth_status', {
               rules: [{ required: true, message: '请选择审核结果' }],
             })(
-              <Select placeholder="请选择">
-                <Option value="1">通过</Option>
-                <Option value="2">不通过</Option>
+              <Select placeholder="请选择" onChange={this.changeAuthResult}>
+                <Option value="2">通过</Option>
+                <Option value="3">不通过</Option>
               </Select>
             )}
             </Form.Item>
-            <FormItem
-              {...formItemLayoutTe}
-            >
-              {getFieldDecorator('reason', {
-                rules: [{
-                  required: true, message: '请输入内容',
-                }],
-              })(
-                <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
-              )}
-            </FormItem>
+            {
+              this.state.showReason && (
+                <FormItem
+                  {...formItemLayoutTe}
+                >
+                  {getFieldDecorator('reason', {
+                    rules: [{
+                      required: true, message: '请输入内容',
+                    }],
+                  })(
+                    <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
+                  )}
+                </FormItem>
+              )
+            }
           </Form>
         </Modal>
       </div>

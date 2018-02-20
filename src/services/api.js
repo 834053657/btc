@@ -217,6 +217,20 @@ export async function queryUserDtl(params) {
   return request(`/btcm/users/${params.id}`);
 }
 
+export async function fakeIDNo(params) {
+  return request(`/btcm/users/${params.id}/citizen_id`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function fakeAuthResult(params) {
+  return request(`/btcm/users/${params.id}/auth`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function queryUserLog(params) {
   return request(`/api/userLog?${stringify(params)}`);
 }

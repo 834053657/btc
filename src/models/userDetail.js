@@ -1,12 +1,12 @@
 // import { message } from 'antd';
-import { queryUserDtl, queryUserLog } from '../services/api';
+import { queryUserDtl, fakeIDNo, fakeAuthResult } from '../services/api';
 
 export default {
   namespace: 'userDetail',
 
   state: {
     userInfo: {},
-    authLogs: [],
+    idNo: '',
   },
 
   effects: {
@@ -17,10 +17,17 @@ export default {
         payload: response,
       });
     },
-    *fetchLog({ payload }, { call, put }) {
-      const response = yield call(queryUserLog, payload);
+    *updateIDNo({ payload }, { call, put }) {
+      const response = yield call(fakeIDNo, payload);
       yield put({
-        type: 'setLog',
+        type: 'setIDNo',
+        payload: response,
+      });
+    },
+    *updateAuthResult({ payload }, { call, put }) {
+      const response = yield call(fakeAuthResult, payload);
+      yield put({
+        type: 'setAuthResult',
         payload: response,
       });
     },
@@ -37,11 +44,17 @@ export default {
         authLogs: payload.data.auth_logs,
       };
     },
-    setLog(state, { payload }) {
-      // console.log(payload);
+    setIDNo(state, { payload }) {
+      console.log(payload);
       return {
         ...state,
-        logData: payload,
+        idNo: payload,
+      };
+    },
+    setAuthResult(state, { payload }) {
+      console.log(payload);
+      return {
+        ...state,
       };
     },
   },

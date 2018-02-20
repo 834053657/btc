@@ -43,10 +43,16 @@ export default class UserDetail extends PureComponent {
   }
 
   handleSubmit = () => {
+    const { dispatch } = this.props;
     // e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err) => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        // console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values);
+
+        dispatch({
+          type: 'userDetail/updateIDNo',
+          payload: { id: this.props.match.params.id, citizen_id: values.idNo },
+        });
 
         this.setState({
           showUpdateIDNo: false,
@@ -106,12 +112,17 @@ export default class UserDetail extends PureComponent {
     });
   }
 
-  reviewC3 = () => {
+  closeModalIDNo = () => {
+    const { dispatch } = this.props;
 
+    dispatch({
+      type: 'userDetail/fetch',
+      payload: { id: this.props.match.params.id },
+    });
   }
 
   render() {
-    const { userDetail: { userInfo = {}, authInfo = {}, btcInfo = {}, authLogs = [] }, form } = this.props;
+    const { userDetail: { userInfo = {}, authInfo = {}, btcInfo = {}, authLogs = [] }, form, loading } = this.props;
     const detail = userInfo;
     const { selectedRows } = this.state;
     const { getFieldDecorator } = form;
@@ -289,7 +300,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>{authInfo.c2 && status[authInfo.c2.auth_status]}</div>
               </Col>
               <Col span={7}>
-                <ReviewForm title="C2认证信息审核" dispatch={this.props.dispatch} />
+                <ReviewForm title="C2认证信息审核" dispatch={this.props.dispatch} uid={this.props.match.params.id} authLevel={2} />
               </Col>
             </Row>
             <Row>
@@ -304,16 +315,24 @@ export default class UserDetail extends PureComponent {
             </Row>
             <Row>
               <Col span={10}>
-                <div className={styles.identity}>
-                  <img className={styles.identity_img} alt="正面照" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.front_url} onClick={this.showModalIdImage1} />
-                  <div className={styles.identity_text}>正面照</div>
-                </div>
+                {
+                  authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.front_url && (
+                    <div className={styles.identity}>
+                      <img className={styles.identity_img} alt="正面照" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.front_url} onClick={this.showModalIdImage1} />
+                      <div className={styles.identity_text}>正面照</div>
+                    </div>
+                  )
+                }
               </Col>
               <Col span={10}>
-                <div className={styles.identity}>
-                  <img className={styles.identity_img} alt="反面照" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.back_url} onClick={this.showModalIdImage2} />
-                  <div className={styles.identity_text}>反面照</div>
-                </div>
+                {
+                  authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.back_url && (
+                    <div className={styles.identity}>
+                      <img className={styles.identity_img} alt="反面照" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.back_url} onClick={this.showModalIdImage2} />
+                      <div className={styles.identity_text}>反面照</div>
+                    </div>
+                  )
+                }
               </Col>
             </Row>
             <Row>
@@ -322,7 +341,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>{authInfo.c3 && status[authInfo.c3.auth_status]}</div>
               </Col>
               <Col span={7}>
-                <Button onClick={this.reviewC3} >审核</Button>
+                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} uid={this.props.match.params.id} authLevel={3} />
               </Col>
             </Row>
           </Card>
@@ -363,6 +382,8 @@ export default class UserDetail extends PureComponent {
           onCancel={this.handleCancelIDNo}
           okText="保存"
           destroyOnClose
+          confirmLoading={loading}
+          afterClose={this.closeModalIDNo}
         >
           <Form onSubmit={this.handleSubmit}>
             <FormItem label="身份证号: " {...formItemLayout}>
@@ -373,7 +394,7 @@ export default class UserDetail extends PureComponent {
                     message: '请输入身份证号！',
                   },
                 ],
-              })(<Input size="large" placeholder="身份证号码" />)}
+              })(<Input size="large" placeholder="身份证号" />)}
             </FormItem>
           </Form>
         </Modal>
