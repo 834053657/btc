@@ -25,6 +25,7 @@ const columns = [
     title: '国家',
     dataIndex: 'country',
     width: 80,
+    render: val => <span>{val ? CONFIG.countries[val] : '-'}</span>
   },
   {
     title: '创建人',
@@ -49,6 +50,7 @@ const columns = [
     dataIndex: 'price',
     align: 'right',
     width: 100,
+    render: val => <span>{val ? `${val}BTC` : '-'}</span>
   },
   {
     title: '创建时间',

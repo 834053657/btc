@@ -85,8 +85,8 @@ export default class SearchForm extends Component {
               {getFieldDecorator('country')(
                 <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
                   {
-                    map(CONFIG.ad_status, (text, value) => {
-                      return <Option key={`country${value}`} value={value}>{text}</Option>;
+                    map(CONFIG.countries, (text, value) => {
+                      return <Option key={value} value={value}>{text}</Option>;
                     })
                   }
                 </Select>

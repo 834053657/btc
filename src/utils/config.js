@@ -6,5 +6,7 @@ export default {
   auth_status: {},
   pay_methods: {},
   trade_status: {},
-  trade_type: {}
+  trade_type: {},
+  countries: {}
+
 };
