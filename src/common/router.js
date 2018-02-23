@@ -77,6 +77,14 @@ export const getRouterData = (app) => {
   {
     component: dynamicWrapper(app, ['adManage'], () => import('../routes/AdManage/List')),
   },
+    '/ad-detail/:id':
+  {
+    component: dynamicWrapper(app, ['adDetail'], () => import('../routes/AdManage/Detail')),
+  },
+    '/complain-list':
+  {
+    component: dynamicWrapper(app, ['adManage'], () => import('../routes/AdManage/ComplainList')),
+  },
     '/user-manage':
   {
     component: dynamicWrapper(app, ['userManage'], () => import('../routes/UserManage/List')),
@@ -88,6 +96,10 @@ export const getRouterData = (app) => {
     '/trade-manage':
   {
     component: dynamicWrapper(app, ['tradeManage'], () => import('../routes/TradeManage/List')),
+  },
+    '/trade-detail/:id':
+  {
+    component: dynamicWrapper(app, ['tradeDetail'], () => import('../routes/TradeManage/Detail')),
   },
     '/transfer-manage':
   {

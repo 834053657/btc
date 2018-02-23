@@ -1,4 +1,5 @@
-import { queryTrade, removeTrade, addTrade } from '../services/api';
+import { queryTrade, removeTrade, addTrade, exportTrade } from '../services/api';
+import { downloadFile } from '../utils/utils';
 
 export default {
   namespace: 'tradeManage',
@@ -34,13 +35,23 @@ export default {
       });
       if (callback) callback();
     },
+    *exportSVG({ payload, callback }, { call, put }) {
+      const response = yield call(exportTrade, payload);
+      downloadFile(response);
+      if (callback) callback();
+    }
   },
 
   reducers: {
-    save(state, action) {
+    save(state, { payload }) {
+      let { data: { results, pagination, complaint_count = 0 } } = payload || {};
       return {
         ...state,
-        data: action.payload,
+        data: {
+          list: results,
+          pagination,
+          complaint_count
+        },
       };
     },
   },

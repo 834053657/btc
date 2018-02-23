@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, Input, Select, Button, DatePicker } from 'antd';
 import { map } from 'lodash';
+import { routerRedux } from 'dva/router';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
 import styles from './SearchForm.less';
@@ -49,8 +50,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-
+    const { dispatch, form: { getFieldDecorator } } = this.props;
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -121,6 +121,7 @@ export default class SearchForm extends Component {
         <div className="btn-box">
           <Button type="primary" htmlType="submit">查询</Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+          <Button style={{ marginLeft: 8 }} onClick={() => dispatch(routerRedux.push('/complain-list'))}>被举报的广告(0)</Button>
         </div>
       </Form>
     );

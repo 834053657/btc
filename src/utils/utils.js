@@ -157,3 +157,12 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-
 export function isUrl(path) {
   return reg.test(path);
 }
+
+export function downloadFile(url) {
+  let aLink = document.createElement('a');
+  aLink.download = true;
+  aLink.href = url;
+  let evt = document.createEvent('MouseEvent');
+  evt.initEvent('click', true, true);
+  aLink.dispatchEvent(evt);
+}

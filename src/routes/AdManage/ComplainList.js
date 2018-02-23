@@ -1,14 +1,14 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Link } from 'dva/router';
-import { connect } from 'dva';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { Card, Table, Divider } from 'antd';
+import { connect } from 'dva';
+import { Card, Table } from 'antd';
+import { Link } from 'dva/router';
+import classNames from 'classnames';
+
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import SearchForm from './SearchForm';
 
-import styles from './List.less';
+import styles from './ComplainList.less';
 
-const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '编号',
@@ -71,74 +71,37 @@ const columns = [
   {
     title: '操作',
     width: '100',
-    render: r => (
-      <Fragment>
-        <a href={`/#/ad-detail/${r.id}`}>查看</a>
-      </Fragment>
-    ),
+    render: r => <a href={`/#/ad-detail/${r.id}`}>查看</a>,
   },
 ];
+const size = 'large';
+const clsString = classNames(styles.detail, 'horizontal', {}, {
+  [styles.small]: size === 'small',
+  [styles.large]: size === 'large',
+});
 
 @connect(({ adManage, loading }) => ({
   data: adManage.data,
-  loading: loading.models.adManage,
+  loading: loading.models.list,
 }))
-export default class TableList extends PureComponent {
-  state = {
-    // selectedRows: [],
-  };
-
+export default class BasicList extends PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'adManage/fetch',
-    });
-  }
-
-  handleTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      page: pagination.current,
-      page_size: pagination.pageSize,
-      ...formValues,
-      // ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
-    dispatch({
-      type: 'adManage/fetch',
-      payload: params,
-    });
-  }
-
-  handleSearch = (values) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'adManage/fetch',
-      payload: values,
+    this.props.dispatch({
+      type: 'adManage/fetch'
     });
   }
 
   render() {
     const { data: { list, pagination }, loading } = this.props;
+    const breadcrumbList = [{ title: '首页', href: '/' }, { title: '广告管理', href: '/ad-manage' }, { title: '被举报广告' }];
 
     return (
-      <PageHeaderLayout title="广告管理">
-        <Card>
-          <SearchForm onSearch={this.handleSearch} {...this.props} />
-        </Card>
-        <div className={styles.tableList}>
-          <Card bordered={false}>
+      <PageHeaderLayout title="被举报广告" breadcrumbList={breadcrumbList}>
+        <div className={clsString}>
+          <Card bordered={false} >
+            <a className={styles.bt_btn} href="/#/ad-manage">返回</a>
+          </Card>
+          <Card>
             <Table
               loading={loading}
               rowKey={record => record.id}
@@ -149,7 +112,6 @@ export default class TableList extends PureComponent {
               onChange={this.handleTableChange}
             />
           </Card>
-
         </div>
       </PageHeaderLayout>
     );
