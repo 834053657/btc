@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
+import { getAuthority } from './authority';
 import CONFIG from './config';
 import store from '../index';
 
@@ -44,11 +45,12 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(postUrl = '/', options) {
+  const { id, token } = getAuthority() || {};
   const defaultOptions = {
     credentials: 'include',
     headers: {
-      'BTCM-UID': 1, // hardcode only for test
-      'BTCM-TOKEN': '111'
+      'BTCM-UID': id, // hardcode only for test
+      'BTCM-TOKEN': token
     }
   };
 

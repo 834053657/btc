@@ -22,7 +22,10 @@ export default {
       });
     },
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      let response = yield call(fakeAccountLogin, payload);
+      if (response.code === 0) {
+        response.data.currentAuthority = 'admin';
+      }
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -33,6 +36,7 @@ export default {
         yield put(routerRedux.push('/'));
       } else {
         // 调用getCaptcha
+        yield put({ type: 'getCaptcha', payload: { r: Math.random() } });
       }
     },
     *logout(_, { put, select }) {
@@ -59,7 +63,7 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.data.name);
+      setAuthority(payload.data);
       return {
         ...state,
         code: payload.code,
