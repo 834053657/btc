@@ -1,0 +1,32 @@
+@import "~antd/lib/style/themes/default.less";
+@import "../../utils/utils.less";
+
+.chat_card {
+  .card_body, .right, .left {
+    height: 550px;
+    box-sizing: border-box;
+  }
+
+  .chat_history {
+    height: 390px;
+    box-sizing: border-box;
+    padding: 15px;
+  }
+
+  .chat_message_box {
+    border-top: 1px solid @border-color-base;
+    height: 110px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    .chat_tools {
+      padding: 8px 0;
+    }
+  }
+
+  .right {
+    border-left: 1px solid @border-color-base;
+    .tabs_content {
+      padding: 0 15px;
+    }
+  }
+}

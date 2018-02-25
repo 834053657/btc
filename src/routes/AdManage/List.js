@@ -13,12 +13,12 @@ const columns = [
   {
     title: '编号',
     dataIndex: 'id',
-    width: 100,
+    width: 80,
   },
   {
     title: '类型',
     dataIndex: 'type',
-    width: 100,
+    width: 80,
     render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
   },
   {
@@ -47,20 +47,22 @@ const columns = [
   {
     title: '交易价格',
     dataIndex: 'price',
-    align: 'right',
-    width: 100,
+    align: 'center',
+    width: 120,
     render: val => <span>{val ? `${val}BTC` : '-'}</span>
   },
   {
     title: '创建时间',
     dataIndex: 'create_time',
-    width: 100,
+    align: 'center',
+    width: '180px',
     render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
   },
   {
     title: '更新时间',
     dataIndex: 'last_modify_time',
-    width: 100,
+    align: 'center',
+    width: '180px',
     render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
   },
   {
@@ -70,7 +72,7 @@ const columns = [
   },
   {
     title: '操作',
-    width: '100',
+    width: '100px',
     render: r => (
       <Fragment>
         <a href={`/#/ad-detail/${r.id}`}>查看</a>

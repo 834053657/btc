@@ -1,8 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Table, Card, Badge, Button } from 'antd';
-import { routerRedux } from 'dva/router';
+import { Table, Card, Badge, Button, Divider } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
 
@@ -13,29 +12,29 @@ const columns = [
   {
     title: '订单编号',
     dataIndex: 'order_id',
-    width: 120,
+    width: '130px',
   },
   {
     title: '交易类型',
     dataIndex: 'trade_type',
-    width: 100,
+    width: '120px',
     render: val => <span>{val ? CONFIG.trade_type[val] : '-'}</span>
 
   },
   {
     title: '广告ID',
     dataIndex: 'match_id',
-    width: 110,
+    width: '130px',
   },
   {
     title: '交易发起人',
     dataIndex: 'name',
-    width: 120,
+    width: 130,
   },
   {
     title: '交易状态',
     dataIndex: 'order_status',
-    width: 100,
+    width: 120,
     render: val => <span>{val ? CONFIG.trade_status[val] : '-'}</span>
   },
   {
@@ -89,11 +88,12 @@ const columns = [
   },
   {
     title: '操作',
-    width: 100,
+    width: 150,
     render: r => (
-      <Fragment>
-        <a href={`/#/trade-detail/${r.id}`}>查看</a>
-      </Fragment>
+      <div>
+        <p><a href={`/#/trade-detail/${r.id}`}>查看</a></p>
+        <p><a href={`/#/trade-im/${r.id}`}>处理申诉</a></p>
+      </div>
     ),
   },
 ];
@@ -174,7 +174,7 @@ export default class TableList extends PureComponent {
               loading={loading}
               rowKey={record => record.id}
               dataSource={list}
-              scroll={{ x: 1500 }}
+              scroll={{ x: 1600 }}
               columns={columns}
               pagination={pagination}
               onChange={this.handleTableChange}
