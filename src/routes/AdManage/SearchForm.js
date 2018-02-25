@@ -35,6 +35,9 @@ export default class SearchForm extends Component {
           values.end_time = values.date[1].format('YYYY-MM-DD');
           delete values.date;
         }
+        if (values.pay_methods) {
+          values.pay_methods = values.pay_methods.join(',');
+        }
         this.props.onSearch(values);
       }
     });
@@ -43,6 +46,7 @@ export default class SearchForm extends Component {
   handleFormReset = () => {
     const { form } = this.props;
     form.resetFields();
+    this.tag.onSelectAll(false);
 
     if (this.props.onSearch) {
       this.props.onSearch({});
@@ -108,7 +112,7 @@ export default class SearchForm extends Component {
         <StandardFormRow title="支付方式" block>
           <FormItem>
             {getFieldDecorator('pay_methods')(
-              <TagSelect onChange={this.handleFormSubmit}>
+              <TagSelect ref={node => this.tag = node}>
                 {
                   map(CONFIG.pay_methods, (text, value) => {
                     return <TagSelect.Option key={value} value={`${value}`}>{text}</TagSelect.Option>;

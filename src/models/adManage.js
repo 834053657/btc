@@ -1,4 +1,4 @@
-import { queryAd, removeAd, addAd } from '../services/api';
+import { queryAd, cancelAd } from '../services/api';
 
 export default {
   namespace: 'adManage',
@@ -18,20 +18,9 @@ export default {
         payload: response,
       });
     },
-    *add({ payload, callback }, { call, put }) {
-      const response = yield call(addAd, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeAd, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
+    *cancel({ payload, callback }, { call, put }) {
+      const response = yield call(cancelAd, payload);
+      yield put({ type: 'fetch', payload: {} });
       if (callback) callback();
     },
   },

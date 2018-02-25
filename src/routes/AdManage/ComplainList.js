@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Card, Table } from 'antd';
+import { Card, Table, Divider, Modal, Button, message } from 'antd';
 import { Link } from 'dva/router';
 import classNames from 'classnames';
 
@@ -9,71 +9,6 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './ComplainList.less';
 
-const columns = [
-  {
-    title: '编号',
-    dataIndex: 'id',
-    width: 100,
-  },
-  {
-    title: '类型',
-    dataIndex: 'type',
-    width: 100,
-    render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
-  },
-  {
-    title: '国家',
-    dataIndex: 'country',
-    width: 80,
-    render: val => <span>{val ? CONFIG.countries[val] : '-'}</span>
-  },
-  {
-    title: '创建人',
-    dataIndex: 'name',
-    width: 100,
-    render: (val, row) => <Link to={`/user-detail/${row.uid}`}>{val}</Link>
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    width: 100,
-    render: val => <span>{val ? CONFIG.ad_status[val] : '-'}</span>
-  },
-  {
-    title: '付款方式',
-    dataIndex: 'payments',
-    width: 100,
-  },
-  {
-    title: '交易价格',
-    dataIndex: 'price',
-    align: 'right',
-    width: 100,
-    render: val => <span>{val ? `${val}BTC` : '-'}</span>
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    width: 100,
-    render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'last_modify_time',
-    width: 100,
-    render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
-  },
-  {
-    title: '操作人',
-    dataIndex: 'operator_name',
-    width: 100
-  },
-  {
-    title: '操作',
-    width: '100',
-    render: r => <a href={`/#/ad-detail/${r.id}`}>查看</a>,
-  },
-];
 const size = 'large';
 const clsString = classNames(styles.detail, 'horizontal', {}, {
   [styles.small]: size === 'small',
@@ -85,10 +20,88 @@ const clsString = classNames(styles.detail, 'horizontal', {}, {
   loading: loading.models.list,
 }))
 export default class BasicList extends PureComponent {
+  state = {
+    visible: false,
+    columns: [
+      {
+        title: '编号',
+        dataIndex: 'id',
+        width: 100,
+      },
+      {
+        title: '举报内容',
+        dataIndex: 'type',
+        width: 100,
+        render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
+      },
+      {
+        title: '处理状态',
+        dataIndex: 'country',
+        width: 80,
+        render: val => <span>{val ? CONFIG.countries[val] : '-'}</span>
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'create_time',
+        width: 180,
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      },
+      {
+        title: '更新时间',
+        dataIndex: 'last_modify_time',
+        width: 180,
+        render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
+      },
+      {
+        title: '操作人',
+        dataIndex: 'operator_name',
+        width: 100
+      },
+      {
+        title: '操作',
+        width: '100',
+        render: r => (
+          <Fragment>
+            <Link to={`/ad-detail/${r.id}`}>查看</Link>
+            <Divider type="vertical" />
+            <a onClick={() => this.setState({ visible: true })}>处理</a>
+          </Fragment>
+        )
+      },
+    ]
+  };
+
   componentDidMount() {
     this.props.dispatch({
-      type: 'adManage/fetch'
+      type: 'adManage/fetch',
+      payload: {}
     });
+  }
+
+  handleCancel = () => {
+    this.props.dispatch({
+      type: 'adManage/cancel',
+      payload: {},
+      callback: () => {
+        this.handleClose();
+        message.success('操作成功');
+      }
+    });
+  }
+
+  handleOk = () => {
+    this.props.dispatch({
+      type: 'adManage/cancel',
+      payload: {},
+      callback: () => {
+        this.handleClose();
+        message.success('操作成功');
+      }
+    });
+  }
+
+  handleClose= () => {
+    this.setState({ visible: false });
   }
 
   render() {
@@ -107,11 +120,22 @@ export default class BasicList extends PureComponent {
               rowKey={record => record.id}
               dataSource={list}
               scroll={{ x: 1300 }}
-              columns={columns}
+              columns={this.state.columns}
               pagination={pagination}
               onChange={this.handleTableChange}
             />
           </Card>
+          <Modal
+            title="处理举报"
+            visible={this.state.visible}
+            onCancel={this.handleClose}
+            footer={[
+              <Button key="cancel" onClick={this.handleCancel}>取消广告</Button>,
+              <Button key="back" type="primary" onClick={this.handleOk}>驳回</Button>,
+            ]}
+          >
+            <p>若举报内容属实，可操作取消广告，若举报内容不属实，请处理驳回</p>
+          </Modal>
         </div>
       </PageHeaderLayout>
     );

@@ -137,22 +137,19 @@ export async function queryAd(params) {
   return request(`/btcm/ads?${stringify(params)}`);
 }
 
-export async function removeAd(params) {
-  return request('/api/ad', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
+export async function queryAdDtl(params) {
+  return request(`/btcm/ads/${params.id}`);
 }
 
-export async function addAd(params) {
-  return request('/api/ad', {
+export async function queryAdOrders(params) {
+  return request(`/btcm/ads/${params.id}/orders`);
+}
+
+export async function cancelAd(params) {
+  return request(`/btcm/ads/${params.id}/status`, {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
     },
   });
 }
