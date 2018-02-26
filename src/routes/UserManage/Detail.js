@@ -310,7 +310,7 @@ export default class UserDetail extends PureComponent {
               </Col>
               <Col span={10}>
                 <div className={styles.term}>不合格原因</div>
-                <div className={styles.detail}>xxx</div>
+                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_log}</div>
               </Col>
             </Row>
             <Row>

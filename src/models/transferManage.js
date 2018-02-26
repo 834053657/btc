@@ -7,6 +7,7 @@ export default {
     data: {
       list: [],
       pagination: {},
+      need_audit_count: 0
     },
   },
 
@@ -36,10 +37,15 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
+    save(state, { payload }) {
+      let { data: { results, pagination, need_audit_count = 0 } } = payload || {};
       return {
         ...state,
-        data: action.payload,
+        data: {
+          list: results,
+          pagination,
+          need_audit_count
+        },
       };
     },
     setPendingCount(state, { payload }) {

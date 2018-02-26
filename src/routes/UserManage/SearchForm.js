@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { map } from 'lodash';
 import { Row, Col, Form, Input, Select, DatePicker, Button } from 'antd';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
@@ -55,11 +56,6 @@ export default class SearchForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
-    const countryList = [];
-    countryList.push(<Option key="1" value="1">中国</Option>);
-    countryList.push(<Option key="2" value="2">英国</Option>);
-    countryList.push(<Option key="3" value="3">美国</Option>);
-
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -73,7 +69,13 @@ export default class SearchForm extends Component {
           <Col md={6} sm={24}>
             <FormItem label="国家">
               {getFieldDecorator('country')(
-                <Input placeholder="请输入" />
+                <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
+                  {
+                    map(CONFIG.countries, (text, value) => {
+                      return <Option key={value} value={value}>{text}</Option>;
+                    })
+                  }
+                </Select>
               )}
             </FormItem>
           </Col>
@@ -91,13 +93,14 @@ export default class SearchForm extends Component {
         <StandardFormRow title="用户状态" block>
           <FormItem>
             {getFieldDecorator('status')(
-              <TagSelect onChange={this.handleFormSubmit}>
-                <TagSelect.Option value="0">未认证</TagSelect.Option>
-                <TagSelect.Option value="1">认证中</TagSelect.Option>
-                <TagSelect.Option value="2">已认证</TagSelect.Option>
-                <TagSelect.Option value="3">驳回</TagSelect.Option>
+              <TagSelect ref={node => this.tag = node}>
+                {
+                  map(CONFIG.auth_status, (text, value) => {
+                    return <TagSelect.Option key={value} value={`${value}`}>{text}</TagSelect.Option>;
+                  })
+                }
               </TagSelect>
-                )}
+            )}
           </FormItem>
         </StandardFormRow>
         <div className="btn-box">

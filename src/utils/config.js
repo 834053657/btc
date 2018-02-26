@@ -7,6 +7,9 @@ export default {
   pay_methods: {},
   trade_status: {},
   trade_type: {},
-  countries: {}
+  countries: {},
+  transfer_type: {},
+  transfer_direction: {},
+  tansfer_audit_status: {}
 
 };

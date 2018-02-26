@@ -15,15 +15,15 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryUser, payload);
-      let obj = {};
+      /* let obj = {};
       if (response.code === 0) {
         const { data: { results, pagination } } = response;
         obj.list = results;
         obj.pagination = { current: pagination.page, pageSize: pagination.page_num, total: pagination.total };
-      }
+      } */
       yield put({
         type: 'save',
-        payload: obj,
+        payload: response,
       });
     },
     *fetchPendingCount({ payload }, { call, put }) {
@@ -36,10 +36,14 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
+    save(state, { payload }) {
+      let { data: { results, pagination } } = payload || {};
       return {
         ...state,
-        data: action.payload,
+        data: {
+          list: results,
+          pagination
+        },
       };
     },
     savePendingCount(state, action) {

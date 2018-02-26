@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import { Card, Button, Badge, Modal, Form, Input, Select } from 'antd';
-import { CSVLink } from 'react-csv';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
@@ -15,9 +14,14 @@ const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['success', 'processing', 'error'];
 const status = ['成功', '进行中', '失败'];
-const reviewStatusMap = ['default', 'success', 'error'];
-const reviewStatus = ['待审核', '已通过', '已驳回'];
 
+const isBlank = v => {
+  if (v === undefined || v === '' || v === null) {
+    return true;
+  }
+  else
+    return false;
+}
 
 @connect(({ transferManage, loading }) => ({
   transfer: transferManage,
@@ -41,125 +45,108 @@ export default class TableList extends PureComponent {
   columns = [
     {
       title: '流水号',
-      dataIndex: 'serialNo',
-      sorter: true,
+      dataIndex: 'id',
       width: '80',
     },
     {
       title: '时间',
-      dataIndex: 'actionDate',
-      sorter: true,
+      dataIndex: 'create_time',
       width: '100',
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '国家',
       dataIndex: 'country',
-      sorter: true,
       width: '80',
+      render: val => <span>{!isBlank(val) ? CONFIG.countries[val] : '-'}</span>
     },
     {
       title: '用户名',
-      dataIndex: 'userName',
-      sorter: true,
+      dataIndex: 'name',
       width: '100',
       render: (v, r) => (
-        <a href={`/#/user-detail/${r.id}`}>{v}</a>
+        <a href={`/#/user-detail/${r.userid}`}>{v}</a>
       ),
     },
     {
       title: '转账类型',
-      dataIndex: 'transferType',
-      sorter: true,
+      dataIndex: 'transfer_type',
       width: '80',
+      render: val => <span>{!isBlank(val) ? CONFIG.transfer_type[val] : '-'}</span>
     },
     {
       title: '收支类型',
-      dataIndex: 'budgetType',
-      sorter: true,
+      dataIndex: 'trade_direction',
       width: '60',
+      render: val => <span>{!isBlank(val) ? CONFIG.transfer_direction[val] : '-'}</span>
     },
     {
       title: '金额',
-      dataIndex: 'amount',
-      sorter: true,
+      dataIndex: 'trade_count',
       width: '100',
     },
     {
       title: '广告费',
-      dataIndex: 'adFee',
-      sorter: true,
+      dataIndex: 'ad_fee',
       width: '100',
     },
     {
       title: '手续费',
-      dataIndex: 'fee',
-      sorter: true,
+      dataIndex: 'service_fee',
       width: '100',
     },
     {
       title: '账户余额',
-      dataIndex: 'balance',
-      sorter: true,
+      dataIndex: 'available_btc',
       width: '100',
     },
     {
       title: '目标地址',
-      dataIndex: 'desAddr',
-      sorter: true,
+      dataIndex: 'to_address',
       width: '100',
     },
     {
       title: '订单号',
-      dataIndex: 'orderNo',
-      sorter: true,
+      dataIndex: 'order_id',
       width: '100',
-      render: v => (
-        <a href={`/#/order-detail/${v}`}>{v}</a>
+      render: (v, r) => (
+        <a href={`/#/trade-detail/${r.order_db_id}`}>{v}</a>
       ),
     },
     {
       title: '状态',
       dataIndex: 'status',
       width: '80',
-      sorter: true,
       render(val) {
         return <Badge status={statusMap[val]} text={status[val]} />;
       },
     },
     {
       title: '审核状态',
-      dataIndex: 'reviewStatus',
+      dataIndex: 'allow_proceed',
       width: '80',
-      sorter: true,
-      render(val) {
-        return <Badge status={reviewStatusMap[val]} text={reviewStatus[val]} />;
-      },
+      render: val => <span>{!isBlank(val) ? CONFIG.tansfer_audit_status[val] : '-'}</span>
     },
     {
       title: '更新时间',
       dataIndex: 'updatedDate',
-      sorter: true,
       width: '120',
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '备注',
       dataIndex: 'remark',
-      sorter: true,
       width: '150',
     },
     {
       title: '操作人',
       dataIndex: 'actionBy',
-      sorter: true,
       width: '80',
     },
     {
       title: '操作',
       width: '80',
       render: (r) => {
-        if (r.reviewStatus === 0) {
+        if (r.allow_proceed === 0) {
           return (
             <Fragment>
               <a onClick={this.showModal}>审核</a>
@@ -180,8 +167,8 @@ export default class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
       ...filters,
     };
@@ -205,9 +192,34 @@ export default class TableList extends PureComponent {
   handleSearch = (values) => {
     const { dispatch } = this.props;
     // console.log(values);
+    let params = {};
+    if (values.audit_status) {
+      params = { ...params, audit_status: values.audit_status };
+    }
+    if (values.trade_type) {
+      params = { ...params, trade_type: values.trade_type };
+    }
+    if (values.trade_direction) {
+      params = { ...params, trade_direction: values.trade_direction };
+    }
+    if (values.order_id) {
+      params = { ...params, order_id: values.order_id };
+    }
+    if (values.name) {
+      params = { ...params, name: values.name };
+    }
+    if (values.country) {
+      params = { ...params, country: values.country };
+    }
+    if (values.createdDt && values.createdDt.length > 1) {
+      params = { ...params, begin_time: moment(values.createdDt[0]).format('YYYY-MM-DD HH:mm:ss'), end_time: moment(values.createdDt[1]).format('YYYY-MM-DD HH:mm:ss') };
+    }
+
+    console.log(88888888888888)
+
     dispatch({
       type: 'transferManage/fetch',
-      payload: values,
+      payload: params,
     });
   }
 
@@ -267,18 +279,8 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleExport = (values) => {
-    const { dispatch } = this.props;
-    this.isExport = true;
-    dispatch({
-      type: 'transferManage/exportToCSV',
-      payload: values,
-    });
-  }
-
-
   render() {
-    const { transfer: { data, count, csvData }, loading } = this.props;
+    const { transfer: { data }, loading, dispatch } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { selectedRows } = this.state;
 
@@ -306,23 +308,6 @@ export default class TableList extends PureComponent {
       },
     };
 
-    let pendingBtnTxt = '';
-    if (count !== undefined && count !== null & count !== '') {
-      pendingBtnTxt = `待审核 (${count})`;
-    } else { pendingBtnTxt = '待审核'; }
-
-    const headers = [
-      { label: 'First Name', key: 'firstname' },
-      { label: 'Last Name', key: 'lastname' },
-      { label: 'Email', key: 'email' },
-    ];
-
-    const csvData2 = csvData || [];
-    if (this.isExport === true) {
-      this.isExport = false;
-      if (this.exportElement) this.exportElement.click();
-    }
-
     const csvHeaders = [
       { label: '流水号', key: 'serialNo' },
       { label: '时间', key: 'actionDate' },
@@ -346,17 +331,10 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="转账管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} onExport={this.handleExport} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
+          <SearchForm onSearch={this.handleSearch} {...this.props} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
-            <div className={styles.tableListOperator}>
-              <div style={{ display: 'none' }}>
-                <CSVLink data={csvData2} headers={csvHeaders} filename="transfer_list.csv" target="_blank">
-                  <span ref={input => (this.exportElement = input)}>export</span>
-                </CSVLink>
-              </div>
-            </div>
             <CustomTable
               selectedRows={selectedRows}
               loading={loading}

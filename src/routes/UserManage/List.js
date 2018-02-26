@@ -13,8 +13,15 @@ import SearchForm from './SearchForm';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['未认证', '认证中', '已认证', '驳回'];
+// const statusMap = ['default', 'processing', 'success', 'error'];
+// const status = ['未认证', '认证中', '已认证', '驳回'];
+const isBlank = v => {
+  if (v === undefined || v === '' || v === null) {
+    return true;
+  }
+  else
+    return false;
+}
 const columns = [
   {
     title: '用户ID',
@@ -40,9 +47,7 @@ const columns = [
     title: '用户状态',
     dataIndex: 'auth_status',
     width: '100',
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
+    render: val => <span>{!isBlank(val) ? CONFIG.auth_status[val] : '-'}</span>
   },
   {
     title: '创建时间',
@@ -56,6 +61,7 @@ const columns = [
     title: '国家',
     dataIndex: 'country',
     width: '100',
+    render: val => <span>{!isBlank(val) ? CONFIG.countries[val] : '-'}</span>
     // render: val => `${val} 万`,
     // mark to display a total number
   },
