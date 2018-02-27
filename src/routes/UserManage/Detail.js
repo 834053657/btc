@@ -189,7 +189,7 @@ export default class UserDetail extends PureComponent {
                   </Col>
                   <Col span={8}>
                     <div className={styles.term}>国家</div>
-                    <div className={styles.detail}>{detail.country}</div>
+                    <div className={styles.detail}>{detail.country ? CONFIG.countries[detail.country] : '-'}</div>
                   </Col>
                   <Col span={8}>
                     <div className={styles.term}>语言</div>
