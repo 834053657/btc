@@ -1,4 +1,5 @@
-import { queryTransfer, queryPendingTransferCount, transferExportToCSV } from '../services/api';
+import { queryTransfer, exportTransfer } from '../services/api';
+import { downloadFile } from '../utils/utils';
 
 export default {
   namespace: 'transferManage',
@@ -19,20 +20,10 @@ export default {
         payload: response,
       });
     },
-    *fetchPendingCount({ payload, callback }, { call, put }) {
-      const response = yield call(queryPendingTransferCount, payload);
-      yield put({
-        type: 'setPendingCount',
-        payload: response,
-      });
+    *exportSVG({ payload, callback }, { call, put }) {
+      const response = yield call(exportTransfer, payload);
+      downloadFile(response);
       if (callback) callback();
-    },
-    *exportToCSV({ payload }, { call, put }) {
-      const response = yield call(transferExportToCSV, payload);
-      yield put({
-        type: 'setCSVData',
-        payload: response,
-      });
     }
   },
 
@@ -48,19 +39,5 @@ export default {
         },
       };
     },
-    setPendingCount(state, { payload }) {
-      // console.log(payload);
-      return {
-        ...state,
-        count: payload && payload.count,
-      };
-    },
-    setCSVData(state, { payload }) {
-      // console.log(payload);
-      return {
-        ...state,
-        csvData: payload.list
-      };
-    }
   },
 };

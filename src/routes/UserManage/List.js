@@ -88,12 +88,17 @@ const columns = [
 export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
+    formValues: {},
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'userManage/fetch',
+      payload: {},
+    });
+    dispatch({
+      type: 'userManage/fetchPendingCount',
       payload: {},
     });
   }
@@ -147,10 +152,10 @@ export default class TableList extends PureComponent {
     });
 
     let params = {};
-    if (values.name) {
+    if (!isBlank(values.name)) {
       params = { ...params, name: values.name };
     }
-    if (values.country) {
+    if (!isBlank(values.country)) {
       params = { ...params, country: values.country };
     }
     if (values.createdDt && values.createdDt.length > 1) {
@@ -159,6 +164,11 @@ export default class TableList extends PureComponent {
     if (values.status && values.status.length > 0) {
       params = { ...params, auth_status: values.status.join() };
     }
+
+    this.setState({
+      formValues: params,
+    });
+
     dispatch({
       type: 'userManage/fetch',
       payload: params,
@@ -169,15 +179,10 @@ export default class TableList extends PureComponent {
     const { user: { data, pendingData }, loading } = this.props;
     const { selectedRows } = this.state;
 
-    let pendingBtnTxt = '';
-    if (pendingData && pendingData.code === 0) {
-      pendingBtnTxt += `待审核用户 (${pendingData.data.auth_count})`;
-    } else { pendingBtnTxt = '待审核用户'; }
-
     return (
       <PageHeaderLayout title="用户管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} loading={loading} pendingText={pendingBtnTxt} onSearchPending={this.handlePendingReview} />
+          <SearchForm onSearch={this.handleSearch} {...this.props} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>

@@ -9,7 +9,9 @@ export default {
       pagination: {},
       isSearchPending: false,
     },
-    pendingData: {},
+    pendingData: {
+      auth_count: 0
+    },
   },
 
   effects: {
@@ -46,10 +48,13 @@ export default {
         },
       };
     },
-    savePendingCount(state, action) {
+    savePendingCount(state, { payload }) {
+      let { data: { auth_count = 0 } } = payload || {};
       return {
         ...state,
-        pendingData: action.payload,
+        pendingData: {
+          auth_count
+        }
       };
     },
   },

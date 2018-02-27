@@ -45,16 +45,14 @@ export default class SearchForm extends Component {
   handleFormReset = () => {
     const { form } = this.props;
     form.resetFields();
-    // this.setState({
-    //   formValues: {},
-    // });
+    this.tag.onSelectAll(false);
     if (this.props.onSearch) {
       this.props.onSearch({});
     }
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { form: { getFieldDecorator }, user: { pendingData: { auth_count } } } = this.props;
 
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
@@ -106,7 +104,7 @@ export default class SearchForm extends Component {
         <div className="btn-box">
           <Button type="primary" htmlType="submit">查询</Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          <Button style={{ marginLeft: 8 }} loading={this.props.loading} onClick={this.props.onSearchPending}>{this.props.pendingText}</Button>
+          <Button style={{ marginLeft: 8 }} onClick={() => this.props.onSearch({ status: [1] })}>待审核用户 ({auth_count || 0})</Button>
         </div>
       </Form>
     );

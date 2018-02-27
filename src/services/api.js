@@ -190,12 +190,8 @@ export async function queryTransfer(params) {
   return request(`/btcm/transfers?${stringify(params)}`);
 }
 
-export async function queryPendingTransferCount(params) {
-  return request(`/api/getPendingTransferCount?${stringify(params)}`);
-}
-
-export async function transferExportToCSV(params) {
-  return request(`/api/transferExportToCSV?${stringify(params)}`);
+export async function exportTransfer(params) {
+  return `/btcm/transfers/export?${stringify(params)}`;
 }
 
 export async function removeTransfer(params) {

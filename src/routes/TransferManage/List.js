@@ -31,6 +31,7 @@ export default class TableList extends PureComponent {
     selectedRows: [],
     showUpdate: false,
     isRequiredReason: false,
+    formValues: {},
   };
 
   componentDidMount() {
@@ -191,29 +192,32 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     // console.log(values);
     let params = {};
-    if (values.audit_status) {
+    console.log(values);
+    if (!isBlank(values.audit_status)) {
       params = { ...params, audit_status: values.audit_status };
     }
-    if (values.trade_type) {
+    if (!isBlank(values.trade_type)) {
       params = { ...params, trade_type: values.trade_type };
     }
-    if (values.trade_direction) {
+    if (!isBlank(values.trade_direction)) {
       params = { ...params, trade_direction: values.trade_direction };
     }
-    if (values.order_id) {
+    if (!isBlank(values.order_id)) {
       params = { ...params, order_id: values.order_id };
     }
-    if (values.name) {
+    if (!isBlank(values.name)) {
       params = { ...params, name: values.name };
     }
-    if (values.country) {
+    if (!isBlank(values.country)) {
       params = { ...params, country: values.country };
     }
     if (values.createdDt && values.createdDt.length > 1) {
       params = { ...params, begin_time: moment(values.createdDt[0]).format('YYYY-MM-DD HH:mm:ss'), end_time: moment(values.createdDt[1]).format('YYYY-MM-DD HH:mm:ss') };
     }
 
-    console.log(88888888888888);
+    this.setState({
+      formValues: params,
+    });
 
     dispatch({
       type: 'transferManage/fetch',
@@ -269,11 +273,12 @@ export default class TableList extends PureComponent {
     }
   }
 
-  handlePendingReview = () => {
+  handleExportSVG = (values) => {
     const { dispatch } = this.props;
+    // console.log(values);
     dispatch({
-      type: 'transferManage/fetchPendingCount',
-      payload: {},
+      type: 'transferManage/exportSVG',
+      payload: values
     });
   }
 
@@ -329,7 +334,7 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout title="转账管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} {...this.props} />
+          <SearchForm onSearch={this.handleSearch} {...this.props} onExportSVG={this.handleExportSVG} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>
