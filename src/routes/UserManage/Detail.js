@@ -174,7 +174,7 @@ export default class UserDetail extends PureComponent {
           <Card bordered={false} >
             <a className={styles.bt_btn} href="/#/user-manage">返回</a>
           </Card>
-          <Card bordered={false} >
+          <Card>
             <Row>
               <div className={styles.title}>基本信息</div>
               <Row gutter={32}>
