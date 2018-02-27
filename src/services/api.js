@@ -161,6 +161,9 @@ export async function cancelAd(params) {
 export async function queryTrade(params) {
   return request(`/btcm/trades?${stringify(params)}`);
 }
+export async function queryTradeDtl(params) {
+  return request(`/btcm/trades/${params.id}`);
+}
 
 export async function exportTrade(params) {
   return `/btcm/trades/export?${stringify(params)}`;
