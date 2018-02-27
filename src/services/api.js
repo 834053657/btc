@@ -190,6 +190,13 @@ export async function exportTransfer(params) {
   return `/btcm/transfers/export?${stringify(params)}`;
 }
 
+export async function fakeStatusResult(params) {
+  return request(`/btcm/transfers/${params.id}/status`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function removeTransfer(params) {
   return request('/api/transfer', {
     method: 'POST',

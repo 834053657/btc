@@ -1,4 +1,4 @@
-import { queryTransfer, exportTransfer } from '../services/api';
+import { queryTransfer, exportTransfer, fakeStatusResult } from '../services/api';
 import { downloadFile } from '../utils/utils';
 
 export default {
@@ -24,7 +24,15 @@ export default {
       const response = yield call(exportTransfer, payload);
       downloadFile(response);
       if (callback) callback();
-    }
+    },
+    *updateStatusResult({ payload, callback }, { call, put }) {
+      const response = yield call(fakeStatusResult, payload);
+      yield put({
+        type: 'setStatusResult',
+        payload: response,
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
@@ -37,6 +45,12 @@ export default {
           pagination,
           need_audit_count
         },
+      };
+    },
+    setStatusResult(state, { payload }) {
+      console.log(payload);
+      return {
+        ...state,
       };
     },
   },

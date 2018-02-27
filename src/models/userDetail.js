@@ -17,19 +17,21 @@ export default {
         payload: response,
       });
     },
-    *updateIDNo({ payload }, { call, put }) {
+    *updateIDNo({ payload, callback }, { call, put }) {
       const response = yield call(fakeIDNo, payload);
       yield put({
         type: 'setIDNo',
         payload: response,
       });
+      if (callback) callback();
     },
-    *updateAuthResult({ payload }, { call, put }) {
+    *updateAuthResult({ payload, callback }, { call, put }) {
       const response = yield call(fakeAuthResult, payload);
       yield put({
         type: 'setAuthResult',
         payload: response,
       });
+      if (callback) callback();
     },
   },
 

@@ -35,6 +35,7 @@ export default class TableList extends PureComponent {
     showUpdate: false,
     isRequiredReason: false,
     formValues: {},
+    showReason: false,
   };
 
   componentDidMount() {
@@ -52,7 +53,7 @@ export default class TableList extends PureComponent {
     },
     {
       title: '时间',
-      dataIndex: 'create_time',
+      dataIndex: 'start_time',
       width: '100',
     },
     {
@@ -130,18 +131,17 @@ export default class TableList extends PureComponent {
     },
     {
       title: '更新时间',
-      dataIndex: 'updatedDate',
+      dataIndex: 'update_time',
       width: '120',
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '备注',
-      dataIndex: 'remark',
+      dataIndex: 'operator_log',
       width: '150',
     },
     {
       title: '操作人',
-      dataIndex: 'actionBy',
+      dataIndex: 'operator_name',
       width: '80',
     },
     {
@@ -151,7 +151,7 @@ export default class TableList extends PureComponent {
         if (r.allow_proceed === 0) {
           return (
             <Fragment>
-              <a onClick={this.showModal}>审核</a>
+              <a onClick={() => this.showModal(r.id)}>审核</a>
             </Fragment>);
         } else { return null; }
       },
@@ -234,18 +234,25 @@ export default class TableList extends PureComponent {
       if (!err) {
         console.log('Received values of form: ', values);
 
+        this.props.dispatch({
+          type: 'transferManage/updateStatusResult',
+          payload: { id: this.state.rowId, status: values.status, log: values.reason },
+          callback: this.refreshGrid()
+        });
+
         this.setState({
           showUpdate: false,
-          isRequiredReason: false,
+          showReason: false,
         });
       }
     });
   }
 
-  showModal = () => {
+  showModal = (id) => {
     this.setState({
       showUpdate: true,
-      isRequiredReason: false,
+      showReason: false,
+      rowId: id
     });
   }
   handleOk = (e) => {
@@ -259,20 +266,25 @@ export default class TableList extends PureComponent {
     console.log(e);
     this.setState({
       showUpdate: false,
-      isRequiredReason: false,
+      showReason: false,
+    });
+  }
+  refreshGrid = () => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'transferManage/fetch',
+      payload: {},
     });
   }
 
-  changeReviewType =(e) => {
-    console.log(e);
-    if (e === '2') {
-      this.setState({
-        isRequiredReason: true,
-      });
+  changeAuthResult = (value) => {
+    if (value === '1') {
+      this.setState({ showReason: false });
+    } else if (value === '2') {
+      this.setState({ showReason: true });
     } else {
-      this.setState({
-        isRequiredReason: false,
-      });
+      this.setState({ showReason: false });
     }
   }
 
@@ -357,45 +369,35 @@ export default class TableList extends PureComponent {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             okText="保存"
-            destroyOnClose
+            destroyOnClose={true}
+            maskClosable={false}
           >
             <Form onSubmit={this.handleSubmit}>
               <Form.Item label="审核结果" {...formItemLayout}>
-                {getFieldDecorator('reviewResult', {
+                {getFieldDecorator('status', {
                   rules: [{ required: true, message: '请选择审核结果' }],
                 })(
-                  <Select placeholder="请选择" onChange={this.changeReviewType}>
+                  <Select placeholder="请选择" onChange={this.changeAuthResult}>
                     <Option value="1">通过</Option>
                     <Option value="2">不通过</Option>
                   </Select>
                 )}
               </Form.Item>
-              {!this.state.isRequiredReason && (
-              <FormItem
-                {...formItemLayoutTe}
-              >
-                  {getFieldDecorator('reason', {
-                    rules: [{
-                      required: false, message: '请输入内容',
-                    }],
-                  })(
-                    <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
-                  )}
-              </FormItem>
-)}
-              {this.state.isRequiredReason && (
-              <FormItem
-                {...formItemLayoutTe}
-              >
-                  {getFieldDecorator('reason', {
-                    rules: [{
-                      required: true, message: '请输入内容',
-                    }],
-                  })(
-                    <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
-                  )}
-              </FormItem>
-)}
+              {
+                this.state.showReason && (
+                <FormItem
+                  {...formItemLayoutTe}
+                >
+                    {getFieldDecorator('reason', {
+                      rules: [{
+                        required: true, message: '请输入内容',
+                      }],
+                    })(
+                      <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />
+                    )}
+                </FormItem>
+                )
+              }
             </Form>
           </Modal>
         </div>

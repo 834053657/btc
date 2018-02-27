@@ -383,6 +383,7 @@ export default class UserDetail extends PureComponent {
           okText="保存"
           destroyOnClose
           confirmLoading={loading}
+          maskClosable={false}
           afterClose={this.closeModalIDNo}
         >
           <Form onSubmit={this.handleSubmit}>
