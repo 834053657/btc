@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { map } from 'lodash';
-import { Row, Col, Form, Input, Select, DatePicker, Button } from 'antd';
+import { Row, Col, Form, Input, Select, DatePicker, Button, Modal } from 'antd';
 import moment from 'moment';
 import styles from './SearchForm.less';
 
@@ -50,6 +50,32 @@ export default class SearchForm extends Component {
     }
   }
 
+  handleExport = () => {
+    const { form } = this.props;
+
+    form.validateFields((err, fieldsValue) => {
+      // if (err) return;
+
+      let values = {
+        ...fieldsValue,
+      };
+
+      if (this.props.onExportSVG) {
+        if (values.createdDt && values.createdDt.length === 2) {
+          values.begin_time = values.createdDt[0].format('YYYY-MM-DD');
+          values.end_time = values.createdDt[1].format('YYYY-MM-DD');
+          delete values.createdDt;
+          this.props.onExportSVG(values);
+        } else {
+          Modal.info({
+            title: '提示',
+            content: '请选择创建时间的起止.'
+          });
+        }
+      }
+    });
+  }
+
   render() {
     const { form: { getFieldDecorator }, transfer: { data: { need_audit_count } } } = this.props;
 
@@ -71,7 +97,7 @@ export default class SearchForm extends Component {
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="转账类型">
-              {getFieldDecorator('transfer_type')(
+              {getFieldDecorator('trade_type')(
                 <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
                   {
                     map(CONFIG.transfer_type, (text, value) => {
@@ -138,8 +164,8 @@ export default class SearchForm extends Component {
         <div className="btn-box">
           <Button type="primary" htmlType="submit">查询</Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          <Button style={{ marginLeft: 8 }} onClick={() => this.props.onSearch({ status: 0 })}>待审核（{need_audit_count || 0})</Button>
-          <Button style={{ marginLeft: 8 }} >导出</Button>
+          <Button style={{ marginLeft: 8 }} onClick={() => this.props.onSearch({ audit_status: 0 })}>待审核（{need_audit_count || 0})</Button>
+          <Button style={{ marginLeft: 8 }} onClick={this.handleExport}>导出</Button>
         </div>
       </Form>
     );
