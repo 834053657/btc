@@ -15,15 +15,11 @@ import styles from './List.less';
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 // const statusMap = ['default', 'processing', 'success', 'error'];
 // const status = ['未认证', '认证中', '已认证', '驳回'];
-const isBlank = v => {
+const isBlank = (v) => {
   if (v === undefined || v === '' || v === null) {
     return true;
-  }
-  else {
-    return false;
-  }
+  } else { return false; }
 };
-
 const columns = [
   {
     title: '用户ID',

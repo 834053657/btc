@@ -15,13 +15,10 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['success', 'processing', 'error'];
 const status = ['成功', '进行中', '失败'];
 
-const isBlank = v => {
+const isBlank = (v) => {
   if (v === undefined || v === '' || v === null) {
     return true;
-  }
-  else {
-    return false;
-  }
+  } else { return false; }
 };
 
 @connect(({ transferManage, loading }) => ({

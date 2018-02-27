@@ -141,12 +141,16 @@ export async function queryAdDtl(params) {
   return request(`/btcm/ads/${params.id}`);
 }
 
+export async function queryAdRpt(params) {
+  return request(`/btcm/ads/reporting?${stringify(params)}`);
+}
+
 export async function queryAdOrders(params) {
   return request(`/btcm/ads/${params.id}/orders`);
 }
 
 export async function cancelAd(params) {
-  return request(`/btcm/ads/${params.id}/status`, {
+  return request(`/btcm/ads/reporting/${params.id}`, {
     method: 'POST',
     body: {
       ...params,
@@ -156,6 +160,9 @@ export async function cancelAd(params) {
 
 export async function queryTrade(params) {
   return request(`/btcm/trades?${stringify(params)}`);
+}
+export async function queryTradeDtl(params) {
+  return request(`/btcm/trades/${params.id}`);
 }
 
 export async function exportTrade(params) {

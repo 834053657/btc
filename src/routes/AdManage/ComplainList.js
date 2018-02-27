@@ -16,8 +16,8 @@ const clsString = classNames(styles.detail, 'horizontal', {}, {
 });
 
 @connect(({ adManage, loading }) => ({
-  data: adManage.data,
-  loading: loading.models.list,
+  data: adManage.rptData,
+  loading: loading.effects['adManage/fetchRpt'],
 }))
 export default class BasicList extends PureComponent {
   state = {
@@ -64,7 +64,7 @@ export default class BasicList extends PureComponent {
           <Fragment>
             <Link to={`/ad-detail/${r.id}`}>查看</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.setState({ visible: true })}>处理</a>
+            <a onClick={() => this.setState({ visible: r.id })}>处理</a>
           </Fragment>
         )
       },
@@ -73,26 +73,16 @@ export default class BasicList extends PureComponent {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'adManage/fetch',
+      type: 'adManage/fetchRpt',
       payload: {}
     });
   }
 
-  handleCancel = () => {
+  // status 举报状态：1：取消广告、2：驳回
+  handleChangeAd = (status) => {
     this.props.dispatch({
       type: 'adManage/cancel',
-      payload: {},
-      callback: () => {
-        this.handleClose();
-        message.success('操作成功');
-      }
-    });
-  }
-
-  handleOk = () => {
-    this.props.dispatch({
-      type: 'adManage/cancel',
-      payload: {},
+      payload: { id: this.state.visible, status },
       callback: () => {
         this.handleClose();
         message.success('操作成功');
@@ -127,11 +117,11 @@ export default class BasicList extends PureComponent {
           </Card>
           <Modal
             title="处理举报"
-            visible={this.state.visible}
+            visible={!!this.state.visible}
             onCancel={this.handleClose}
             footer={[
-              <Button key="cancel" onClick={this.handleCancel}>取消广告</Button>,
-              <Button key="back" type="primary" onClick={this.handleOk}>驳回</Button>,
+              <Button key="cancel" onClick={() => this.handleChangeAd(1)}>取消广告</Button>,
+              <Button key="back" type="primary" onClick={() => this.handleChangeAd(2)}>驳回</Button>,
             ]}
           >
             <p>若举报内容属实，可操作取消广告，若举报内容不属实，请处理驳回</p>
