@@ -92,7 +92,10 @@ const columns = [
     render: r => (
       <div>
         <p><a href={`/#/trade-detail/${r.id}`}>查看</a></p>
-        <p><a href={`/#/trade-im/${r.id}`}>处理申诉</a></p>
+        {
+          r.order_status === 'COMPLAINT' &&
+          <p><a href={`/#/trade-im/${r.id}`}>处理申诉</a></p>
+        }
       </div>
     ),
   },

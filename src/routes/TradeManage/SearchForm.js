@@ -20,7 +20,7 @@ export default class SearchForm extends Component {
     const { form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
-      console.log(err)
+      console.log(err);
       if (err) return;
 
       let values = {

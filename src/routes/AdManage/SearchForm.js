@@ -54,7 +54,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    const { dispatch, form: { getFieldDecorator } } = this.props;
+    const { dispatch, form: { getFieldDecorator }, data: { reporting_count = 0 } } = this.props;
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -125,7 +125,7 @@ export default class SearchForm extends Component {
         <div className="btn-box">
           <Button type="primary" htmlType="submit">查询</Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          <Button style={{ marginLeft: 8 }} onClick={() => dispatch(routerRedux.push('/complain-list'))}>被举报的广告(0)</Button>
+          <Button style={{ marginLeft: 8 }} onClick={() => dispatch(routerRedux.push('/complain-list'))}>被举报的广告({reporting_count})</Button>
         </div>
       </Form>
     );

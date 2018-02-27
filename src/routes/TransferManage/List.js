@@ -15,13 +15,11 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['success', 'processing', 'error'];
 const status = ['成功', '进行中', '失败'];
 
-const isBlank = v => {
+const isBlank = (v) => {
   if (v === undefined || v === '' || v === null) {
     return true;
-  }
-  else
-    return false;
-}
+  } else { return false; }
+};
 
 @connect(({ transferManage, loading }) => ({
   transfer: transferManage,
@@ -215,7 +213,7 @@ export default class TableList extends PureComponent {
       params = { ...params, begin_time: moment(values.createdDt[0]).format('YYYY-MM-DD HH:mm:ss'), end_time: moment(values.createdDt[1]).format('YYYY-MM-DD HH:mm:ss') };
     }
 
-    console.log(88888888888888)
+    console.log(88888888888888);
 
     dispatch({
       type: 'transferManage/fetch',
