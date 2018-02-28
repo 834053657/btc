@@ -366,7 +366,7 @@ export default class TableList extends PureComponent {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             okText="保存"
-            destroyOnClose={true}
+            destroyOnClose
             maskClosable={false}
           >
             <Form onSubmit={this.handleSubmit}>

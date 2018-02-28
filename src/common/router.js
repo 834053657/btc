@@ -103,7 +103,7 @@ export const getRouterData = (app) => {
   },
     '/trade-im/:id':
   {
-    component: dynamicWrapper(app, ['tradeIm'], () => import('../routes/TradeManage/IM')),
+    component: dynamicWrapper(app, ['tradeDetail', 'tradeIm'], () => import('../routes/TradeManage/IM')),
   },
     '/transfer-manage':
   {

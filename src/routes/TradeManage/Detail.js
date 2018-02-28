@@ -16,7 +16,7 @@ const clsString = classNames(styles.detail, 'horizontal', {}, {
 
 @connect(({ tradeDetail, loading }) => ({
   tradeDetail,
-  loading: loading.models.userDetail,
+  loading: loading.models.tradeDetail,
 }))
 export default class TradeDetail extends PureComponent {
   state = {
