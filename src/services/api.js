@@ -47,6 +47,17 @@ export async function fakeSubmitFormMsg(params) {
   });
 }
 
+export async function queryFee(params) {
+  return request(`/btcm/config/fee?${stringify(params)}`);
+}
+
+export async function fakeFee(params) {
+  return request('/btcm/config/fee', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
@@ -99,10 +110,6 @@ export async function queryNotices() {
 export async function getCaptcha(params) {
   return request(`/btcm/admin/captcha?${stringify(params)}`);
   // return request(`http://47.52.250.12:9090/get_captcha?r=${stringify(params)}`);
-}
-
-export async function queryUser2(params) {
-  return request(`/api/user?${stringify(params)}`);
 }
 
 export async function queryUser(params) {

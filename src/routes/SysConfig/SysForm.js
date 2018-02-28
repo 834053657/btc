@@ -88,8 +88,13 @@ export default class BasicForms extends PureComponent {
   }
 
   changeModule = (value) => {
+    const { dispatch } = this.props;
+
     if (value === '1') {
       this.setState({ showFeeSetting: true, showMsgSetting: false });
+      dispatch({
+        type: 'sysConfig/fetchFee',
+      });
     } else if (value === '2') {
       this.setState({ showFeeSetting: false, showMsgSetting: true });
     } else {
@@ -100,6 +105,7 @@ export default class BasicForms extends PureComponent {
 
   changeFeeType = (e) => {
     if (e.target.value === '1') {
+      this.props.sysConfig.feeData.fee_limit = 0;
       this.setState({ showMaxFee: false });
     } else if (e.target.value === '2') {
       this.setState({ showMaxFee: true });
@@ -113,8 +119,8 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'sysConfig/submitForm',
-          payload: values,
+          type: 'sysConfig/saveFee',
+          payload: { fee: parseFloat(values.fee, 10), fee_limit: parseFloat(values.fee_limit, 10) },
         });
         this.setState({ action: '_OPEN' });
       }
@@ -171,12 +177,28 @@ export default class BasicForms extends PureComponent {
     });
   }
 
+  checkFeeFormat = (rule, value, callback) => {
+    const form = this.props.form;
+    let regx = /^[0-9]+(.[0-9]+)?$/;
+
+    if (value && !regx.test(value)) {
+      callback('请输入正确的数字格式');
+    } else {
+      callback();
+    }
+  }
+
 
   render() {
-    const { sysConfig: { data }, submitting, loadingMsg } = this.props;
+    const { sysConfig: { data, feeData }, submitting, loadingMsg } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { selectedRows } = this.state;
 
+    if (feeData && feeData.fee_limit > 0) {
+      this.setState({
+        showMaxFee: true,
+      });
+    }
 
     const formItemLayout = {
       labelCol: {
@@ -219,9 +241,12 @@ export default class BasicForms extends PureComponent {
                   {...formItemLayout}
                   label="交易费率设置"
                 >
-                  {getFieldDecorator('feeRate', {
+                  {getFieldDecorator('fee', {
+                    initialValue: feeData && feeData.fee,
                     rules: [{
                       required: true, message: '请输入交易费率',
+                    }, {
+                      validator: this.checkFeeFormat,
                     }],
                   })(
                     <Input
@@ -237,7 +262,8 @@ export default class BasicForms extends PureComponent {
                   {...formItemLayout}
                   label="交易费上限"
                 >
-                  {getFieldDecorator('feeType', {
+                  {getFieldDecorator('fee_type', {
+                    initialValue: feeData ? (feeData.fee_limit > 0 ? '2' : '1') : null,
                     rules: [{
                       required: true, message: '请选择交易费上限',
                     }],
@@ -255,15 +281,17 @@ export default class BasicForms extends PureComponent {
                       {...formItemLayout}
                       label="交易费上限"
                     >
-                      {getFieldDecorator('maxFee', {
+                      {getFieldDecorator('fee_limit', {
+                        initialValue: feeData && feeData.fee_limit,
                         rules: [{
                           required: true, message: '请输入交易费上限',
+                        }, {
+                          validator: this.checkFeeFormat,
                         }],
                       })(
                         <Input
                           placeholder="交易费上限"
                           disabled={this.state.action === '_OPEN'}
-                          prefix="$"
                           // formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           // parser={value => value.replace(/\$\s?|(,*)/g, '')}
                         />

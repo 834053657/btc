@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { fakeSubmitForm, fakeSubmitFormMsg, queryUser } from '../services/api';
+import { fakeFee, fakeSubmitFormMsg, queryFee, queryUser } from '../services/api';
 
 export default {
   namespace: 'sysConfig',
@@ -9,14 +9,15 @@ export default {
       list: [],
       pagination: {},
     },
+    feeData: {}
   },
 
   effects: {
-    *submitForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload);
+    *saveFee({ payload }, { call, put }) {
+      yield call(fakeFee, payload);
       message.success('保存成功');
       yield put({
-        type: 'fakeSubmitForm',
+        type: 'fakeFee',
         payload,
       });
     },
@@ -26,6 +27,13 @@ export default {
       yield put({
         type: 'fakeSubmitForm',
         payload,
+      });
+    },
+    *fetchFee({ payload }, { call, put }) {
+      const response = yield call(queryFee, payload);
+      yield put({
+        type: 'getFee',
+        payload: response,
       });
     },
     *fetchMsgList({ payload }, { call, put }) {
@@ -44,7 +52,7 @@ export default {
   },
 
   reducers: {
-    fakeSubmitForm(state, action) {
+    fakeFee(state, action) {
       return {
         ...state,
         data: action.payload,
@@ -54,6 +62,13 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    getFee(state, { payload }) {
+      let { data } = payload || {};
+      return {
+        ...state,
+        feeData: data,
       };
     },
   },
