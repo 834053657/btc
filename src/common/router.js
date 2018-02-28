@@ -115,11 +115,11 @@ export const getRouterData = (app) => {
   },
     '/msg-detail/:id':
   {
-    component: dynamicWrapper(app, ['sysConfig'], () => import('../routes/SysConfig/MsgForm')),
+    component: dynamicWrapper(app, ['msgDetail'], () => import('../routes/SysConfig/MsgForm')),
   },
     '/msg-detail-new':
   {
-    component: dynamicWrapper(app, ['sysConfig'], () => import('../routes/SysConfig/MsgForm')),
+    component: dynamicWrapper(app, ['msgDetail'], () => import('../routes/SysConfig/MsgForm')),
   },
     '/dashboard/analysis':
   {

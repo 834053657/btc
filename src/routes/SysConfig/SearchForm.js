@@ -22,7 +22,6 @@ export default class SearchForm extends Component {
     e.preventDefault();
 
     const { form } = this.props;
-
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
@@ -59,7 +58,7 @@ export default class SearchForm extends Component {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={7} sm={24}>
             <FormItem label="标题">
-              {getFieldDecorator('title')(
+              {getFieldDecorator('key')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>

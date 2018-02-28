@@ -105,7 +105,7 @@ export default class BasicForms extends PureComponent {
 
     return (
       <div>
-        <Button onClick={this.showModal} loading={submitting}>审核</Button>
+        <Button onClick={this.showModal} disabled={!this.props.authInfo} loading={submitting}>审核</Button>
         <Modal
           title={this.props.title}
           visible={this.state.showUpdate}

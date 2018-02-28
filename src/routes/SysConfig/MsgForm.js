@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'dva';
+import { connect } from 'dva';
 import { Form, Input, Button } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './SysForm.less';
@@ -8,6 +8,13 @@ import styles from './SysForm.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
+
+const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+
+@connect(({ msgDetail, loading }) => ({
+  msgDetail,
+  loading: loading.models.msgDetail,
+}))
 
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -25,6 +32,17 @@ export default class BasicForms extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
+
+    if (this.props.match.params.id) {
+      dispatch({
+        type: 'msgDetail/fetch',
+        payload: { id: this.props.match.params.id },
+      });
+    }
+  }
+
+  componentWillUnmount() {
+
   }
 
   handleSubmit = (e) => {
@@ -32,7 +50,7 @@ export default class BasicForms extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'sys_config/submitFormMsg',
+          type: 'msgDetail/saveMsg',
           payload: values,
         });
         this.setState({ action: '_OPEN' });
@@ -42,7 +60,7 @@ export default class BasicForms extends PureComponent {
   }
 
   render() {
-    const { submitting } = this.props;
+    const { msgDetail: { data }, submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -81,6 +99,7 @@ export default class BasicForms extends PureComponent {
             className={styles.title}
           >
             {getFieldDecorator('title', {
+              initialValue: this.state.action === '_NEW' ? null : data && data.title,
               rules: [{
                 required: true, message: '请输入标题',
               }],
@@ -97,7 +116,8 @@ export default class BasicForms extends PureComponent {
             label="正文"
             {...formItemLayout}
           >
-            {getFieldDecorator('message', {
+            {getFieldDecorator('content', {
+              initialValue: this.state.action === '_NEW' ? null : data && data.content,
               rules: [{
                 required: true, message: '请输入正文',
               }],

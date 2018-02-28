@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { fakeFee, fakeSubmitFormMsg, queryFee, queryUser } from '../services/api';
+import { fakeFee, fakeReleaseMsg, queryFee, queryMsg } from '../services/api';
 
 export default {
   namespace: 'sysConfig',
@@ -14,20 +14,25 @@ export default {
 
   effects: {
     *saveFee({ payload }, { call, put }) {
-      yield call(fakeFee, payload);
-      message.success('保存成功');
+      const response = yield call(fakeFee, payload);
+      if (response.code === 0) {
+        message.success('保存成功');
+      }
       yield put({
         type: 'fakeFee',
         payload,
       });
     },
-    *submitFormMsg({ payload }, { call, put }) {
-      yield call(fakeSubmitFormMsg, payload);
-      message.success('发送成功');
+    *releaseMsg({ payload, callback }, { call, put }) {
+      const response = yield call(fakeReleaseMsg, payload);
+      if (response.code === 0) {
+        message.success('发布成功');
+      }
       yield put({
         type: 'fakeSubmitForm',
         payload,
       });
+      if (callback) callback();
     },
     *fetchFee({ payload }, { call, put }) {
       const response = yield call(queryFee, payload);
@@ -37,16 +42,10 @@ export default {
       });
     },
     *fetchMsgList({ payload }, { call, put }) {
-      const response = yield call(queryUser, payload);
-      let obj = {};
-      if (response.code === 0) {
-        const { data: { results, pagination } } = response;
-        obj.list = results;
-        obj.pagination = { current: pagination.page, pageSize: pagination.page_num, total: pagination.total };
-      }
+      const response = yield call(queryMsg, payload);
       yield put({
         type: 'save',
-        payload: obj,
+        payload: response,
       });
     },
   },
@@ -58,10 +57,14 @@ export default {
         data: action.payload,
       };
     },
-    save(state, action) {
+    save(state, { payload }) {
+      let { data: { results, pagination } } = payload || {};
       return {
         ...state,
-        data: action.payload,
+        data: {
+          list: results,
+          pagination,
+        },
       };
     },
     getFee(state, { payload }) {
