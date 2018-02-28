@@ -10,6 +10,7 @@ export default {
   countries: {},
   transfer_type: {},
   transfer_direction: {},
-  tansfer_audit_status: {}
+  tansfer_audit_status: {},
+  announcement_status: {}
 
 };

@@ -13,48 +13,15 @@ const { Option } = Select;
 // const { RangePicker } = DatePicker;
 // const { TextArea } = Input;
 
+const isBlank = (v) => {
+  if (v === undefined || v === '' || v === null) {
+    return true;
+  } else { return false; }
+};
+
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'success'];
 const status = ['未发布', '已发布'];
-const columns = [
-  {
-    title: '序号',
-    dataIndex: 'seq',
-    width: '20%',
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    width: '25%',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    width: '20%',
-  },
-  {
-    title: '状态',
-    dataIndex: 'auth_status',
-    width: '20%',
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
-  },
-  {
-    title: '操作',
-    width: '15%',
-    render: r => (
-      <Fragment>
-        <a href={`/#/msg-detail/${r.id}`}>查看</a>
-        <Divider type="vertical" />
-        {
-          r.auth_status === 0 &&
-          <a href="">发布</a>
-        }
-      </Fragment>
-    ),
-  },
-];
 
 @connect(({ sysConfig, loading }) => ({
   sysConfig,
@@ -84,6 +51,68 @@ export default class BasicForms extends PureComponent {
 
     dispatch({
       type: 'sysConfig/fetchMsgList',
+    });
+  }
+
+  columns = [
+    {
+      title: '序号',
+      dataIndex: 'id',
+      width: '20%',
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+      width: '25%',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      width: '20%',
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      width: '20%',
+      render(val) {
+        return <Badge status={statusMap[val]} text={!isBlank(val) ? CONFIG.announcement_status[val] : '-'} />;
+      },
+    },
+    {
+      title: '操作',
+      width: '15%',
+      render: r => (
+        <Fragment>
+          <a href={`/#/msg-detail/${r.id}`}>查看</a>
+          <Divider type="vertical" />
+          {
+            r.status === 0 &&
+            <a onClick={() => this.releaseMsg(r.id)}>发布</a>
+          }
+        </Fragment>
+      ),
+    },
+  ];
+
+  releaseMsg = (id) => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'sysConfig/releaseMsg',
+      payload: {
+        id,
+        status: 1
+      },
+      callback: this.refreshGrid
+    });
+  }
+
+  refreshGrid = () => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'sysConfig/fetchMsgList',
+      payload: {},
     });
   }
 
@@ -167,12 +196,11 @@ export default class BasicForms extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    // console.log(values);
     this.setState({
       formValues: values,
     });
     dispatch({
-      type: 'userManage/fetch',
+      type: 'sysConfig/fetchMsgList',
       payload: values,
     });
   }
@@ -322,7 +350,7 @@ export default class BasicForms extends PureComponent {
                   selectedRows={selectedRows}
                   loading={loadingMsg}
                   data={data}
-                  columns={columns}
+                  columns={this.columns}
                   onSelectRow={this.handleSelectRows}
                   onChange={this.handleCustomTableChange}
                 />

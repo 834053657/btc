@@ -58,6 +58,28 @@ export async function fakeFee(params) {
   });
 }
 
+export async function queryMsg(params) {
+  return request(`/btcm/config/announcements?${stringify(params)}`);
+}
+
+export async function fakeReleaseMsg(params) {
+  return request(`/btcm/config/announcements/${params.id}`, {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function fakeMsg(params) {
+  return request('/btcm/config/announcements', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function queryMsgDtl(params) {
+  return request(`/btcm/config/announcements/${params.id}`);
+}
+
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
