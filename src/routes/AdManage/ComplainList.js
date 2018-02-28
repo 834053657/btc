@@ -31,13 +31,13 @@ export default class BasicList extends PureComponent {
       {
         title: '举报内容',
         dataIndex: 'type',
-        width: 100,
+        width: 180,
         render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
       },
       {
         title: '处理状态',
         dataIndex: 'country',
-        width: 80,
+        width: 100,
         render: val => <span>{val ? CONFIG.countries[val] : '-'}</span>
       },
       {
@@ -59,7 +59,6 @@ export default class BasicList extends PureComponent {
       },
       {
         title: '操作',
-        width: '100',
         render: r => (
           <Fragment>
             <Link to={`/ad-detail/${r.id}`}>查看</Link>
@@ -109,7 +108,6 @@ export default class BasicList extends PureComponent {
               loading={loading}
               rowKey={record => record.id}
               dataSource={list}
-              scroll={{ x: 1300 }}
               columns={this.state.columns}
               pagination={pagination}
               onChange={this.handleTableChange}

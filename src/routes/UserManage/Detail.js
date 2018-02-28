@@ -369,6 +369,7 @@ export default class UserDetail extends PureComponent {
           <Card>
             <div className={styles.title}>认证编辑日志</div>
             <Table
+              rowKey={record => record.update_time} //  TODO 需要接口返回记录主键id 待沟通
               dataSource={authLogs}
               columns={columns}
               pagination={false}
@@ -406,7 +407,7 @@ export default class UserDetail extends PureComponent {
           visible={this.state.showAvatar}
           width={350}
         >
-          <img src={detail.portrait_url} alt="portrait_url" />
+          <img className="model_img" src={detail.portrait_url} alt="portrait_url" />
         </Modal>
 
         <Modal
@@ -415,7 +416,7 @@ export default class UserDetail extends PureComponent {
           onCancel={this.handleCancelIdImage1}
           visible={this.state.showIdImage_1}
         >
-          <img src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.front_url} alt="id_image" />
+          <img className="model_img" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.front_url} alt="id_image" />
         </Modal>
         <Modal
           footer={null}
@@ -423,7 +424,7 @@ export default class UserDetail extends PureComponent {
           onCancel={this.handleCancelIdImage2}
           visible={this.state.showIdImage_2}
         >
-          <img src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.back_url} alt="id_image_2" />
+          <img className="model_img" src={authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.back_url} alt="id_image_2" />
         </Modal>
 
       </PageHeaderLayout>

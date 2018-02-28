@@ -76,7 +76,7 @@ class CustomTable extends PureComponent {
         <div className={styles.tableAlert} />
         <Table
           loading={loading}
-          rowKey={record => record.key}
+          rowKey={record => record.id}
           dataSource={list}
           scroll={scroll}
           columns={columns}
