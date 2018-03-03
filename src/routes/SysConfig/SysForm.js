@@ -126,6 +126,7 @@ export default class BasicForms extends PureComponent {
       });
     } else if (value === '2') {
       this.setState({ showFeeSetting: false, showMsgSetting: true });
+      this.refreshGrid();
     } else {
       this.setState({ showFeeSetting: false, showMsgSetting: false });
     }
@@ -207,7 +208,7 @@ export default class BasicForms extends PureComponent {
 
   checkFeeFormat = (rule, value, callback) => {
     const form = this.props.form;
-    let regx = /^[0-9]+(.[0-9]+)?$/;
+    let regx = /^[0-9]+(.[0-9]{1,4})?$/;
 
     if (value && !regx.test(value)) {
       callback('请输入正确的数字格式');

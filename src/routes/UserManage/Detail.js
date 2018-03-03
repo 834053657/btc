@@ -121,6 +121,21 @@ export default class UserDetail extends PureComponent {
     });
   }
 
+  checkIdNoFormat = (rule, value, callback) => {
+    const form = this.props.form;
+    let regx = /^[0-9]{18}$/;
+
+    const { userDetail: { userInfo = {} } } = this.props;
+
+    console.log(userInfo);
+
+    if (userInfo && userInfo.country === 'CN' && value && !regx.test(value)) {
+      callback('请输入正确的身份证号');
+    } else {
+      callback();
+    }
+  }
+
   render() {
     const { userDetail: { userInfo = {}, authInfo = {}, btcInfo = {}, authLogs = [] }, form, loading } = this.props;
     const detail = userInfo;
@@ -394,6 +409,9 @@ export default class UserDetail extends PureComponent {
                   {
                     required: true,
                     message: '请输入身份证号！',
+                  },
+                  {
+                    validator: this.checkIdNoFormat,
                   },
                 ],
               })(<Input size="large" placeholder="身份证号" />)}
