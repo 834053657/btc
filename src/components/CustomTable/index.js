@@ -68,7 +68,7 @@ class CustomTable extends PureComponent {
     const paginationProps = {
       // showSizeChanger: true,
       // showQuickJumper: true,
-      ...pagination,
+      ...pagination
     };
 
     return (

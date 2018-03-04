@@ -49,7 +49,7 @@ export default {
         ...state,
         data: {
           list: results,
-          pagination,
+          pagination: { ...pagination, current: pagination.page },
           complaint_count
         },
       };

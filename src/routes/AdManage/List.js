@@ -87,7 +87,7 @@ const columns = [
 }))
 export default class TableList extends PureComponent {
   state = {
-    // selectedRows: [],
+    formValues: {},
   };
 
   componentDidMount() {
@@ -125,6 +125,11 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
+    
+    this.setState({
+      formValues: values,
+    });
+
     dispatch({
       type: 'adManage/fetch',
       payload: values,

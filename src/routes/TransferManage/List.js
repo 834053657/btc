@@ -30,7 +30,6 @@ export default class TableList extends PureComponent {
   state = {
     selectedRows: [],
     showUpdate: false,
-    isRequiredReason: false,
     formValues: {},
     showReason: false,
   };

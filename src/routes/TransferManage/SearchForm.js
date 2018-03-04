@@ -43,8 +43,9 @@ export default class SearchForm extends Component {
     const { form } = this.props;
     form.resetFields();
     // this.setState({
-    //   formValues: {},
+    //  formValues: {},
     // });
+    
     if (this.props.onSearch) {
       this.props.onSearch({});
     }

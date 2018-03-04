@@ -45,7 +45,7 @@ export default {
         data: {
           list: results,
           reporting_count,
-          pagination
+          pagination: {...pagination, current: pagination.page},
         },
       };
     },
@@ -55,7 +55,7 @@ export default {
         ...state,
         rptData: {
           list: results,
-          pagination
+          pagination: { ...pagination, current: pagination.page },
         },
       };
     },

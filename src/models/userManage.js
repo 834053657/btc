@@ -17,12 +17,7 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryUser, payload);
-      /* let obj = {};
-      if (response.code === 0) {
-        const { data: { results, pagination } } = response;
-        obj.list = results;
-        obj.pagination = { current: pagination.page, pageSize: pagination.page_num, total: pagination.total };
-      } */
+
       yield put({
         type: 'save',
         payload: response,
@@ -44,7 +39,7 @@ export default {
         ...state,
         data: {
           list: results,
-          pagination
+          pagination: { ...pagination, current: pagination.page },
         },
       };
     },
