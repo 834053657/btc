@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Button, Card, Row, Col, Modal, Input, Tabs, Icon } from 'antd';
+import { map, delay } from 'lodash';
+import { Button, Card, Row, Col, Modal, Input, Tabs, Icon, List, Avatar } from 'antd';
 import { Link } from 'dva/router';
 import DescriptionList from '../../components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import ComplainForm from './ComplainForm';
+import { getAuthority } from '../../utils/authority';
 import styles from './IM.less';
 
 const TabPane = Tabs.TabPane;
@@ -30,6 +33,12 @@ export default class TradeIM extends PureComponent {
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.tradeIm.historyList !== newProps.tradeIm.historyList) {
+      this.scrollToBottom();
+    }
+  }
+
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.handleSubmit();
@@ -46,9 +55,18 @@ export default class TradeIM extends PureComponent {
     }
   }
 
-  render() {
-    const { tradeIm: { detail = {}, prices = {}, traders: { dealer = {}, owner = {} } }, match: { params: { id } }, loading } = this.props;
+  scrollToBottom = () => {
+    delay(() => {
+      const messagesContainer = findDOMNode(this.messagesBox);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 100);
+  }
 
+  render() {
+    const { name } = getAuthority() || {};
+    const { tradeIm: { orderInfo, historyList }, match: { params: { id } }, loading } = this.props;
+    const { detail = {}, prices = {}, traders = {} } = orderInfo;
+    const { dealer = {}, owner = {} } = traders || {};
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '订单管理', href: '/trade-manage' }, { title: '处理申诉' }];
 
     return (
@@ -56,14 +74,41 @@ export default class TradeIM extends PureComponent {
         <Card
           bodyStyle={{ padding: 0 }}
           className={styles.chat_card}
-          title={<div><span>罗先生,</span><span>wu,</span><span>客服</span></div>}
+          title={<div><span>{dealer.name}, </span><span>{owner.name}, </span><span>客服: {name}</span></div>}
           extra={!detail.operator_id ? <ComplainForm title="申诉处理" id={id} /> : <Button>已处理</Button>}
         >
           <Row className={styles.card_body}>
             <Col md={14} className={styles.left}>
-              <ul className={styles.chat_history}>
-                <li>转账了吗</li>
-              </ul>
+              <div ref={el => this.messagesBox = el} className={styles.chat_history}>
+                {
+                  historyList.length > 0 ?
+                    (
+                      <List
+                        size="large"
+                        rowKey="messageid"
+                        loading={loading}
+                        dataSource={historyList}
+                        renderItem={item => (
+                          <List.Item>
+                            <List.Item.Meta
+                              className={item.sender === name ? styles.myMessageBox : null}
+                              avatar={<Avatar style={{ backgroundColor: '#f5222d', color: '#fff', verticalAlign: 'middle' }} size="large" >{item.sender.substr(0, 1)}</Avatar>}
+                              title={<span>{item.sender}</span>}
+                              description={(
+                                <div>
+                                  <div>{item.message}</div>
+                                  <div className={styles.sendtime}>{moment(item.sendtime * 1000).format('YYYY-MM-DD HH:mm:ss')}</div>
+                                </div>
+                              )}
+                            />
+                          </List.Item>
+                        )}
+                      />
+                    )
+                    :
+                    null
+                }
+              </div>
               <div className={styles.chat_message_box}>
                 <div className={styles.chat_tools}>
                   <Icon type="smile-o" style={{ fontSize: 18, marginRight: 15 }} />

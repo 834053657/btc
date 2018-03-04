@@ -7,12 +7,14 @@ export default {
   namespace: 'tradeIm',
 
   state: {
-    detail: {},
-    op_logs: [],
-    prices: {},
-    traders: {}
+    orderInfo: {
+      detail: {},
+      op_logs: [],
+      prices: {},
+      traders: {},
+    },
+    historyList: []
   },
-
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryTradeDtl, payload);
@@ -22,12 +24,9 @@ export default {
       });
     },
     *connectSuccess({ payload }, { call, put, select }) {
-      const orderid = yield select(state => state.tradeIm.detail.order_id);
-      console.log('start get_history', orderid);
+      const orderid = yield select(state => state.tradeIm.orderInfo.detail.order_id);
       const { name } = getAuthority() || {};
-      yield socket.emit('get_history', { username: name, orderid }, () => {
-        console.log('get history ok');
-      });
+      yield socket.emit('get_history', JSON.stringify({ username: name, orderid }));
     },
     *sendMessage({ payload }) {
       const { name } = getAuthority() || {};
@@ -37,31 +36,38 @@ export default {
 
   reducers: {
     setDetail(state, { payload }) {
+      let orderInfo = { ...state.orderInfo, ...payload.data };
       return {
         ...state,
-        ...payload.data
+        orderInfo
+      };
+    },
+    getHistory(state, { payload }) {
+      return {
+        ...state,
+        historyList: payload.data
       };
     }
   },
   subscriptions: {
     socket({ dispatch }) { // socket相关
-      return service.listen((data) => {
-        switch (data.type) {
+      return service.listen(({ type, state, data }) => {
+        switch (type) {
           case 'connect':
-            if (data.state === 'success') {
+            if (state === 'success') {
               dispatch({
                 type: 'connectSuccess'
               });
             } else {
-              console.log('connectFail');
               dispatch({
                 type: 'connectFail'
               });
             }
             break;
-          case 'welcome':
+          case 'get_history':
             dispatch({
-              type: 'welcome'
+              type: 'getHistory',
+              payload: data
             });
             break;
         }

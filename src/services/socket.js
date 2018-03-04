@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { map } from 'lodash';
 
 export function listen(action) {
   if (socket === '') {
@@ -15,9 +16,11 @@ export function listen(action) {
       });
     }
   }
-  socket.on('message', () => {
+  socket.on('get_history', (res) => {
+    let data = JSON.parse(res);
     action({
-      type: 'message'
+      type: 'get_history',
+      data
     });
   });
 }

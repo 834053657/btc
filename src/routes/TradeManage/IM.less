@@ -9,8 +9,10 @@
 
   .chat_history {
     height: 390px;
+    border-radius: 4px;
+    overflow: auto;
+    padding: 8px 24px;
     box-sizing: border-box;
-    padding: 15px;
   }
 
   .chat_message_box {
@@ -28,6 +30,22 @@
     border-left: 1px solid @border-color-base;
     .tabs_content {
       padding: 0 15px;
+    }
+  }
+
+  .myMessageBox {
+    flex-direction: row-reverse;
+    .sendtime {
+      //text-align: left;
+    }
+    :global {
+      .ant-list-item-meta-avatar {
+        margin-right: 0;
+        margin-left: 16px;
+      }
+      .ant-list-item-meta-content {
+        text-align: right;
+      }
     }
   }
 }
