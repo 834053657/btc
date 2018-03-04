@@ -52,6 +52,7 @@ export default class UserDetail extends PureComponent {
         dispatch({
           type: 'userDetail/updateIDNo',
           payload: { id: this.props.match.params.id, citizen_id: values.idNo },
+          callback: this.refreshFrom
         });
 
         this.setState({
@@ -112,7 +113,7 @@ export default class UserDetail extends PureComponent {
     });
   }
 
-  closeModalIDNo = () => {
+  refreshFrom = () => {
     const { dispatch } = this.props;
 
     dispatch({
@@ -179,8 +180,8 @@ export default class UserDetail extends PureComponent {
 
 
     const userAvatar = { name: detail.user_name, portraitUrl: detail.portrait_url };
-    const auStatusDesc = ['未认证', 'C1', 'C2', 'C3'];
-    const status = ['未认证', '认证中', '已认证', '驳回'];
+    // const auStatusDesc = ['未认证', 'C1', 'C2', 'C3'];
+    // const status = ['未认证', '认证中', '已认证', '驳回'];
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '用户管理', href: '/user-manage' }, { title: '用户详情' }];
 
     return (
@@ -264,7 +265,7 @@ export default class UserDetail extends PureComponent {
                   </Col>
                   <Col span={8}>
                     <div className={styles.term}>认证等级</div>
-                    <div className={styles.detail}>{auStatusDesc[detail.authentication_level]}</div>
+                    <div className={styles.detail}>{CONFIG.auth_level[detail.authentication_level]}</div>
                   </Col>
                 </Col>
                 <Col span={3}>
@@ -282,7 +283,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={24}>
                 <div className={styles.term}>C1认证状态</div>
-                <div className={styles.detail}>{authInfo.c1 && status[authInfo.c1.auth_status]}</div>
+                <div className={styles.detail}>{authInfo.c1 && CONFIG.auth_status[authInfo.c1.auth_status]}</div>
               </Col>
             </Row>
             <Row>
@@ -312,7 +313,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={7}>
                 <div className={styles.term}>C2认证状态</div>
-                <div className={styles.detail}>{authInfo.c2 && status[authInfo.c2.auth_status]}</div>
+                <div className={styles.detail}>{authInfo.c2 && CONFIG.auth_status[authInfo.c2.auth_status]}</div>
               </Col>
               <Col span={7}>
                 <ReviewForm title="C2认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c2} uid={this.props.match.params.id} authLevel={2} />
@@ -321,7 +322,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={10}>
                 <div className={styles.term}>证件类型</div>
-                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_data && authInfo.c2.auth_data.card_type}</div>
+                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_data && CONFIG.card_type[authInfo.c2.auth_data.card_type]}</div>
               </Col>
               <Col span={10}>
                 <div className={styles.term}>不合格原因</div>
@@ -353,7 +354,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={7}>
                 <div className={styles.term}>C3认证状态</div>
-                <div className={styles.detail}>{authInfo.c3 && status[authInfo.c3.auth_status]}</div>
+                <div className={styles.detail}>{authInfo.c3 && CONFIG.auth_status[authInfo.c3.auth_status]}</div>
               </Col>
               <Col span={7}>
                 <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3} uid={this.props.match.params.id} authLevel={3} />
@@ -400,7 +401,6 @@ export default class UserDetail extends PureComponent {
           destroyOnClose
           confirmLoading={loading}
           maskClosable={false}
-          afterClose={this.closeModalIDNo}
         >
           <Form onSubmit={this.handleSubmit}>
             <FormItem label="身份证号: " {...formItemLayout}>

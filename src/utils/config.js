@@ -15,5 +15,6 @@ export default {
   trade_status: {},
   trade_type: {},
   transfer_direction: {},
-  transfer_type: {}
+  transfer_type: {},
+  card_type: {}
 };

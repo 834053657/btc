@@ -24,6 +24,7 @@ export default class BasicForms extends PureComponent {
         dispatch({
           type: 'userDetail/updateAuthResult',
           payload: { id: this.props.uid, auth_level: this.props.authLevel, auth_status: values.auth_status, auth_log: values.reason },
+          callback: this.refreshForm
         });
 
         this.setState({
@@ -66,7 +67,7 @@ export default class BasicForms extends PureComponent {
     }
   }
 
-  closeModal = () => {
+  refreshForm = () => {
     const { dispatch } = this.props;
 
     dispatch({
@@ -114,7 +115,6 @@ export default class BasicForms extends PureComponent {
           okText="保存"
           destroyOnClose
           maskClosable={false}
-          afterClose={this.closeModal}
         >
           <Form onSubmit={this.handleSubmit}>
             <Form.Item label="审核结果" {...formItemLayout}>

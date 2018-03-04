@@ -191,7 +191,6 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     // console.log(values);
     let params = {};
-    console.log(values);
     if (!isBlank(values.audit_status)) {
       params = { ...params, audit_status: values.audit_status };
     }
@@ -233,7 +232,7 @@ export default class TableList extends PureComponent {
         this.props.dispatch({
           type: 'transferManage/updateStatusResult',
           payload: { id: this.state.rowId, status: values.status, log: values.reason },
-          callback: this.refreshGrid()
+          callback: this.refreshGrid
         });
 
         this.setState({
@@ -267,10 +266,34 @@ export default class TableList extends PureComponent {
   }
   refreshGrid = () => {
     const { dispatch } = this.props;
+    let values = this.state.formValues;
+
+    let params = {};
+    if (!isBlank(values.audit_status)) {
+      params = { ...params, audit_status: values.audit_status };
+    }
+    if (!isBlank(values.trade_type)) {
+      params = { ...params, trade_type: values.trade_type };
+    }
+    if (!isBlank(values.trade_direction)) {
+      params = { ...params, trade_direction: values.trade_direction };
+    }
+    if (!isBlank(values.order_id)) {
+      params = { ...params, order_id: values.order_id };
+    }
+    if (!isBlank(values.name)) {
+      params = { ...params, name: values.name };
+    }
+    if (!isBlank(values.country)) {
+      params = { ...params, country: values.country };
+    }
+    if (values.createdDt && values.createdDt.length > 1) {
+      params = { ...params, begin_time: moment(values.createdDt[0]).format('YYYY-MM-DD HH:mm:ss'), end_time: moment(values.createdDt[1]).format('YYYY-MM-DD HH:mm:ss') };
+    }
 
     dispatch({
       type: 'transferManage/fetch',
-      payload: {},
+      payload: params,
     });
   }
 
