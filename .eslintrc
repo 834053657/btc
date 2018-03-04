@@ -11,6 +11,7 @@
     "jasmine": true
   },
   "rules": {
+    "default-case": [0],
     "react/no-unused-state": [0],
     "camelcase": [1],
     "prefer-destructuring": [0],
@@ -75,6 +76,7 @@
   "globals": {
     "CONFIG": true,
     "__DEV__": true,
-    "__PROD__": true
+    "__PROD__": true,
+    "socket": true
   }
 }

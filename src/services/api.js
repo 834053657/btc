@@ -198,6 +198,15 @@ export async function exportTrade(params) {
   return `/btcm/trades/export?${stringify(params)}`;
 }
 
+export async function changeTradeStatus(params) {
+  return request(`/btcm/trades/${params.id}/status`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 export async function removeTrade(params) {
   return request('/api/trade', {
     method: 'POST',

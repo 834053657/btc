@@ -13,7 +13,7 @@ import './rollbar';
 import './index.less';
 
 global.CONFIG = CONFIG;
-
+global.socket = '';
 // 1. Initialize
 const app = dva({
   history: createHistory(),

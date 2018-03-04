@@ -195,7 +195,12 @@ export default noProxy ? {
   //'GET /btcm/(.*)': CONFIG.base_url,
   // 'GET /btcm/users': CONFIG.base_url,
   // 'POST /btcm/admin/login': CONFIG.base_url,
+  'GET /socket.io/': CONFIG.message_url.im_url,
+  'POST /socket.io/': CONFIG.message_url.im_url,
   'GET /btcm/*': CONFIG.base_url,
-  'POST /btcm/*': CONFIG.base_url
+  'POST /btcm/*': CONFIG.base_url,
+  // 'POST /socket.io/*': CONFIG.message_url.im_url,
+  // 'GET /socket.io/*': CONFIG.message_url.im_url,
+
 
 } : delay(proxy, 1000);

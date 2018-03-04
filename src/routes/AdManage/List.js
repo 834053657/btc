@@ -125,7 +125,7 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    
+
     this.setState({
       formValues: values,
     });

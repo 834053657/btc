@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'dva';
+import { connect } from 'dva';
 import { Form, Input, Button, Modal, Select } from 'antd';
 
 // import styles from './Detail.less';
@@ -8,6 +8,9 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 
+@connect(({ loading }) => ({
+  loading: loading.effects['tradeDetail/changeStatus'],
+}))
 @Form.create()
 export default class ComplainForm extends PureComponent {
   state = {
@@ -18,12 +21,11 @@ export default class ComplainForm extends PureComponent {
     const { dispatch } = this.props;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values);
       if (!err) {
-        // dispatch({
-        //   type: 'userDetail/complain',
-        //   payload: { id: this.props.uid, auth_level: this.props.authLevel, auth_status: values.auth_status, auth_log: values.reason },
-        // });
+        dispatch({
+          type: 'tradeDetail/changeStatus',
+          payload: { id: this.props.id, ...values },
+        });
 
         this.handleCancel();
       }
@@ -50,8 +52,9 @@ export default class ComplainForm extends PureComponent {
       modalVisible: false,
     });
   }
+
   render() {
-    const { submitting } = this.props;
+    const { loading } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -80,7 +83,7 @@ export default class ComplainForm extends PureComponent {
 
     return (
       <div>
-        <Button type="primary" onClick={this.showModal} loading={submitting}>{this.props.title}</Button>
+        <Button type="primary" onClick={this.showModal} loading={loading}>{this.props.title}</Button>
         <Modal
           title="申诉处理"
           visible={this.state.modalVisible}
@@ -92,21 +95,21 @@ export default class ComplainForm extends PureComponent {
         >
           <Form onSubmit={this.handleSubmit}>
             <Form.Item label="审核结果" {...formItemLayout}>
-              {getFieldDecorator('auth_status', {
+              {getFieldDecorator('status', {
               rules: [{ required: true, message: '请选择审核结果' }],
             })(
               <Select placeholder="请选择" >
-                <Option value="2">取消订单</Option>
-                <Option value="3">释放比特币</Option>
+                <Option value="CANCELED">取消订单</Option>
+                <Option value="DONE">释放比特币</Option>
               </Select>
             )}
             </Form.Item>
             <FormItem
               {...formItemLayoutTe}
             >
-              {getFieldDecorator('reason', {
+              {getFieldDecorator('content', {
                 rules: [{
-                  required: true, message: '请输入内容',
+                  required: true, message: '请输入审核理由',
                 }],
               })(
                 <TextArea style={{ minHeight: 32 }} placeholder="内容" rows={4} />

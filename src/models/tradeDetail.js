@@ -1,5 +1,5 @@
 // import { message } from 'antd';
-import { queryTradeDtl } from '../services/api';
+import { queryTradeDtl, changeTradeStatus } from '../services/api';
 
 export default {
   namespace: 'tradeDetail',
@@ -18,7 +18,12 @@ export default {
         type: 'setDetail',
         payload: response,
       });
-    }
+    },
+    *changeStatus({ payload, callback }, { call, put }) {
+      const response = yield call(changeTradeStatus, payload);
+      yield put({ type: 'fetch', payload: { id: payload.id } });
+      if (callback) callback(response);
+    },
   },
 
   reducers: {
