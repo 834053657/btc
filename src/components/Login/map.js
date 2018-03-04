@@ -20,6 +20,7 @@ const map = {
       size: 'large',
       prefix: <Icon type="lock" className={styles.prefixIcon} />,
       type: 'password',
+      maxLength: 16,
       placeholder: '888888',
     },
     rules: [{
