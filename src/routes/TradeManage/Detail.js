@@ -202,7 +202,7 @@ export default class TradeDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>交易费</div>
-                <div className={styles.detail}>{pdealer.deal_pric ? pdealer.deal_btc * pdealer.deal_price : 0 }</div>
+                <div className={styles.detail}>{pdealer.fee}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>总金额</div>
@@ -234,7 +234,7 @@ export default class TradeDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>交易费</div>
-                <div className={styles.detail}>{powner.deal_pric ? powner.deal_btc * powner.deal_price : 0 }</div>
+                <div className={styles.detail}>{powner.fee}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>总金额</div>
