@@ -1,4 +1,5 @@
-// import { message } from 'antd';
+import { notification } from 'antd';
+import { reverse, mapKeys } from 'lodash';
 import { queryTradeDtl } from '../services/api';
 import * as service from '../services/socket';
 import { getAuthority } from '../utils/authority';
@@ -13,7 +14,8 @@ export default {
       prices: {},
       traders: {},
     },
-    historyList: []
+    historyList: [],
+    roomInfo: {}
   },
   effects: {
     *fetch({ payload }, { call, put }) {
@@ -24,14 +26,23 @@ export default {
       });
     },
     *connectSuccess({ payload }, { call, put, select }) {
-      const orderid = yield select(state => state.tradeIm.orderInfo.detail.order_id);
+      const { detail: { order_id }, traders: { dealer = {}, owner = {} } } = yield select(state => state.tradeIm.orderInfo);
       const { name } = getAuthority() || {};
-      yield socket.emit('get_history', JSON.stringify({ username: name, orderid }));
+      yield socket.emit('create_room', JSON.stringify({ username: name, order_id, members: [name, dealer.name, owner.name] }));
     },
-    *sendMessage({ payload }) {
+    *sendMessage({ payload, callback }, { select }) {
+      const { message } = payload;
       const { name } = getAuthority() || {};
-      yield socket.emit('send_message', { sender: name, message: payload.message, orderid: 'e7f98a5e', roomid: '1' });
-    }
+      const { roomInfo: { roomid } } = yield select(state => state.tradeIm);
+      yield socket.emit('send_message', JSON.stringify({ sender: name, message, roomid }));
+      if (callback) callback();
+    },
+    *createRoomed({ payload }, { put }) {
+      const { name } = getAuthority() || {};
+      const { roomid } = payload.data || {};
+      yield socket.emit('get_history', JSON.stringify({ username: name, roomid }));
+      yield put({ type: 'setRoomInfo', payload });
+    },
   },
 
   reducers: {
@@ -45,13 +56,28 @@ export default {
     getHistory(state, { payload }) {
       return {
         ...state,
-        historyList: payload.data
+        historyList: reverse(payload.data)
+      };
+    },
+    addHistory(state, { payload }) {
+      let historyList = [...state.historyList];
+      historyList.push(payload.data);
+      return {
+        ...state,
+        historyList
+      };
+    },
+    setRoomInfo(state, { payload }) {
+      const membersonlinestatus = mapKeys(payload.data.membersonlinestatus, (v, k) => v.username);
+      return {
+        ...state,
+        roomInfo: { ...payload.data, membersonlinestatus }
       };
     }
   },
   subscriptions: {
     socket({ dispatch }) { // socket相关
-      return service.listen(({ type, state, data }) => {
+      return service.listen(({ type, state, data, errorMsg }) => {
         switch (type) {
           case 'connect':
             if (state === 'success') {
@@ -59,14 +85,28 @@ export default {
                 type: 'connectSuccess'
               });
             } else {
-              dispatch({
-                type: 'connectFail'
+              notification.open({
+                message: '连接错误',
+                description: errorMsg,
               });
             }
             break;
           case 'get_history':
             dispatch({
               type: 'getHistory',
+              payload: data
+            });
+            break;
+          case 'create_room':
+            dispatch({
+              type: 'createRoomed',
+              payload: data
+            });
+            break;
+          case 'receive_message':
+          case 'send_message':
+            dispatch({
+              type: 'addHistory',
               payload: data
             });
             break;

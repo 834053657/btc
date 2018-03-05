@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import 'url-polyfill';
 import dva from 'dva';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import createHistory from 'history/createHashHistory';
 // user BrowserHistory
 // import createHistory from 'history/createBrowserHistory';
@@ -11,6 +11,12 @@ import FastClick from 'fastclick';
 import CONFIG from './utils/config';
 import './rollbar';
 import './index.less';
+
+notification.config({
+  placement: 'bottomRight',
+  bottom: 50,
+  duration: 3,
+});
 
 global.CONFIG = CONFIG;
 global.socket = '';
