@@ -97,11 +97,11 @@ export default class UserDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>货币</div>
-                <div className={styles.detail}>{info.country}</div>
+                <div className={styles.detail}>{info.accept_money ? CONFIG.accept_money[info.accept_money] : '-'}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>是否设置溢价</div>
-                <div className={styles.detail}>?</div>
+                <div className={styles.detail}>{info.discount ? '是' : '否'}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>溢价</div>
