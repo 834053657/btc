@@ -82,6 +82,7 @@ export default class SearchForm extends Component {
               {getFieldDecorator('createdDt')(
                 <RangePicker
                   showTime
+                  allowClear
                   format="YYYY/MM/DD HH:mm:ss"
                 />
               )}

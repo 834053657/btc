@@ -50,8 +50,8 @@ export default class SearchForm extends Component {
 
       if (this.props.onExportSVG) {
         if (values.date && values.date.length === 2) {
-          values.begin_time = values.date[0].format('YYYY-MM-DD');
-          values.end_time = values.date[1].format('YYYY-MM-DD');
+          values.begin_time = values.date[0].format('YYYY-MM-DD HH:mm:ss');
+          values.end_time = values.date[1].format('YYYY-MM-DD HH:mm:ss');
           delete values.date;
           this.props.onExportSVG(values);
         } else {
@@ -130,12 +130,13 @@ export default class SearchForm extends Component {
               )}
             </FormItem>
           </Col>
-          <Col md={10} sm={24}>
+          <Col md={12} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('date')(
                 <RangePicker
                   allowClear
-                  format="YYYY/MM/DD"
+                  showTime
+                  format="YYYY/MM/DD HH:mm:ss"
                 />
               )}
             </FormItem>

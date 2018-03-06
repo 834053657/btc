@@ -31,8 +31,8 @@ export default class SearchForm extends Component {
 
       if (this.props.onSearch) {
         if (values.date && values.date.length === 2) {
-          values.begin_time = values.date[0].format('YYYY-MM-DD');
-          values.end_time = values.date[1].format('YYYY-MM-DD');
+          values.begin_time = values.date[0].format('YYYY-MM-DD HH:mm:ss');
+          values.end_time = values.date[1].format('YYYY-MM-DD HH:mm:ss');
           delete values.date;
         }
         if (values.pay_methods) {
@@ -103,7 +103,9 @@ export default class SearchForm extends Component {
             <FormItem label="创建时间">
               {getFieldDecorator('date')(
                 <RangePicker
-                  format="YYYY/MM/DD"
+                  showTime
+                  allowClear
+                  format="YYYY/MM/DD HH:mm:ss"
                 />
               )}
             </FormItem>
