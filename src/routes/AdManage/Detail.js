@@ -69,6 +69,17 @@ export default class UserDetail extends PureComponent {
     const { adDetail: { info, orderList }, form, loading } = this.props;
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '广告管理', href: '/ad-manage' }, { title: '广告详情' }];
 
+    let security_option = '';
+    if (info) {
+      security_option = info.only_trusted ? '仅限受信任的交易者' : '';
+      if (info.auth_level_quota) {
+        security_option += `${(security_option ? ', ' : '')}交易者的认证等级至少为C${info.auth_level_quota}`;
+      }
+      if (!security_option) {
+        security_option = '无限制';
+      }
+    }
+
     return (
       <PageHeaderLayout title="广告基本信息" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
@@ -85,7 +96,7 @@ export default class UserDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>广告类型</div>
-                <div className={styles.detail}>{info.type}</div>
+                <div className={styles.detail}>{info.type ? CONFIG.ad_type[info.type] : '-'}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>所在地</div>
@@ -137,7 +148,7 @@ export default class UserDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>安全选项</div>
-                <div className={styles.detail}>?</div>
+                <div className={styles.detail}>{security_option}</div>
               </Col>
               <Col span={24}>
                 <div className={styles.term}>是否开启流动性选项</div>

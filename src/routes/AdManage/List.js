@@ -12,8 +12,8 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '编号',
-    dataIndex: 'id',
-    width: 80,
+    dataIndex: 'ad_id',
+    width: 100,
   },
   {
     title: '类型',

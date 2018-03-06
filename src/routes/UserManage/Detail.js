@@ -179,7 +179,7 @@ export default class UserDetail extends PureComponent {
     };
 
 
-    const userAvatar = { name: detail.user_name, portraitUrl: detail.portrait_url };
+    const userAvatar = { name: detail.name, portraitUrl: detail.portrait_url };
     // const auStatusDesc = ['未认证', 'C1', 'C2', 'C3'];
     // const status = ['未认证', '认证中', '已认证', '驳回'];
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '用户管理', href: '/user-manage' }, { title: '用户详情' }];
