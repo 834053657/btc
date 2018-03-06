@@ -34,16 +34,17 @@ export default class BasicForms extends PureComponent {
     super(props);
     this.state = {
       showFeeSetting: false,
-      showMsgSetting: false,
+      showMsgSetting: true,
       action: '_OPEN',
       selectedRows: [],
       showMaxFee: false,
     };
-    if (props.location.search) {
-      this.state.showFeeSetting = false;
-      this.state.showMsgSetting = true;
-      this.moduleValue = '2';
-    }
+    // if (props.location.search) {
+    //   this.state.showFeeSetting = false;
+    //   this.state.showMsgSetting = true;
+    //   this.moduleValue = '2';
+    // }
+    this.moduleValue = '2';
   }
 
   componentDidMount() {

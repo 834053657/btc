@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Form, Input, Button } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './SysForm.less';
@@ -53,6 +54,8 @@ export default class BasicForms extends PureComponent {
           type: 'msgDetail/saveMsg',
           payload: values,
         });
+        this.props.dispatch(routerRedux.replace('/sys-config?r=msg'));
+
         this.setState({ action: '_OPEN' });
         this.setState({ pageTitle: '公告详情' });
       }
