@@ -39,6 +39,10 @@ export default class TradeIM extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({ type: 'tradeIm/Unmount' });
+  }
+
   handleKeyPress = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -52,7 +56,7 @@ export default class TradeIM extends PureComponent {
     if (message) {
       this.props.dispatch({
         type: 'tradeIm/sendMessage',
-        payload: { message },
+        payload: { message, messagetype: 1 },
         callback: () => this.setState({ message: '' })
       });
     }
@@ -73,11 +77,12 @@ export default class TradeIM extends PureComponent {
 
   render() {
     const { name } = getAuthority() || {};
-    const { tradeIm: { orderInfo, historyList, roomInfo }, match: { params: { id } }, loading } = this.props;
+    const { tradeIm: { orderInfo, historyList, roomInfo }, loading, id } = this.props;
     const { detail = {}, prices = {}, traders = {} } = orderInfo;
     const { dealer = {}, owner = {} } = traders || {};
     const { membersonlinestatus = {} } = roomInfo || {};
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '订单管理', href: '/trade-manage' }, { title: '处理申诉' }];
+    console.log('historyList', historyList);
     return (
       <PageHeaderLayout breadcrumbList={breadcrumbList}>
         <Spin spinning={loading}>
@@ -106,17 +111,24 @@ export default class TradeIM extends PureComponent {
                           dataSource={historyList}
                           renderItem={item => (
                             <List.Item>
-                              <List.Item.Meta
-                                className={item.sender === name ? styles.myMessageBox : null}
-                                avatar={<Avatar style={{ backgroundColor: '#f5222d', color: '#fff', verticalAlign: 'middle' }} size="large" >{item.sender.substr(0, 1)}</Avatar>}
-                                title={item.sender}
-                                description={(
-                                  <div>
-                                    <div>{item.message}</div>
-                                    <div className={styles.sendtime}>{moment(item.sendtime * 1000).format('YYYY-MM-DD HH:mm:ss')}</div>
-                                  </div>
-                                )}
-                              />
+                              {
+                                item.messagetype !== 1 ?
+                                  <div style={{ textAlign: 'center', flex: 1, color: '#1890ff' }}>{item.message}</div>
+                                  :
+                                  (
+                                    <List.Item.Meta
+                                      className={item.sender === name ? styles.myMessageBox : null}
+                                      avatar={<Avatar style={{ backgroundColor: '#f5222d', color: '#fff', verticalAlign: 'middle' }} size="large" >{item.sender.substr(0, 1)}</Avatar>}
+                                      title={item.sender}
+                                      description={(
+                                        <div>
+                                          <div>{item.message}</div>
+                                          <div className={styles.sendtime}>{moment(item.sendtime * 1000).format('YYYY-MM-DD HH:mm:ss')}</div>
+                                        </div>
+                                      )}
+                                    />
+                                  )
+                              }
                             </List.Item>
                           )}
                         />

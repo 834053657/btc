@@ -20,8 +20,14 @@ export default {
       });
     },
     *changeStatus({ payload, callback }, { call, put }) {
+      const { status } = payload;
+      const messagetype = status === 'DONE' ? 8 : 9;
+      const message = CONFIG.note_types[messagetype];
       const response = yield call(changeTradeStatus, payload);
+
       yield put({ type: 'fetch', payload: { id: payload.id } });
+      yield put({ type: 'tradeIm/complaintMsg' });
+      yield put({ type: 'tradeIm/sendMessage', payload: { message, messagetype } });
       if (callback) callback(response);
     },
   },

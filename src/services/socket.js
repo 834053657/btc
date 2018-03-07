@@ -25,13 +25,13 @@ export function listen(action) {
       errorMsg: '连接超时'
     });
   });
-  socket.on('disconnect', (error) => {
-    action({
-      type: 'connect',
-      state: 'fail',
-      errorMsg: error
-    });
-  });
+  // socket.on('disconnect', (error) => {
+  //   action({
+  //     type: 'connect',
+  //     state: 'fail',
+  //     errorMsg: error
+  //   });
+  // });
   socket.on('get_history', (res) => {
     let data = JSON.parse(res);
     action({

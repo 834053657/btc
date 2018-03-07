@@ -24,6 +24,7 @@ export default {
         type: 'setDetail',
         payload: response,
       });
+      yield socket.connect();
     },
     *connectSuccess({ payload }, { call, put, select }) {
       const { detail: { order_id }, traders: { dealer = {}, owner = {} } } = yield select(state => state.tradeIm.orderInfo);
@@ -31,10 +32,10 @@ export default {
       yield socket.emit('create_room', JSON.stringify({ username: name, order_id, members: [name, dealer.name, owner.name] }));
     },
     *sendMessage({ payload, callback }, { select }) {
-      const { message } = payload;
+      const { message, messagetype = 1 } = payload;
       const { name } = getAuthority() || {};
       const { roomInfo: { roomid } } = yield select(state => state.tradeIm);
-      yield socket.emit('send_message', JSON.stringify({ sender: name, message, roomid }));
+      yield socket.emit('send_message', JSON.stringify({ sender: name, message, roomid, messagetype }));
       if (callback) callback();
     },
     *createRoomed({ payload }, { put }) {
@@ -43,6 +44,16 @@ export default {
       yield socket.emit('get_history', JSON.stringify({ username: name, roomid }));
       yield put({ type: 'setRoomInfo', payload });
     },
+    *Unmount({ payload }, { put }) {
+      if (socket) { yield socket.close(); }
+      yield put({ type: 'clearState' });
+    },
+    *complaintMsg({ payload, callback }, { select }) {
+      const { name } = getAuthority() || {};
+      const { roomInfo: { roomid } } = yield select(state => state.tradeIm);
+      yield socket.emit('complaint_end', JSON.stringify({ sender: name, roomid }));
+      if (callback) callback();
+    }
   },
 
   reducers: {
@@ -72,6 +83,18 @@ export default {
       return {
         ...state,
         roomInfo: { ...payload.data, membersonlinestatus }
+      };
+    },
+    clearState() {
+      return {
+        orderInfo: {
+          detail: {},
+          op_logs: [],
+          prices: {},
+          traders: {},
+        },
+        historyList: [],
+        roomInfo: {}
       };
     }
   },

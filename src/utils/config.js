@@ -2,7 +2,7 @@ export default {
   web_name: 'Bitcoin Admin System',
   base_url: 'http://47.52.250.12:8090',
   message_url: {
-    im_url: 'http://47.52.250.12:8098'
+    im_url: 'http://47.52.250.12:8098',
   },
   ad_status: {},
   ad_type: {},
@@ -18,5 +18,17 @@ export default {
   transfer_type: {},
   card_type: {},
   accept_money: {},
-  reporting_ad_status: {}
+  reporting_ad_status: {},
+  note_types: {
+    1: '聊天消息',
+    2: '【订单】买家已付款，请确认收款后再释放托管的比特币',
+    3: '【订单】交易关闭，买家取消订单',
+    4: '【订单】支付超时，关闭订单',
+    5: '【订单】交易成功,卖家已释放托管，请耐心等候比特币到账',
+    6: '【订单】有新交易评价',
+    7: '客服介入申述',
+    8: '已释放比特币，订单已完成，如有问题请联系客服热线400XXXXX',
+    9: '订单已取消，如有问题请联系客服热线400XXXXX',
+    10: '公告',
+  },
 };
