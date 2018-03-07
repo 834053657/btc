@@ -19,36 +19,35 @@ const clsString = classNames(styles.detail, 'horizontal', {}, {
   data: adManage.rptData,
   loading: loading.effects['adManage/fetchRpt'],
 }))
-export default class BasicList extends PureComponent {
+export default class ComplainList extends PureComponent {
   state = {
     visible: false,
     columns: [
       {
         title: '编号',
-        dataIndex: 'id',
+        dataIndex: 'ad_id',
         width: 100,
       },
       {
         title: '举报内容',
-        dataIndex: 'type',
-        width: 180,
-        render: val => <span>{val ? CONFIG.ad_type[val] : '-'}</span>
+        dataIndex: 'content',
+        width: 180
       },
       {
         title: '处理状态',
-        dataIndex: 'country',
+        dataIndex: 'status',
         width: 100,
-        render: val => <span>{val ? CONFIG.countries[val] : '-'}</span>
+        render: val => <span>{CONFIG.reporting_ad_status[val] || '-'}</span>
       },
       {
         title: '创建时间',
-        dataIndex: 'create_time',
+        dataIndex: 'created_at',
         width: 180,
         render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
       },
       {
         title: '更新时间',
-        dataIndex: 'last_modify_time',
+        dataIndex: 'updated_at',
         width: 180,
         render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
       },
@@ -63,7 +62,9 @@ export default class BasicList extends PureComponent {
           <Fragment>
             <Link to={`/ad-detail/${r.id}`}>查看</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.setState({ visible: r.id })}>处理</a>
+            {
+              r.status === 0 ? <a onClick={() => this.setState({ visible: r.id })}>处理</a> : <span>已处理</span>
+            }
           </Fragment>
         )
       },

@@ -18,4 +18,5 @@ export default {
   transfer_type: {},
   card_type: {},
   accept_money: {},
+  reporting_ad_status: {}
 };

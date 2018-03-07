@@ -159,6 +159,7 @@ export function isUrl(path) {
 }
 
 export function downloadFile(url) {
+  console.log(url);
   let aLink = document.createElement('a');
   aLink.download = true;
   aLink.href = url;

@@ -195,7 +195,7 @@ export async function queryTradeDtl(params) {
 }
 
 export async function exportTrade(params) {
-  return `/btcm/trades/export?${stringify(params)}`;
+  return `${CONFIG.base_url}/btcm/trades/export?${stringify(params)}`;
 }
 
 export async function changeTradeStatus(params) {
@@ -232,7 +232,7 @@ export async function queryTransfer(params) {
 }
 
 export async function exportTransfer(params) {
-  return `/btcm/transfers/export?${stringify(params)}`;
+  return `${CONFIG.base_url}/btcm/transfers/export?${stringify(params)}`;
 }
 
 export async function fakeStatusResult(params) {
