@@ -29,7 +29,7 @@ export default {
     *connectSuccess({ payload }, { call, put, select }) {
       const { detail: { order_id }, traders: { dealer = {}, owner = {} } } = yield select(state => state.tradeIm.orderInfo);
       const { name } = getAuthority() || {};
-      yield socket.emit('create_room', JSON.stringify({ username: name, order_id, members: [name, dealer.name, owner.name] }));
+      yield socket.emit('create_room', JSON.stringify({ username: name, orderid: order_id, members: [name, dealer.name, owner.name] }));
     },
     *sendMessage({ payload, callback }, { select }) {
       const { message, messagetype = 1 } = payload;
@@ -67,7 +67,7 @@ export default {
     getHistory(state, { payload }) {
       return {
         ...state,
-        historyList: reverse(payload.data)
+        historyList: reverse(payload.data || [])
       };
     },
     addHistory(state, { payload }) {
