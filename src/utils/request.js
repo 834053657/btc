@@ -56,7 +56,7 @@ export default function request(postUrl = '/', options) {
   };
 
   const newOptions = { ...defaultOptions, ...options };
-  let url = __PROD__ ? CONFIG.base_url + postUrl : postUrl;
+  let url = CONFIG.base_url + postUrl;//  __PROD__ ? CONFIG.base_url + postUrl : postUrl;
 
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     newOptions.headers = {

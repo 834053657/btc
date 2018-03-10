@@ -1,4 +1,5 @@
 import { queryNotices, queryConfigs } from '../services/api';
+import CONFIG from '../utils/config';
 
 export default {
   namespace: 'global',

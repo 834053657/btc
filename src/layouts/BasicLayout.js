@@ -208,7 +208,7 @@ class BasicLayout extends React.PureComponent {
 
             copyright={
               <div>
-                Copyright <Icon type="copyright" /> Bitcoin Admin System
+                Copyright <Icon type="copyright" /> { CONFIG.web_name } { __KG_API_ENV__ !== 'prod' ? __KG_DATATIME__ : null }
               </div>
             }
           />

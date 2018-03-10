@@ -12,11 +12,20 @@ import {imgMap} from './mock/utils';
 import {getProfileBasicData} from './mock/profile';
 import {getProfileAdvancedData} from './mock/profile';
 import {getNotices} from './mock/notices';
-import CONFIG from './src/utils/config'
 
-
+const api_url_prod = 'http://47.52.250.12:19091';
+const api_url_test = 'http://47.52.250.12:19091';
+const api_url_dev = 'http://47.52.250.12:8090';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
+const apiEnv = process.env.KG_API_ENV === 'true';
+let base_url = api_url_prod;
+
+if (apiEnv === 'dev') {
+  base_url = api_url_dev;
+} else if (apiEnv === 'test') {
+  base_url = api_url_test;
+}
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
@@ -189,18 +198,8 @@ const proxy = {
     });
   },
 };
-console.log(noProxy)
 
 export default noProxy ? {
-  //'GET /btcm/(.*)': CONFIG.base_url,
-  // 'GET /btcm/users': CONFIG.base_url,
-  // 'POST /btcm/admin/login': CONFIG.base_url,
-  'GET /socket.io/': CONFIG.message_url.im_url,
-  'POST /socket.io/': CONFIG.message_url.im_url,
-  'GET /btcm/*': CONFIG.base_url,
-  'POST /btcm/*': CONFIG.base_url,
-  // 'POST /socket.io/*': CONFIG.message_url.im_url,
-  // 'GET /socket.io/*': CONFIG.message_url.im_url,
-
-
+  'GET /btcm/*': base_url,
+  'POST /btcm/*': base_url,
 } : delay(proxy, 1000);

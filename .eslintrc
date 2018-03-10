@@ -78,6 +78,8 @@
     "CONFIG": true,
     "__DEV__": true,
     "__PROD__": true,
+    "__KG_API_ENV__": true,
+    "__KG_DATATIME__": true,
     "socket": true
   }
 }
