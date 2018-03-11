@@ -79,7 +79,7 @@ export default {
       };
     },
     setRoomInfo(state, { payload }) {
-      const membersonlinestatus = mapKeys(payload.data.membersonlinestatus, (v, k) => v.username);
+      const membersonlinestatus = mapKeys(payload.data.membersonlinestatus, (v, k) => v.name);
       return {
         ...state,
         roomInfo: { ...payload.data, membersonlinestatus }
