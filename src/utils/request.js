@@ -77,10 +77,18 @@ export default function request(postUrl = '/', options) {
       }
       return response.json();
     })
+    .then((res) => {
+      if (res.code === 9) {
+        throw new Error('logout');
+      } else {
+        return res;
+      }
+    })
     .catch((e) => {
       const { dispatch } = store;
       const status = e.name;
-      if (status === 401) {
+
+      if (status === 401 || e.message === 'logout') {
         dispatch({
           type: 'login/logout',
         });

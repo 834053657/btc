@@ -77,7 +77,8 @@ export default class BasicForms extends PureComponent {
   }
 
   render() {
-    const { submitting } = this.props;
+    const { submitting, authInfo } = this.props;
+    const { auth_status } = authInfo || {};
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -106,7 +107,7 @@ export default class BasicForms extends PureComponent {
 
     return (
       <div>
-        <Button onClick={this.showModal} disabled={!this.props.authInfo} loading={submitting}>审核</Button>
+        {auth_status !== 2 && <Button onClick={this.showModal} disabled={!authInfo} loading={submitting}>审核</Button>}
         <Modal
           title={this.props.title}
           visible={this.state.showUpdate}

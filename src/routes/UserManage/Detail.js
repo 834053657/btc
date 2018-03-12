@@ -322,7 +322,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={10}>
                 <div className={styles.term}>证件类型</div>
-                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_data && CONFIG.card_type[authInfo.c2.auth_data.card_type]}</div>
+                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_data && CONFIG.card_type[authInfo.c2.auth_data.type]}</div>
               </Col>
               <Col span={10}>
                 <div className={styles.term}>不合格原因</div>
@@ -354,7 +354,7 @@ export default class UserDetail extends PureComponent {
             <Row>
               <Col span={7}>
                 <div className={styles.term}>C3认证状态</div>
-                <div className={styles.detail}>{authInfo.c3 && CONFIG.auth_status[authInfo.c3.auth_status]}</div>
+                <div className={styles.detail}>{authInfo.c3 ? CONFIG.auth_status[authInfo.c3.auth_status] : '未认证' }</div>
               </Col>
               <Col span={7}>
                 <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3} uid={this.props.match.params.id} authLevel={3} />

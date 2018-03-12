@@ -24,7 +24,9 @@ export default {
     // 获取服务器字典
     *fetchConfigs(_, { call, put }) {
       const response = yield call(queryConfigs) || {};
-      CONFIG = { ...CONFIG, ...response.data };
+      if (response && response.code === 0) {
+        CONFIG = { ...CONFIG, ...response.data };
+      }
     },
     *clearNotices({ payload }, { put, select }) {
       yield put({

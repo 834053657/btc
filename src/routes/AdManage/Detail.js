@@ -36,6 +36,7 @@ export default class UserDetail extends PureComponent {
         title: '订单状态',
         dataIndex: 'order_status',
         width: '20%',
+        render: val => <span> {CONFIG.trade_status[val]}</span>
       },
       {
         title: '交易金额',
@@ -45,7 +46,7 @@ export default class UserDetail extends PureComponent {
       {
         title: '操作',
         width: '20%',
-        render: r => <a href={`/#/trade-detail/${r.id}`}>查看</a>
+        render: r => <a href={`/#/trade-detail/${r.order_id}`}>查看</a>
       }
     ]
   };
