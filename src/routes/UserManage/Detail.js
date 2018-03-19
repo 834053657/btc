@@ -357,7 +357,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>{authInfo.c3 ? CONFIG.auth_status[authInfo.c3.auth_status] : '未认证' }</div>
               </Col>
               <Col span={7}>
-                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3} uid={this.props.match.params.id} authLevel={3} />
+                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3 || { auth_status: 0 }} uid={this.props.match.params.id} authLevel={3} />
               </Col>
             </Row>
           </Card>
