@@ -77,7 +77,7 @@ export default class TradeIM extends PureComponent {
 
   render() {
     const { name } = getAuthority() || {};
-    const { tradeIm: { orderInfo, historyList, roomInfo }, loading, id } = this.props;
+    const { tradeIm: { orderInfo, historyList, roomInfo }, loading, match: { params: { id } } } = this.props;
     const { detail = {}, prices = {}, traders = {} } = orderInfo;
     const { dealer = {}, owner = {} } = traders || {};
     const { membersonlinestatus = {} } = roomInfo || {};
@@ -164,7 +164,7 @@ export default class TradeIM extends PureComponent {
                   </TabPane>
                   <TabPane tab="卖方信息" key="3" className={styles.tabs_content} >
                     <DescriptionList size="small" style={{ marginBottom: 32 }} col="1" >
-                      <Description term={`买方${dealer.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{dealer.name}</Description>
+                      <Description term={`卖方${dealer.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{dealer.name}</Description>
                       <Description term="认证等级">{CONFIG.auth_level[dealer.auth_level] || '-'} </Description>
                       <Description term="交易量">{dealer.trade_amount} </Description>
                       <Description term="好评率">{dealer.good_rating_ratio} </Description>
