@@ -148,7 +148,7 @@ export default class UserDetail extends PureComponent {
         title: '修改日期',
         dataIndex: 'update_time',
         width: '25%',
-        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+        render: val => <span>{val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : ' '}</span>,
       },
       {
         title: '修改人',
@@ -207,11 +207,11 @@ export default class UserDetail extends PureComponent {
                     <div className={styles.term}>国家</div>
                     <div className={styles.detail}>{detail.country ? CONFIG.countries[detail.country] : '-'}</div>
                   </Col>
-                  <Col span={8}>
+                  <Col span={8} className="hide">
                     <div className={styles.term}>语言</div>
                     <div className={styles.detail}>{detail.language}</div>
                   </Col>
-                  <Col span={8}>
+                  <Col span={8} className="hide">
                     <div className={styles.term}>时区</div>
                     <div className={styles.detail}>{detail.time_zone}</div>
                   </Col>
@@ -357,7 +357,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>{authInfo.c3 ? CONFIG.auth_status[authInfo.c3.auth_status] : '未认证' }</div>
               </Col>
               <Col span={7}>
-                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3 || { auth_status: 0 }} uid={this.props.match.params.id} authLevel={3} />
+                <ReviewForm title="C3认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c3} uid={this.props.match.params.id} authLevel={3} />
               </Col>
             </Row>
           </Card>
@@ -405,6 +405,7 @@ export default class UserDetail extends PureComponent {
           <Form onSubmit={this.handleSubmit}>
             <FormItem label="身份证号: " {...formItemLayout}>
               {getFieldDecorator('idNo', {
+                initialValue: authInfo.c1 && authInfo.c1.auth_data && authInfo.c1.auth_data.citizen_id,
                 rules: [
                   {
                     required: true,
