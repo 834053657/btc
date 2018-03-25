@@ -93,6 +93,7 @@ export default class TradeIM extends PureComponent {
     if (event.file.status !== 'done' || !event.file.response) {
       return false;
     }
+    console.log(event);
     let fileType = event.file.type ? event.file.type.toLowerCase() : '';
     let content = null;
     if (~fileType.indexOf('image/')) {
@@ -122,14 +123,8 @@ export default class TradeIM extends PureComponent {
       name: 'uploadfile',
       action: CONFIG.upload_url,
       showUploadList: false,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-      },
       data: (file) => {
         return {
-          username: name,
-          token,
           filename: file.name,
         };
       },
