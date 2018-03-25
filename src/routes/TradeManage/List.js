@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import { Table, Card, Badge, Button, Divider } from 'antd';
 import { Link } from 'dva/router';
+
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
 
@@ -14,7 +15,7 @@ const columns = [
     title: '订单编号',
     dataIndex: 'order_id',
     width: '130px',
-    render: (val, r) => <Link to={`/#/trade-detail/${r.order_id}`}>{val}</Link>
+    render: (val, r) => <Link to={`/trade-detail/${r.order_id}`}>{val}</Link>
   },
   {
     title: '交易类型',

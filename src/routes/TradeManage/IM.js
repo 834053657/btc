@@ -149,7 +149,7 @@ export default class TradeIM extends PureComponent {
                 <Badge status="success" text={name} />
               </div>
             )}
-            extra={!detail.operator_id ? <ComplainForm title="申诉处理" id={id} /> : <Button>已处理</Button>}
+            extra={!detail.operator_id && detail.order_status === 'COMPLAINT' ? <ComplainForm title="申诉处理" id={id} /> : <Button>已处理</Button>}
           >
             <Row className={styles.card_body}>
               <Col md={14} className={styles.left}>
