@@ -96,7 +96,7 @@ export default class TradeIM extends PureComponent {
     let fileType = event.file.type ? event.file.type.toLowerCase() : '';
     let content = null;
     if (~fileType.indexOf('image/')) {
-      let url = event.file.response.Data.ImageUrl;
+      let url = event.file.response.data.url;
       content = `<img class="btc-chat-img" src=${url} alt=${event.file.name}/>`;
     } else {
       let url = event.file.response.Data.url;
@@ -123,8 +123,8 @@ export default class TradeIM extends PureComponent {
       action: CONFIG.upload_url,
       showUploadList: false,
       headers: {
-        'BTCM-UID': uid, // hardcode only for test
-        'BTCM-TOKEN': token
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
       },
       data: (file) => {
         return {
