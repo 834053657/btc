@@ -12,8 +12,8 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['success', 'processing', 'error'];
-const status = ['成功', '进行中', '失败'];
+// const statusMap = ['success', 'processing', 'error'];
+// const status = ['成功', '进行中', '失败'];
 
 const isBlank = (v) => {
   if (v === undefined || v === '' || v === null) {
@@ -116,7 +116,7 @@ export default class TableList extends PureComponent {
       dataIndex: 'status',
       width: '80',
       render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
+        return <span>{CONFIG.transfer_status[val] || '-'}</span>;
       },
     },
     {

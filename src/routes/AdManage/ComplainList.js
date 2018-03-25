@@ -27,6 +27,7 @@ export default class ComplainList extends PureComponent {
         title: '编号',
         dataIndex: 'ad_id',
         width: 100,
+        render: (v, r) => <Link to={`/ad-detail/${r.id}`}>{v}</Link>
       },
       {
         title: '举报内容',

@@ -6,6 +6,7 @@ import {
   Button,
   Badge,
 } from 'antd';
+import { Link } from 'dva/router';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
@@ -25,11 +26,13 @@ const columns = [
     title: '用户ID',
     dataIndex: 'id',
     width: '100',
+    render: (val, r) => <Link to={`/user-detail/${r.id}`}>{val}</Link>
   },
   {
     title: '用户名',
     dataIndex: 'name',
     width: '100',
+    render: (val, r) => <Link to={`/user-detail/${r.id}`}>{val}</Link>
   },
   {
     title: '手机号码',

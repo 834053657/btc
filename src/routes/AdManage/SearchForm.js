@@ -59,6 +59,13 @@ export default class SearchForm extends Component {
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
+            <FormItem label="广告编号">
+              {getFieldDecorator('ad_id')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
             <FormItem label="广告类型">
               {getFieldDecorator('type')(
                 <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
@@ -84,6 +91,8 @@ export default class SearchForm extends Component {
               )}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="国家">
               {getFieldDecorator('country')(
@@ -97,8 +106,6 @@ export default class SearchForm extends Component {
               )}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={15} sm={24}>
             <FormItem label="创建时间">
               {getFieldDecorator('date')(

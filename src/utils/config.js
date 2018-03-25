@@ -1,3 +1,5 @@
+let upload_url = 'http://47.52.250.12:9090/upload_image';
+
 const api_url_prod = 'http://47.52.250.12:19091';
 const api_url_test = 'http://47.52.250.12:19091';
 const api_url_dev = 'http://47.52.250.12:8090';
@@ -6,14 +8,17 @@ let web_name = '乌托币管理系统';
 
 if (__KG_API_ENV__ === 'dev') {
   base_url = api_url_dev;
+  upload_url = 'http://47.52.250.12:9090/upload_image';
   web_name += '(DEV)';
 } else if (__KG_API_ENV__ === 'test') {
   base_url = api_url_test;
+  upload_url = 'http://47.52.250.12:19090/upload_image';
   web_name += '(TEST)';
 }
 
 export default {
   base_url,
+  upload_url,
   web_name,
   message_url: {
     im_url: 'http://47.52.250.12:8098',

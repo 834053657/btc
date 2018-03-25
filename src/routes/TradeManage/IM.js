@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
 import { map, delay } from 'lodash';
-import { Button, Card, Row, Col, Modal, Input, Tabs, Icon, List, Avatar, Badge, Spin } from 'antd';
+import { Button, Card, Row, Col, Modal, Input, Tabs, Icon, List, Avatar, Badge, Spin, Upload } from 'antd';
 import { Link } from 'dva/router';
 import DescriptionList from '../../components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -22,6 +22,7 @@ const { Description } = DescriptionList;
 }))
 export default class TradeIM extends PureComponent {
   state = {
+    maxImg: null
   };
 
   componentDidMount() {
@@ -44,9 +45,22 @@ export default class TradeIM extends PureComponent {
   }
 
   handleKeyPress = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.handleSubmit();
+    if (e.shiftKey && e.charCode === 13) {
+      return true;
+    }
+    if (e.charCode === 13) {
+      this.handleSubmit();
+      e.preventDefault();
+      return false;
+    }
+  }
+
+  msgClick = (e) => {
+    if (e.target.nodeName === 'IMG') {
+      this.setState({
+        maxImg: e.target.src
+      });
+    }
   }
 
   handleSubmit = (e) => {
@@ -75,14 +89,53 @@ export default class TradeIM extends PureComponent {
     });
   }
 
+  handlerUpload(event) {
+    if (event.file.status !== 'done' || !event.file.response) {
+      return false;
+    }
+    let fileType = event.file.type ? event.file.type.toLowerCase() : '';
+    let content = null;
+    if (~fileType.indexOf('image/')) {
+      let url = event.file.response.Data.ImageUrl;
+      content = `<img class="btc-chat-img" src=${url} alt=${event.file.name}/>`;
+    } else {
+      let url = event.file.response.Data.url;
+      content = `<a href=${url} download=${event.file.name}>${event.file.name}</a>`;
+    }
+    this.props.dispatch({
+      type: 'tradeIm/sendMessage',
+      payload: { message: content, messagetype: 1 }
+    });
+  }
+
   render() {
-    const { name } = getAuthority() || {};
+    console.log(getAuthority());
+    const { maxImg } = this.state;
+    const { id: uid, name, token } = getAuthority() || {};
     const { tradeIm: { orderInfo, historyList, roomInfo }, loading, match: { params: { id } } } = this.props;
     const { detail = {}, prices = {}, traders = {} } = orderInfo;
     const { dealer = {}, owner = {} } = traders || {};
     const { membersonlinestatus = {} } = roomInfo || {};
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '订单管理', href: '/trade-manage' }, { title: '处理申诉' }];
     console.log('historyList', historyList);
+    const props = {
+      name: 'uploadfile',
+      action: CONFIG.upload_url,
+      showUploadList: false,
+      headers: {
+        'BTCM-UID': uid, // hardcode only for test
+        'BTCM-TOKEN': token
+      },
+      data: (file) => {
+        return {
+          username: name,
+          token,
+          filename: file.name,
+        };
+      },
+      accept: 'image/png, image/jpeg, image/gif',
+      onChange: this.handlerUpload,
+    };
     return (
       <PageHeaderLayout breadcrumbList={breadcrumbList}>
         <Spin spinning={loading}>
@@ -122,7 +175,7 @@ export default class TradeIM extends PureComponent {
                                       title={item.sender}
                                       description={(
                                         <div>
-                                          <div>{item.message}</div>
+                                          <div className={styles.messageContent} onClick={this.msgClick} dangerouslySetInnerHTML={{ __html: item.message }} />
                                           <div className={styles.sendtime}>{moment(item.sendtime * 1000).format('YYYY-MM-DD HH:mm:ss')}</div>
                                         </div>
                                       )}
@@ -139,10 +192,12 @@ export default class TradeIM extends PureComponent {
                 </div>
                 <div className={styles.chat_message_box}>
                   <div className={styles.chat_tools}>
-                    <Icon type="smile-o" style={{ fontSize: 18, marginRight: 15 }} />
-                    <Icon type="picture" style={{ fontSize: 18 }} />
+                    {/* <Icon type="smile-o" style={{ fontSize: 18, marginRight: 15 }} /> */}
+                    <Upload {...props}>
+                      <Icon type="picture" style={{ fontSize: 18 }} />
+                    </Upload>
                   </div>
-                  <TextArea value={this.state.message} onChange={this.handlerChangeMsg} rows={4} placeholder="请按回车键发送消息" onPressEnter={this.handleKeyPress} />
+                  <TextArea value={this.state.message} onChange={this.handlerChangeMsg} rows={4} placeholder="请按回车键发送消息" onKeyPress={this.handleKeyPress} />
                 </div>
               </Col>
               <Col md={10} className={styles.right}>
@@ -174,6 +229,15 @@ export default class TradeIM extends PureComponent {
               </Col>
             </Row>
           </Card>
+          <Modal
+            visible={!!maxImg}
+            footer={null}
+            onCancel={() => this.setState({ maxImg: false })}
+          >
+            <div className="maxImg">
+              {maxImg && <img src={maxImg} alt="img" />}
+            </div>
+          </Modal>
         </Spin>
       </PageHeaderLayout>
     );

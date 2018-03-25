@@ -14,6 +14,7 @@ const columns = [
     title: '编号',
     dataIndex: 'ad_id',
     width: 100,
+    render: (val, row) => <Link to={`/ad-detail/${row.id}`}>{val}</Link>
   },
   {
     title: '类型',
