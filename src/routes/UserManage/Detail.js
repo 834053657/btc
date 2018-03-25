@@ -302,12 +302,12 @@ export default class UserDetail extends PureComponent {
             </Row>
             <Row>
               <Col span={7}>
-                <div className={styles.term}>身份证号</div>
+                <div className={styles.term}>证件号码</div>
                 <div className={styles.detail}>{authInfo.c1 && authInfo.c1.auth_data && authInfo.c1.auth_data.citizen_id}</div>
               </Col>
               <Col span={7} />
               <Col span={7}>
-                <Button onClick={this.showModalIDNo} >修改身份证号</Button>
+                <Button onClick={this.showModalIDNo} >修改证件号</Button>
               </Col>
             </Row>
             <Row>
@@ -393,7 +393,7 @@ export default class UserDetail extends PureComponent {
           </Card>
         </div>
         <Modal
-          title="修改身份证号"
+          title="修改证件号码"
           visible={this.state.showUpdateIDNo}
           onOk={this.handleOkIDNo}
           onCancel={this.handleCancelIDNo}
@@ -403,19 +403,19 @@ export default class UserDetail extends PureComponent {
           maskClosable={false}
         >
           <Form onSubmit={this.handleSubmit}>
-            <FormItem label="身份证号: " {...formItemLayout}>
+            <FormItem label="证件号码: " {...formItemLayout}>
               {getFieldDecorator('idNo', {
                 initialValue: authInfo.c1 && authInfo.c1.auth_data && authInfo.c1.auth_data.citizen_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入身份证号！',
+                    message: '请输入证件号码！',
                   },
                   {
                     validator: this.checkIdNoFormat,
                   },
                 ],
-              })(<Input size="large" placeholder="身份证号" />)}
+              })(<Input size="large" placeholder="证件号码" />)}
             </FormItem>
           </Form>
         </Modal>
