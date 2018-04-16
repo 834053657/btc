@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import { Table, Card, Badge, Button, Divider } from 'antd';
-import { Link } from 'dva/router';
+import { Link, routerRedux } from 'dva/router';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
@@ -109,15 +109,23 @@ const columns = [
   loading: loading.models.tradeManage,
 }))
 export default class TableList extends PureComponent {
-  state = {
-    // selectedRows: [],
-    formValues: {},
-  };
+  constructor(props) {
+    super(props);
+    let { status } = props.query || {};
+    console.log(props);
+    this.state = {
+      formValues: {
+        status
+      },
+    };
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
+    let { formValues } = this.state;
     dispatch({
       type: 'tradeManage/fetch',
+      payload: formValues
     });
   }
 
@@ -149,11 +157,12 @@ export default class TableList extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
+    const { pathname } = this.props.location;
 
     this.setState({
-      formValues: values,
+      formValues: values
     });
-    // console.log(values);
+    dispatch(routerRedux.replace(`${pathname}?status=${values.status}`));
     dispatch({
       type: 'tradeManage/fetch',
       payload: values,
@@ -171,11 +180,13 @@ export default class TableList extends PureComponent {
 
   render() {
     const { data: { list, pagination, complaint_count }, loading, dispatch } = this.props;
+    const { formValues } = this.state;
+    console.log(formValues);
 
     return (
       <PageHeaderLayout title="交易管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} complaint_count={complaint_count} onExportSVG={this.handleExportSVG} />
+          <SearchForm initialValues={formValues} onSearch={this.handleSearch} complaint_count={complaint_count} onExportSVG={this.handleExportSVG} />
         </Card>
         <div className={styles.tableList}>
           <Card

@@ -76,8 +76,8 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    const { onSearch, complaint_count, form: { getFieldDecorator } } = this.props;
-
+    const { onSearch, initialValues: { status }, complaint_count, form: { getFieldDecorator } } = this.props;
+    console.log(status);
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -103,7 +103,7 @@ export default class SearchForm extends Component {
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="交易状态">
-              {getFieldDecorator('status')(
+              {getFieldDecorator('status', { initialValue: status })(
                 <Select allowClear placeholder="请选择" style={{ width: '100%' }}>
                   {
                     map(CONFIG.trade_status, (text, value) => {

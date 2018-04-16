@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Button, Card, Row, Col, Table } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Detail.less';
+import { routerRedux } from 'dva/router';
 
 
 const size = 'large';
@@ -64,7 +65,7 @@ export default class TradeDetail extends PureComponent {
       <PageHeaderLayout title="订单详情" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
           <Card bordered={false} >
-            <a className={styles.bt_btn} href="/#/trade-manage">返回</a>
+            <a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>
           </Card>
 
           <Card>
