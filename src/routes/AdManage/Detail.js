@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
 import { map } from 'lodash';
+import { routerRedux } from 'dva/router';
 import { Button, Card, Row, Col, Modal, Input, Table } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Detail.less';
@@ -85,7 +86,7 @@ export default class UserDetail extends PureComponent {
       <PageHeaderLayout title="广告基本信息" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
           <Card bordered={false} >
-            <a className={styles.bt_btn} href="/#/ad-manage">返回</a>
+            <a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>
           </Card>
 
           <Card>

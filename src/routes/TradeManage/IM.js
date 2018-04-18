@@ -118,7 +118,7 @@ export default class TradeIM extends PureComponent {
     const { dealer = {}, owner = {} } = traders || {};
     const { membersonlinestatus = {} } = roomInfo || {};
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '订单管理', href: '/trade-manage' }, { title: '处理申诉' }];
-    console.log('historyList', historyList);
+    console.log('detail', detail);
     const props = {
       name: 'uploadfile',
       action: CONFIG.upload_url,

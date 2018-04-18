@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Card, Table, Divider, Modal, Button, message } from 'antd';
-import { Link } from 'dva/router';
+import { Link, routerRedux } from 'dva/router';
 import classNames from 'classnames';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -103,7 +103,7 @@ export default class ComplainList extends PureComponent {
       <PageHeaderLayout title="被举报广告" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
           <Card bordered={false} >
-            <a className={styles.bt_btn} href="/#/ad-manage">返回</a>
+            <a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>
           </Card>
           <Card>
             <Table

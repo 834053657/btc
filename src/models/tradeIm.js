@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { reverse, mapKeys } from 'lodash';
-import { queryTradeDtl } from '../services/api';
+import { changeTradeStatus, queryTradeDtl } from '../services/api';
 import * as service from '../services/socket';
 import { getAuthority } from '../utils/authority';
 
@@ -53,7 +53,18 @@ export default {
       const { roomInfo: { roomid } } = yield select(state => state.tradeIm);
       yield socket.emit('complaint_end', JSON.stringify({ sender: name, roomid }));
       if (callback) callback();
-    }
+    },
+    *changeStatus({ payload, callback }, { call, put }) {
+      const { status } = payload;
+      const messagetype = status === 'DONE' ? 8 : 9;
+      const message = CONFIG.note_types[messagetype];
+      const response = yield call(changeTradeStatus, payload);
+
+      yield put({ type: 'fetch', payload: { id: payload.id } });
+      yield put({ type: 'complaintMsg' });
+      yield put({ type: 'sendMessage', payload: { message, messagetype } });
+      if (callback) callback(response);
+    },
   },
 
   reducers: {

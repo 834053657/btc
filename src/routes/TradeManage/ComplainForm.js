@@ -9,7 +9,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 @connect(({ loading }) => ({
-  loading: loading.effects['tradeDetail/changeStatus'],
+  loading: loading.effects['tradeIm/changeStatus'],
 }))
 @Form.create()
 export default class ComplainForm extends PureComponent {
@@ -23,7 +23,7 @@ export default class ComplainForm extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'tradeDetail/changeStatus',
+          type: 'tradeIm/changeStatus',
           payload: { id: this.props.id, ...values },
         });
 
