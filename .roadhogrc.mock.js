@@ -15,7 +15,7 @@ import {getNotices} from './mock/notices';
 
 const api_url_prod = 'http://47.52.250.12:19091';
 const api_url_test = 'http://47.52.250.12:19091';
-const api_url_dev = 'http://47.52.250.12:8090';
+const api_url_dev = 'http://47.52.250.12:19091'; //'http://47.52.250.12:8090';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 const apiEnv = process.env.KG_API_ENV === 'true';
