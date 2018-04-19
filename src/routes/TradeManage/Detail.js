@@ -95,7 +95,7 @@ export default class TradeDetail extends PureComponent {
               </Col>
               <Col span={6}>
                 <div className={styles.term}>广告类型</div>
-                <div className={styles.detail}>{detail.frozen_btc}</div>
+                <div className={styles.detail}>{detail.ad_type ? CONFIG.ad_type[detail.ad_type] : '-'}</div>
               </Col>
               <Col span={6}>
                 <div className={styles.term}>广告主所在地</div>

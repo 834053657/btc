@@ -108,7 +108,7 @@ export default class TableList extends PureComponent {
       dataIndex: 'order_id',
       width: '100',
       render: (v, r) => (
-        <a href={`/#/trade-detail/${r.order_db_id}`}>{v}</a>
+        <a href={`/#/trade-detail/${r.order_id}`}>{v}</a>
       ),
     },
     {

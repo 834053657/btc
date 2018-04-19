@@ -106,7 +106,7 @@ export default class UserDetail extends PureComponent {
               </Col>
               <Col span={7}>
                 <div className={styles.term}>付款方式</div>
-                <div className={styles.detail}>{info.accept_money ? CONFIG.pay_methods[info.accept_money] : '-'}</div>
+                <div className={styles.detail}>{info.pay_methods ? CONFIG.pay_methods[info.pay_methods] : '-'}</div>
               </Col>
               <Col span={7}>
                 <div className={styles.term}>货币</div>
