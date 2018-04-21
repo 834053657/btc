@@ -204,17 +204,17 @@ export default class TradeIM extends PureComponent {
                       <Link to={`/trade-detail/${this.props.match.params.id}`}>查看订单详情</Link>
                     </DescriptionList>
                   </TabPane>
-                  <TabPane tab="买方信息" key="2" className={styles.tabs_content} >
+                  <TabPane tab={`${detail.ad_type === 1 ? '卖' : '买'}信息`} key="2" className={styles.tabs_content} >
                     <DescriptionList size="small" style={{ marginBottom: 32 }} col="1" >
-                      <Description term={`买方 ${owner.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{owner.name}</Description>
+                      <Description term={`${detail.ad_type === 1 ? '卖' : '买'}${owner.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{owner.name}</Description>
                       <Description term="认证等级">{ CONFIG.auth_level[owner.auth_level] || '-'} </Description>
                       <Description term="交易量">{owner.trade_amount} </Description>
                       <Description term="好评率">{owner.good_rating_ratio} </Description>
                     </DescriptionList>
                   </TabPane>
-                  <TabPane tab="卖方信息" key="3" className={styles.tabs_content} >
+                  <TabPane tab={`${detail.ad_type === 1 ? '买' : '卖'}信息`} key="3" className={styles.tabs_content} >
                     <DescriptionList size="small" style={{ marginBottom: 32 }} col="1" >
-                      <Description term={`卖方${dealer.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{dealer.name}</Description>
+                      <Description term={`${detail.ad_type === 1 ? '买' : '卖'}${dealer.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{dealer.name}</Description>
                       <Description term="认证等级">{CONFIG.auth_level[dealer.auth_level] || '-'} </Description>
                       <Description term="交易量">{dealer.trade_amount} </Description>
                       <Description term="好评率">{dealer.good_rating_ratio} </Description>
