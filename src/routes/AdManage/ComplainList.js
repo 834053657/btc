@@ -61,7 +61,7 @@ export default class ComplainList extends PureComponent {
         title: '操作',
         render: r => (
           <Fragment>
-            <Link to={`/ad-detail/${r.id}`}>查看</Link>
+            <Link to={`/ad-detail/${r.ad_id}`}>查看</Link>
             <Divider type="vertical" />
             {
               r.status === 0 ? <a onClick={() => this.setState({ visible: r.id })}>处理</a> : <span>已处理</span>
