@@ -1,32 +1,22 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {
-  Card,
-  Button,
-  Badge,
-} from 'antd';
-import { Link } from 'dva/router';
+import { Card } from 'antd';
+import { Link, routerRedux } from 'dva/router';
 import CustomTable from '../../components/CustomTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import SearchForm from './SearchForm';
-
+import { isBlank, getUrlParams } from '../../utils/utils';
 import styles from './List.less';
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-// const statusMap = ['default', 'processing', 'success', 'error'];
-// const status = ['未认证', '认证中', '已认证', '驳回'];
-const isBlank = (v) => {
-  if (v === undefined || v === '' || v === null) {
-    return true;
-  } else { return false; }
-};
+
 const columns = [
   {
     title: '用户ID',
     dataIndex: 'id',
     width: '100',
-    render: (val, r) => <Link to={`/user-detail/${r.id}`}>{val}</Link>
+    // render: (val, r) => <Link to={`/user-detail/${r.id}`}>{val}</Link>
   },
   {
     title: '用户名',
@@ -89,10 +79,16 @@ const columns = [
   loading: loading.models.userManage,
 }))
 export default class TableList extends PureComponent {
-  state = {
-    selectedRows: [],
-    formValues: {},
-  };
+  constructor(props) {
+    super(props);
+    const search = getUrlParams(this.props.location.search);
+    this.state = {
+      selectedRows: [],
+      formValues: {},
+      checkingUser: search.checkingUser
+    };
+  }
+
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -147,9 +143,25 @@ export default class TableList extends PureComponent {
     });
   }
 
-  handleSearch = (values) => {
+  handleShowCheckUser = () => {
     const { dispatch } = this.props;
-    // console.log(values);
+    const { pathname } = this.props.location;
+    dispatch(routerRedux.replace(`${pathname}?checkingUser=true`));
+    this.setState({
+      checkingUser: true
+    });
+    this.handleSearch({ status: [1] });
+  }
+
+  handleSearch = (values) => {
+    const { pathname } = this.props.location;
+    const { dispatch } = this.props;
+    if (!(values.status && !!~values.status.indexOf(1))) {
+      dispatch(routerRedux.replace(`${pathname}`));
+      this.setState({
+        checkingUser: false
+      });
+    }
     this.setState({
       formValues: values,
     });
@@ -179,13 +191,13 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { user: { data, pendingData }, loading } = this.props;
-    const { selectedRows } = this.state;
+    const { user: { data }, loading } = this.props;
+    const { selectedRows, checkingUser } = this.state;
 
     return (
       <PageHeaderLayout title="用户管理">
         <Card>
-          <SearchForm onSearch={this.handleSearch} {...this.props} />
+          <SearchForm onSearch={this.handleSearch} onShowPend={this.handleShowCheckUser} checkingUser={checkingUser} {...this.props} />
         </Card>
         <div className={styles.tableList}>
           <Card bordered={false}>

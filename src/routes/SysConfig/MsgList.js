@@ -108,7 +108,6 @@ export default class SysForm extends PureComponent {
 
   handleSearch = (values) => {
     const { dispatch } = this.props;
-    console.log(values);
     dispatch({
       type: 'userManage/fetch',
       payload: values,
@@ -120,7 +119,7 @@ export default class SysForm extends PureComponent {
     const { selectedRows } = this.state;
 
     return (
-      <PageHeaderLayout title="用户管理">
+      <PageHeaderLayout title="系统配置">
         <Card>
           <SearchForm onSearch={this.handleSearch} />
         </Card>

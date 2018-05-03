@@ -5,7 +5,7 @@ const api_url_test = 'http://47.52.250.12:19091';
 const api_url_dev = 'http://47.52.250.12:19091';
 // const api_url_dev = 'http://47.52.250.12:8090';
 let base_url = api_url_prod;
-let web_name = '乌托币管理系统';
+let web_name = '乌托市场管理系统';
 
 if (__KG_API_ENV__ === 'dev') {
   base_url = api_url_dev;

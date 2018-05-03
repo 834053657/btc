@@ -76,10 +76,10 @@ export default class LoginPage extends Component {
           {
             login.code === 1 &&
             !login.submitting &&
-            this.renderMessage(login.msg || '账户或密码错误（admin/666666）')
+            this.renderMessage(login.msg || '账户或密码错误')
           }
-          <UserName name="name" placeholder="admin" />
-          <Password name="password" placeholder="666666" />
+          <UserName name="name" placeholder="账户" />
+          <Password name="password" placeholder="密码" />
           <Captcha name="captcha" image={login.image} onGetCaptcha={this.onGetCaptcha} />
           {/* </Tab> */}
           {/* <Tab key="mobile" tab="手机号登录">

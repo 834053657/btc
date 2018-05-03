@@ -110,7 +110,6 @@ export default class TradeIM extends PureComponent {
   }
 
   render() {
-    console.log(getAuthority());
     const { maxImg } = this.state;
     const { id: uid, name, token } = getAuthority() || {};
     const { tradeIm: { orderInfo, historyList, roomInfo }, loading, match: { params: { id } } } = this.props;
@@ -118,7 +117,6 @@ export default class TradeIM extends PureComponent {
     const { dealer = {}, owner = {} } = traders || {};
     const { membersonlinestatus = {} } = roomInfo || {};
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '订单管理', href: '/trade-manage' }, { title: '处理申诉' }];
-    console.log('detail', detail);
     const props = {
       name: 'uploadfile',
       action: CONFIG.upload_url,

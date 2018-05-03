@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
+import { routerRedux } from 'dva/router';
 import { Button, Card, Row, Col, Table } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Detail.less';
-import { routerRedux } from 'dva/router';
 
 
 const size = 'large';

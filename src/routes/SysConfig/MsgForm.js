@@ -53,11 +53,12 @@ export default class BasicForms extends PureComponent {
         this.props.dispatch({
           type: 'msgDetail/saveMsg',
           payload: values,
+          callback: () => {
+            this.props.dispatch(routerRedux.replace('/sys-config?r=msg'));
+            // this.setState({ action: '_OPEN' });
+            // this.setState({ pageTitle: '公告详情' });
+          }
         });
-        this.props.dispatch(routerRedux.replace('/sys-config?r=msg'));
-
-        this.setState({ action: '_OPEN' });
-        this.setState({ pageTitle: '公告详情' });
       }
     });
   }

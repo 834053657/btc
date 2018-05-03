@@ -3,12 +3,10 @@ import { map } from 'lodash';
 import { Row, Col, Form, Input, Select, DatePicker, Button } from 'antd';
 import StandardFormRow from '../../components/StandardFormRow';
 import TagSelect from '../../components/TagSelect';
-// import moment from 'moment';
 import styles from './SearchForm.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-// const status = ['待认证', '认证中', '已认证', '认证驳回'];
 const { RangePicker } = DatePicker;
 
 @Form.create()
@@ -52,8 +50,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator }, user: { pendingData: { auth_count } } } = this.props;
-
+    const { form: { getFieldDecorator }, user: { pendingData: { auth_count } }, checkingUser } = this.props;
     return (
       <Form onSubmit={this.submit} layout="inline" className={styles.tableListForm}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -105,7 +102,7 @@ export default class SearchForm extends Component {
         <div className="btn-box">
           <Button type="primary" htmlType="submit">查询</Button>
           <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-          <Button style={{ marginLeft: 8 }} onClick={() => this.props.onSearch({ status: [1] })}>待审核用户 ({auth_count || 0})</Button>
+          <Button type={checkingUser ? 'primary' : ''} style={{ marginLeft: 8 }} onClick={this.props.onShowPend}>待审核用户 ({auth_count || 0})</Button>
         </div>
       </Form>
     );

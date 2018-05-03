@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
+import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
 import { Button, Card, Row, Col, Modal, Form, Input, Table } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import CustomTable from '../../components/CustomTable';
 import styles from './Detail.less';
 import UserIcon from './UserIcon.js';
 import ReviewForm from './ReviewForm.js';
@@ -180,15 +180,13 @@ export default class UserDetail extends PureComponent {
 
 
     const userAvatar = { name: detail.name, portraitUrl: detail.portrait_url };
-    // const auStatusDesc = ['未认证', 'C1', 'C2', 'C3'];
-    // const status = ['未认证', '认证中', '已认证', '驳回'];
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '用户管理', href: '/user-manage' }, { title: '用户详情' }];
 
     return (
       <PageHeaderLayout title="用户信息" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
           <Card bordered={false} >
-            <a className={styles.bt_btn} href="/#/user-manage">返回</a>
+            <a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>
           </Card>
           <Card>
             <Row>
