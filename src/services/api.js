@@ -194,6 +194,10 @@ export async function queryTradeDtl(params) {
   return request(`/btcm/trades/${params.id}`);
 }
 
+export async function queryImHistory(params) {
+  return request(`/message/get_history?${stringify(params)}`, {}, CONFIG.base_im_url);
+}
+
 export async function exportTrade(params) {
   return `${CONFIG.base_url}/btcm/trades/export?${stringify(params)}`;
 }
@@ -270,6 +274,12 @@ export async function fakeIDNo(params) {
   return request(`/btcm/users/${params.id}/citizen_id`, {
     method: 'POST',
     body: params,
+  });
+}
+
+export async function closeG2(params) {
+  return request(`/btcm/users/${params.id}/cancel_google_otp`, {
+    method: 'POST'
   });
 }
 

@@ -32,6 +32,11 @@ export default class TradeIM extends PureComponent {
       type: 'tradeIm/fetch',
       payload: { id },
     });
+
+    dispatch({
+      type: 'tradeIm/fetchImHistory',
+      payload: { orderid: id },
+    });
   }
 
   componentWillReceiveProps(newProps) {
@@ -93,7 +98,6 @@ export default class TradeIM extends PureComponent {
     if (event.file.status !== 'done' || !event.file.response) {
       return false;
     }
-    console.log(event);
     let fileType = event.file.type ? event.file.type.toLowerCase() : '';
     let content = null;
     if (~fileType.indexOf('image/')) {
@@ -137,9 +141,9 @@ export default class TradeIM extends PureComponent {
             className={styles.chat_card}
             title={(
               <div>
-                <Badge style={{ marginRight: 15 }} status={membersonlinestatus[dealer.name] && !!membersonlinestatus[dealer.name].status ? 'success' : 'default'} text={dealer.name} />
-                <Badge style={{ marginRight: 15 }} status={membersonlinestatus[owner.name] && !!membersonlinestatus[owner.name].status ? 'success' : 'default'} text={owner.name} />
-                <Badge status="success" text={name} />
+                <Badge style={{ marginRight: 15 }} status={membersonlinestatus[dealer.name] && !!membersonlinestatus[dealer.name].status ? 'success' : 'default'} text={`${detail.ad_type === 1 ? '买' : '卖'}家${dealer.id === detail.owner_id ? '(广告主)' : '(发起人)'}: ${dealer.name}`} />
+                <Badge style={{ marginRight: 15 }} status={membersonlinestatus[owner.name] && !!membersonlinestatus[owner.name].status ? 'success' : 'default'} text={`${detail.ad_type === 1 ? '卖' : '买'}家${owner.id === detail.owner_id ? '(广告主)' : '(发起人)'}: ${owner.name}`} />
+                <Badge status="success" text={`客服: ${name}`} />
               </div>
             )}
             extra={!detail.operator_id && detail.order_status === 'COMPLAINT' ? <ComplainForm title="申诉处理" id={id} /> : <Button>已处理</Button>}
@@ -204,7 +208,7 @@ export default class TradeIM extends PureComponent {
                   </TabPane>
                   <TabPane tab={`${detail.ad_type === 1 ? '卖' : '买'}方信息`} key="2" className={styles.tabs_content} >
                     <DescriptionList size="small" style={{ marginBottom: 32 }} col="1" >
-                      <Description term={`${detail.ad_type === 1 ? '卖' : '买'}方${owner.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{owner.name}</Description>
+                      <Description term={`${detail.ad_type === 1 ? '卖' : '买'}方${owner.id === detail.owner_id ? '(广告主)' : '(发起人)'}`}>{owner.name}</Description>
                       <Description term="认证等级">{ CONFIG.auth_level[owner.auth_level] || '-'} </Description>
                       <Description term="交易量">{owner.trade_amount} </Description>
                       <Description term="好评率">{owner.good_rating_ratio} </Description>
@@ -212,7 +216,7 @@ export default class TradeIM extends PureComponent {
                   </TabPane>
                   <TabPane tab={`${detail.ad_type === 1 ? '买' : '卖'}方信息`} key="3" className={styles.tabs_content} >
                     <DescriptionList size="small" style={{ marginBottom: 32 }} col="1" >
-                      <Description term={`${detail.ad_type === 1 ? '买' : '卖'}方${dealer.id === detail.owner_id ? '（广告主）' : '（发起人）'}`}>{dealer.name}</Description>
+                      <Description term={`${detail.ad_type === 1 ? '买' : '卖'}方${dealer.id === detail.owner_id ? '(广告主)' : '(发起人)'}`}>{dealer.name}</Description>
                       <Description term="认证等级">{CONFIG.auth_level[dealer.auth_level] || '-'} </Description>
                       <Description term="交易量">{dealer.trade_amount} </Description>
                       <Description term="好评率">{dealer.good_rating_ratio} </Description>

@@ -50,7 +50,7 @@ const columns = [
     dataIndex: 'price',
     align: 'center',
     width: 120,
-    render: val => <span>{val ? `${val}BTC` : '-'}</span>
+    render: val => <span>{val ? `${val} CNY` : '-'}</span>
   },
   {
     title: '创建时间',

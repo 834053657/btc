@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { reverse, mapKeys } from 'lodash';
-import { changeTradeStatus, queryTradeDtl } from '../services/api';
+import { changeTradeStatus, queryTradeDtl, queryImHistory } from '../services/api';
 import * as service from '../services/socket';
 import { getAuthority } from '../utils/authority';
 
@@ -26,6 +26,13 @@ export default {
       });
       yield socket.connect();
     },
+    *fetchImHistory({ payload }, { call, put }) {
+      const response = yield call(queryImHistory, payload);
+      yield put({
+        type: 'getHistory',
+        payload: response
+      });
+    },
     *connectSuccess({ payload }, { call, put, select }) {
       const { detail: { order_id }, traders: { dealer = {}, owner = {} } } = yield select(state => state.tradeIm.orderInfo);
       const { name } = getAuthority() || {};
@@ -41,7 +48,7 @@ export default {
     *createRoomed({ payload }, { put }) {
       const { name } = getAuthority() || {};
       const { roomid } = payload.data || {};
-      yield socket.emit('get_history', JSON.stringify({ username: name, roomid }));
+      // yield socket.emit('get_history', JSON.stringify({ username: name, roomid }));
       yield put({ type: 'setRoomInfo', payload });
     },
     *Unmount({ payload }, { put }) {
@@ -78,7 +85,7 @@ export default {
     getHistory(state, { payload }) {
       return {
         ...state,
-        historyList: reverse(payload.data || [])
+        historyList: reverse(payload.data.message || [])
       };
     },
     addHistory(state, { payload }) {

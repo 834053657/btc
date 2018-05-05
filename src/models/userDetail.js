@@ -1,5 +1,5 @@
-// import { message } from 'antd';
-import { queryUserDtl, fakeIDNo, fakeAuthResult } from '../services/api';
+import { message } from 'antd';
+import { queryUserDtl, fakeIDNo, fakeAuthResult, closeG2 } from '../services/api';
 
 export default {
   namespace: 'userDetail',
@@ -25,6 +25,17 @@ export default {
       });
       if (callback) callback();
     },
+    *closeG2({ payload, callback }, { call, put }) {
+      const response = yield call(closeG2, payload);
+      if (response.code === 0) {
+        yield put({
+          type: 'setUserG2',
+          payload: response,
+        });
+        message.success('操作成功！');
+      }
+      if (callback) callback();
+    },
     *updateAuthResult({ payload, callback }, { call, put }) {
       const response = yield call(fakeAuthResult, payload);
       yield put({
@@ -37,7 +48,6 @@ export default {
 
   reducers: {
     setDetail(state, { payload }) {
-      // console.log(payload);
       return {
         ...state,
         userInfo: payload.data.user_info,
@@ -46,15 +56,20 @@ export default {
         authLogs: payload.data.auth_logs,
       };
     },
+    setUserG2(state, { payload }) {
+      let userInfo = { ...state.userInfo, google_otp: false };
+      return {
+        ...state,
+        userInfo
+      };
+    },
     setIDNo(state, { payload }) {
-      console.log(payload);
       return {
         ...state,
         idNo: payload,
       };
     },
     setAuthResult(state, { payload }) {
-      console.log(payload);
       return {
         ...state,
       };

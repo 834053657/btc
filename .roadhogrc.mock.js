@@ -16,15 +16,22 @@ import {getNotices} from './mock/notices';
 const api_url_prod = 'http://47.52.250.12:19091';
 const api_url_test = 'http://47.52.250.12:19091';
 const api_url_dev = 'http://47.52.250.12:19091'; //'http://47.52.250.12:8090';
+
+const msg_path_dev = 'http://47.52.250.12:8098';
+const msg_path_test = 'http://47.52.250.12:8098';
+const msg_path_prod = 'https://api.utomarket.com:8160';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
-const apiEnv = process.env.KG_API_ENV === 'true';
+const apiEnv = process.env.KG_API_ENV // === 'true';
 let base_url = api_url_prod;
+let base_im_url = msg_path_prod;
 
 if (apiEnv === 'dev') {
   base_url = api_url_dev;
+  base_im_url = msg_path_dev;
 } else if (apiEnv === 'test') {
   base_url = api_url_test;
+  base_im_url = msg_path_test;
 }
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
@@ -200,6 +207,7 @@ const proxy = {
 };
 
 export default noProxy ? {
+  'GET /message/*': base_im_url,
   'GET /btcm/*': base_url,
   'POST /btcm/*': base_url,
 } : delay(proxy, 1000);

@@ -44,7 +44,7 @@ const columns = [
     title: '法币',
     dataIndex: 'deal_cny',
     width: 150,
-    render: val => <span>{val} BTC</span>
+    render: val => <span>{val} CNY</span>
   },
   {
     title: '交易金额',

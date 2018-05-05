@@ -45,10 +45,10 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(postUrl = '/', options) {
+export default function request(postUrl = '/', options, base_url) {
   const { id, token } = getAuthority() || {};
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'BTCM-UID': id, // hardcode only for test
       'BTCM-TOKEN': token
@@ -56,7 +56,7 @@ export default function request(postUrl = '/', options) {
   };
 
   const newOptions = { ...defaultOptions, ...options };
-  let url = CONFIG.base_url + postUrl;//  __PROD__ ? CONFIG.base_url + postUrl : postUrl;
+  let url = (base_url || CONFIG.base_url) + postUrl;//  __PROD__ ? CONFIG.base_url + postUrl : postUrl;
 
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     newOptions.headers = {
@@ -66,8 +66,6 @@ export default function request(postUrl = '/', options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  // newOptions.headers['BTCM-UID'] = 'WECHAT';
-  // newOptions.headers['BTCM-TOKEN'] = '1';
 
   return fetch(url, newOptions)
     .then(checkStatus)

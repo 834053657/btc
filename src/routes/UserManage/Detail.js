@@ -3,7 +3,7 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import classNames from 'classnames';
 import moment from 'moment';
-import { Button, Card, Row, Col, Modal, Form, Input, Table } from 'antd';
+import { Button, Card, Row, Col, Modal, Form, Input, Table, Popconfirm } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Detail.less';
 import UserIcon from './UserIcon.js';
@@ -137,6 +137,14 @@ export default class UserDetail extends PureComponent {
     }
   }
 
+  handleCloseG2 = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'userDetail/closeG2',
+      payload: { id: this.props.match.params.id },
+    });
+  }
+
   render() {
     const { userDetail: { userInfo = {}, authInfo = {}, btcInfo = {}, authLogs = [] }, form, loading } = this.props;
     const detail = userInfo;
@@ -178,17 +186,18 @@ export default class UserDetail extends PureComponent {
       },
     };
 
-
     const userAvatar = { name: detail.name, portraitUrl: detail.portrait_url };
     const breadcrumbList = [{ title: '首页', href: '/' }, { title: '用户管理', href: '/user-manage' }, { title: '用户详情' }];
+    const closeG2Node = (
+      <Popconfirm title="确定要关闭该用户的谷歌双重验证吗?" onConfirm={this.handleCloseG2}>
+        <a href="#">关闭谷歌验证</a>
+      </Popconfirm>
+    );
 
     return (
       <PageHeaderLayout title="用户信息" breadcrumbList={breadcrumbList}>
         <div className={clsString}>
-          <Card bordered={false} >
-            <a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>
-          </Card>
-          <Card>
+          <Card title={<a className={styles.bt_btn} onClick={() => this.props.dispatch(routerRedux.goBack())}>返回</a>} bordered={false} extra={userInfo.google_otp ? closeG2Node : ''} >
             <Row>
               <div className={styles.title}>基本信息</div>
               <Row gutter={32}>
@@ -314,7 +323,7 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.detail}>{authInfo.c2 && CONFIG.auth_status[authInfo.c2.auth_status]}</div>
               </Col>
               <Col span={7}>
-                <ReviewForm title="C2认证信息审核" dispatch={this.props.dispatch} authInfo={authInfo.c2} uid={this.props.match.params.id} authLevel={2} />
+                <ReviewForm title="C2认证信息审核" dispatch={this.props.dispatch} authInfo={(authInfo.c2 && authInfo.c2.auth_status === 1) ? authInfo.c2 : null} uid={this.props.match.params.id} authLevel={2} />
               </Col>
             </Row>
             <Row>
@@ -322,10 +331,14 @@ export default class UserDetail extends PureComponent {
                 <div className={styles.term}>证件类型</div>
                 <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_data && CONFIG.card_type[authInfo.c2.auth_data.type]}</div>
               </Col>
-              <Col span={10}>
-                <div className={styles.term}>不合格原因</div>
-                <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_log}</div>
-              </Col>
+              {
+                authInfo.c2 && authInfo.c2.auth_status === 3 && (
+                  <Col span={10}>
+                    <div className={styles.term}>不合格原因</div>
+                    <div className={styles.detail}>{authInfo.c2 && authInfo.c2.auth_log}</div>
+                  </Col>
+                )
+              }
             </Row>
             <Row>
               <Col span={10}>
