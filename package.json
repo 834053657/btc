@@ -10,7 +10,7 @@
     "rsync:prod": "rsync -avz ./dist/  proto.paean.net:/data/bitcoin-admin",
     "rsync:dev": "rsync -avz ./dist/  proto.paean.net:/data/bitcoin-admin",
     "rsync:test": "rsync -avz ./dist/  proto.paean.net:/data/bitcoin-admin-test",
-    "build:prod": "cross-env KG_API_ENV=prod NO_PROXY=true ESLINT=none roadhog build",
+    "build:prod": "cross-env KG_API_ENV=test NO_PROXY=true ESLINT=none roadhog build",
     "build:test": "cross-env KG_API_ENV=test NO_PROXY=true ESLINT=none roadhog build",
     "build:dev": "cross-env KG_API_ENV=dev NO_PROXY=true ESLINT=none roadhog build",
     "deploy:prod": "npm run build:prod && npm run rsync:prod",
