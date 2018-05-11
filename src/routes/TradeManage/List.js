@@ -68,7 +68,7 @@ const columns = [
     title: '汇率',
     dataIndex: 'price',
     width: 150,
-    render: val => <span>{val} BTC</span>
+    render: (val, row) => <span>{val} {row.accept_money && CONFIG.accept_money[row.accept_money] ? CONFIG.accept_money[row.accept_money] : '-'}</span>
   },
   {
     title: '创建时间',
